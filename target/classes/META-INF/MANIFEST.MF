@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: dashboard
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: antonvanderkolk
+Implementation-Vendor-Id: nl.kolkos
+Build-Jdk: 1.8.0_71
+Implementation-URL: http://projects.spring.io/spring-boot/dashboard/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
