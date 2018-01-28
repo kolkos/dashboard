@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>Testje</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+  </head>
+
+  <body>
+ 
+ 	<div th:each="row : ${screen.rows}" class="row">
+ 		<div th:each="panel : ${row.panels}" th:text="${panel.title}" class="panel">
+ 			
+ 		</div>
+ 	</div>
+ 	
+ 	
+  
+  </body>
+
+</html>
