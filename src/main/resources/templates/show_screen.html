@@ -1,23 +1,100 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org">
-
-  <head>
-    <title>Testje</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-  </head>
-
-  <body>
- 
- 	<div th:each="row : ${screen.rows}" class="row">
- 		<div th:each="panel : ${row.panels}" th:text="${panel.title}" class="panel">
- 			
- 		</div>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<title>testje</title>
+	
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="https://use.fontawesome.com/4cbd5dcf0b.js"></script>
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+<body>
+	<nav class="navigation">
+		<ul>
+			<li th:each="screen : ${page.screens}">
+				<a th:href="@{/dashboard/{dashboardName}/{screenName}(dashboardName=${dashboard.safeName}, screenName=${screen.safeName})}">
+					<i th:class="${screen.icon + ' fa-lg'}" aria-hidden="true"></i>
+					<span th:text="${screen.name}">name</span>
+					
+				</a>
+			</li>
+		</ul>
+	</nav>
+	
+	
+	<div class="wrapper">
+	 	<th:block th:each="pageRow : ${page.pageRows}">
+	 		<div th:each="panel : ${pageRow.panels}" class="panel" th:class="${'panel row_' + pageRow.row.position + ' width_' + panel.width}">
+	 			<span th:if="${panel.showTitle} == true" th:text="${panel.title}" class="title" >Title</span>
+	 			<div th:if="${panel.contentType} != null" th:id="${panel.safeName}" th:class="${'content ' + panel.contentType.name}">Loading content...</div>
+	 		</div>
+	 	</th:block>
  	</div>
- 	
- 	
-  
-  </body>
 
+    
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+ 	<script type="text/javascript">
+	 	$(function() {
+	 		buildGrid();
+	 		addClock();
+	    });
+
+	    function buildGrid(){
+	    		var curRowNr = 0;
+			var startPos = 0;
+			
+	 		$('.panel').each(function(){
+				var rowClass = $(this).attr('class').split(' ')[1];
+				var panelClass = $(this).attr('class').split(' ')[2];
+				
+				// get the row nr
+				var rowNr = parseInt(rowClass.split('_')[1]);
+
+				// get the width
+				var width = parseInt(panelClass.split('_')[1]);
+
+				// check if the row nr has changed
+				
+				if(rowNr != curRowNr){
+					// set the new start position
+					startPos = 1;
+					curRowNr = rowNr;
+				}
+
+				var gridAreaValue = rowNr + " / " + startPos + " / span 1 / span " + width;
+
+				// now set the css for this panel
+				$(this).css({
+					"grid-area": gridAreaValue
+				});
+
+				startPos = startPos + width;
+			
+			});
+		}
+
+		function addClock(){
+			$('.Clock').each(function(){
+				// get the id
+				var id = $(this).attr('id');
+
+				$.get( "/clock.html", function( data ) {
+					$("#" + id).html( data );
+				});
+			});
+		}
+		
+ 	</script>
+
+</body>
 </html>

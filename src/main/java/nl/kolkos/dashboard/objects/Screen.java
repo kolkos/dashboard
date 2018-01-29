@@ -30,13 +30,7 @@ public class Screen {
 	private String backgroundImage;
 	private String icon;
 	private String safeName;
-	
-	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "screen")
-    private List<Row> rows = new ArrayList<>();
-	
+		
 	
 	public Long getId() {
 		return id;
@@ -80,12 +74,7 @@ public class Screen {
 	public void setSafeName(String safeName) {
 		this.safeName = safeName;
 	}
-	public List<Row> getRows() {
-		return rows;
-	}
-	public void setRows(List<Row> rows) {
-		this.rows = rows;
-	}
+
 	
 	
 }

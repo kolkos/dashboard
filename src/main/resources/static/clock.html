@@ -1,0 +1,42 @@
+<style>
+	#clockText{
+		font-size: calc(32px + 0.5vw);
+		display: block;
+	}
+</style>
+
+<span id="clockText"></span>
+<span id="dateText"></span>
+<script src="/js/jquery-3.2.1.min.js"></script>
+<script>
+	function zeroPad(num, places) {
+	  var zero = places - num.toString().length + 1;
+	  return Array(+(zero > 0 && zero)).join("0") + num;
+	}
+
+	function time() {
+	  var d = new Date();
+	  var s = zeroPad(d.getSeconds(),2);
+	  var m = zeroPad(d.getMinutes(),2);
+	  var h = zeroPad(d.getHours(), 2);
+	  $("#clockText").html(h + ":" + m + ":" + s);
+
+	  var weekday = new Array(7);
+	  weekday[0] =  "Sunday";
+	  weekday[1] = "Monday";
+	  weekday[2] = "Tuesday";
+	  weekday[3] = "Wednesday";
+	  weekday[4] = "Thursday";
+	  weekday[5] = "Friday";
+	  weekday[6] = "Saturday";
+	  var day = weekday[d.getDay()];
+
+	  var dayOfMonth = zeroPad(d.getDate(), 2);
+	  var month = zeroPad(d.getMonth() + 1, 2);
+	  var year = d.getFullYear();
+	  
+	  $("#dateText").html(day + ", " + dayOfMonth + "-" + month + "-" + year);
+	}
+
+	setInterval(time, 1000);
+</script>

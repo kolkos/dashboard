@@ -21,6 +21,9 @@ public class Panel {
 	private String title;
 	private int position;
 	private int width;
+	private String safeName;
+	
+	private boolean showTitle = true;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "content_type_id")
@@ -56,6 +59,25 @@ public class Panel {
 	}
 	public void setWidth(int width) {
 		this.width = width;
+	}
+	
+	public String getSafeName() {
+		return safeName;
+	}
+	public void setSafeName(String safeName) {
+		this.safeName = safeName;
+	}
+	public ContentType getContentType() {
+		return contentType;
+	}
+	public void setContentType(ContentType contentType) {
+		this.contentType = contentType;
+	}
+	public boolean isShowTitle() {
+		return showTitle;
+	}
+	public void setShowTitle(boolean showTitle) {
+		this.showTitle = showTitle;
 	}
 	
 	

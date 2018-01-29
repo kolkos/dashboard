@@ -25,12 +25,6 @@ public class Row {
 	@JoinColumn(name = "screen_id")
 	private Screen screen;
 	
-	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "row")
-    private List<Panel> panels = new ArrayList<>();
-	
 	private int position;
 
 	public Long getId() {
@@ -56,17 +50,6 @@ public class Row {
 	public void setPosition(int position) {
 		this.position = position;
 	}
-
-	public List<Panel> getPanels() {
-		return panels;
-	}
-
-	public void setPanels(List<Panel> panels) {
-		this.panels = panels;
-	}
-
-	
-
 	
 	
 }

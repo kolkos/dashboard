@@ -1,0 +1,13 @@
+@import url("navigation.css");
+@import url("page.css");
+
+body {
+  margin: 10px;
+  background-color: #333;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: 'Roboto', sans-serif;
+  font-size: calc(12px + 0.25vw);
+}

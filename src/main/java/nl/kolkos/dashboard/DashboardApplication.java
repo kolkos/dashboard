@@ -99,13 +99,13 @@ public class DashboardApplication {
 		// create a few screens
 		Screen homeScreen = new Screen();
 		homeScreen.setName("Home");
-		homeScreen.setIcon("house");
+		homeScreen.setIcon("fa fa-home");
 		homeScreen.setLocation(0);
 		homeScreen.setDashboard(defaultDashboard);
 		
 		Screen livingRoomScreen = new Screen();
 		livingRoomScreen.setName("Living room");
-		livingRoomScreen.setIcon("house");
+		livingRoomScreen.setIcon("fa fa-glass");
 		livingRoomScreen.setLocation(1);
 		livingRoomScreen.setDashboard(defaultDashboard);
 		
@@ -114,19 +114,24 @@ public class DashboardApplication {
 		
 		// create some rows
 		Row homeScreenRow0 = new Row();
-		homeScreenRow0.setPosition(0);
+		homeScreenRow0.setPosition(1);
 		homeScreenRow0.setScreen(homeScreen);
 		
 		Row homeScreenRow1 = new Row();
-		homeScreenRow1.setPosition(1);
+		homeScreenRow1.setPosition(2);
 		homeScreenRow1.setScreen(homeScreen);
 		
+		Row homeScreenRow2 = new Row();
+		homeScreenRow2.setPosition(3);
+		homeScreenRow2.setScreen(homeScreen);
+				
 		Row livingRoomScreenRow0 = new Row();
-		livingRoomScreenRow0.setPosition(0);
+		livingRoomScreenRow0.setPosition(1);
 		livingRoomScreenRow0.setScreen(livingRoomScreen);
 		
 		rowService.save(homeScreenRow0);
 		rowService.save(homeScreenRow1);
+		rowService.save(homeScreenRow2);
 		rowService.save(livingRoomScreenRow0);
 		
 		// now create the panels
@@ -135,6 +140,8 @@ public class DashboardApplication {
 		panelA.setTitle("Panel A");
 		panelA.setPosition(0);
 		panelA.setWidth(2);
+		panelA.setContentType(clock);
+		panelA.setShowTitle(false);
 		
 		Panel panelB = new Panel();
 		panelB.setRow(homeScreenRow0);
@@ -148,9 +155,31 @@ public class DashboardApplication {
 		panelC.setPosition(0);
 		panelC.setWidth(8);
 		
+		Panel panelD = new Panel();
+		panelD.setRow(homeScreenRow2);
+		panelD.setTitle("Panel D");
+		panelD.setPosition(0);
+		panelD.setWidth(1);
+		
+		Panel panelE = new Panel();
+		panelE.setRow(homeScreenRow2);
+		panelE.setTitle("Panel E");
+		panelE.setPosition(1);
+		panelE.setWidth(5);
+		
+		Panel panelF = new Panel();
+		panelF.setRow(homeScreenRow2);
+		panelF.setTitle("Panel F");
+		panelF.setPosition(2);
+		panelF.setWidth(2);
+		
+		
 		panelService.save(panelA);
 		panelService.save(panelB);
 		panelService.save(panelC);
+		panelService.save(panelD);
+		panelService.save(panelE);
+		panelService.save(panelF);
 		
 		
 	}
