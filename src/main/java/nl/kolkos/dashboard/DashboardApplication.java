@@ -13,11 +13,13 @@ import org.springframework.context.annotation.Bean;
 
 import nl.kolkos.dashboard.objects.ContentType;
 import nl.kolkos.dashboard.objects.Dashboard;
+import nl.kolkos.dashboard.objects.DeviceType;
 import nl.kolkos.dashboard.objects.Panel;
 import nl.kolkos.dashboard.objects.Row;
 import nl.kolkos.dashboard.objects.Screen;
 import nl.kolkos.dashboard.services.ContentTypeService;
 import nl.kolkos.dashboard.services.DashboardService;
+import nl.kolkos.dashboard.services.DeviceTypeService;
 import nl.kolkos.dashboard.services.PanelService;
 import nl.kolkos.dashboard.services.RowService;
 import nl.kolkos.dashboard.services.ScreenService;
@@ -39,6 +41,10 @@ public class DashboardApplication {
 	
 	@Autowired
 	private PanelService panelService;
+	
+	@Autowired
+	private DeviceTypeService deviceTypeService;
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(DashboardApplication.class, args);
@@ -57,6 +63,7 @@ public class DashboardApplication {
             }
             
             this.testContent();
+            this.domoticzContent();
 
         };
     }
@@ -65,29 +72,16 @@ public class DashboardApplication {
 		// create the content types
 		ContentType clock = new ContentType("Clock");
 		ContentType html = new ContentType("HTML");
-		ContentType domoticzSwitch = new ContentType("Domoticz: Switch");
-		ContentType domoticzDimmer = new ContentType("Domoticz: Dimmer");
-		ContentType domoticzGroup = new ContentType("Domoticz: Group");
-		ContentType domoticzScene = new ContentType("Domoticz: Scene");
-		ContentType domoticzWeather = new ContentType("Domoticz: Weather");
-		ContentType domoticzTemp = new ContentType("Domoticz: Temperature");
-		ContentType domoticzTempChart = new ContentType("Domoticz: Weather chart");
-		ContentType domoticzUtility = new ContentType("Domoticz: Utility");
-		ContentType domoticzUtilityChart = new ContentType("Domoticz: Utility chart");
+		ContentType domoticzDevice= new ContentType("Device");
+		ContentType domoticzChart= new ContentType("Chart");
 		
 		// add to the list for easier saving		
 		List<ContentType> contentTypes = new ArrayList<>();
 		contentTypes.add(clock);
 		contentTypes.add(html);
-		contentTypes.add(domoticzSwitch);
-		contentTypes.add(domoticzDimmer);
-		contentTypes.add(domoticzGroup);
-		contentTypes.add(domoticzScene);
-		contentTypes.add(domoticzWeather);
-		contentTypes.add(domoticzTemp);
-		contentTypes.add(domoticzTempChart);
-		contentTypes.add(domoticzUtility);
-		contentTypes.add(domoticzUtilityChart);
+		contentTypes.add(domoticzDevice);
+		contentTypes.add(domoticzChart);
+
 		
 		contentTypeService.save(contentTypes);
 		
@@ -180,6 +174,47 @@ public class DashboardApplication {
 		panelService.save(panelD);
 		panelService.save(panelE);
 		panelService.save(panelF);
+		
+		
+	}
+	
+	private void domoticzContent() {
+		DeviceType light = new DeviceType();
+		light.setName("light");
+		light.setType("devices");
+		light.setFilter("light");
+		light.setOrderBy("Name");
+		light.setSubTypeField("SwitchType");
+				
+		
+		DeviceType weather = new DeviceType();
+		weather.setName("weather");
+		weather.setType("devices");
+		weather.setFilter("weather");
+		weather.setOrderBy("Name");
+		weather.setSubTypeField("SwitchType");
+		
+		
+		DeviceType temp = new DeviceType();
+		temp.setName("temp");
+		temp.setType("devices");
+		temp.setFilter("temp");
+		temp.setOrderBy("Name");
+		temp.setSubTypeField("Type");
+		
+		
+		DeviceType utility = new DeviceType();
+		utility.setName("utility");
+		utility.setType("devices");
+		utility.setFilter("utility");
+		utility.setOrderBy("Name");
+		utility.setSubTypeField("Type");
+		
+		
+		deviceTypeService.save(light);
+		deviceTypeService.save(weather);
+		deviceTypeService.save(temp);
+		deviceTypeService.save(utility);
 		
 		
 	}

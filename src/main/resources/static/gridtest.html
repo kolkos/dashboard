@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<style>
+			div.wrapper{
+				display: grid;
+				grid-gap: 2px;
+				grid-template-columns: repeat(8, 50px);
+				grid-template-rows: repeat(8, 50px);
+				height: 100vh;
+				margin-top: 20px;
+			}
+			div.box{
+				border-radius: 2px;
+				background-color: lime;
+				padding: 5px;
+				border: 1px solid #333;
+			}
+			
+			
+			div.a{
+				grid-area: 1 / 1 / span 4 / span 3;
+			}
+			div.b{
+				grid-area: 1 / 4 / 1 / 6;
+			}
+			
+			form input{
+				width: 100px;
+			}
+		
+		
+		</style>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	</head>
+	<body>
+		
+	
+		<form id="createPanelForm" action="#">
+			<table>
+				<tr>
+					<th colspan="2">Create panel</th>
+				</tr>
+				<tr>
+					<td>Name:</td>
+					<td>
+						<input type="text" id="panelName" placeholder="Name" required="required" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"> 
+						<button type="button" id="createPanel">Create panel</button>
+					</td>
+				</tr>
+			</table>
+			
+		</form>
+		<br/>
+		<form id="editPanelForm">
+			<table>
+				<tr>
+					<th colspan="2">Edit panel</th>
+				</tr>
+				<tr>
+					<td>ID:</td>
+					<td>
+						<input type="text" id="panelID" placeholder="ID" required="required" />
+					</td>
+				</tr>
+				<tr>
+					<td>Start in row:</td>
+					<td>
+						<input type="number" id="startRow" step="1" placeholder="Start row" min="1" max="8" required="required" />
+					</td>
+				</tr>
+				<tr>
+					<td>Start in column:</td>
+					<td>
+						<input type="number" id="startColumn" step="1" placeholder="Start column" min="1" max="8" required="required" />
+					</td>
+				</tr>
+				<tr>
+					<td>Panel height (rows):</td>
+					<td>
+						<input type="number" id="height" step="1" placeholder="Height" min="1" max="8" required="required" />
+					</td>
+				</tr>
+				<tr>
+					<td>Panel width (columns):</td>
+					<td>
+						<input type="number" id="width" step="1" placeholder="Width" min="1" max="8" required="required" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<button id="editPanel">Update panel</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+		
+		
+		
+		
+		
+		
+		
+		<p>Example</p>
+		<div class="wrapper">
+			
+		</div>
+		
+		<script type="text/javascript">
+			var initialPanels = [];
+			initialPanels.push("<div id='init' class='box' style='grid-area: 1 / 1 / span 1 / span 1'>Init</div>");
+
+
+			$( "#createPanel" ).click(function() {
+				// create a panel
+				var name = $('#panelName').val();
+
+				// strip the id of any non usable characters
+				var id = name.replace(/ /g, "_");
+				id = id.replace(/[^A-Za-z0-9_]/g, "");
+
+
+				// find a free position
+				var freePosition = findFreePosition();
+				var row = freePosition['row'];
+				var column = freePosition['column'];
+
+				
+				var defaultStyle = "grid-area: " + row + " / " + column + " / span 1 / span 1;";
+
+				var html = "<div id='" + id + "' style='" + defaultStyle + "' class='box'>" + name + "</div>";
+
+				$('.wrapper').append(html);
+			});
+			
+			function findFreePosition(){
+				// this function only determines the starting position. This is to prevent one initial item covers a second item
+				
+				// loop through the items
+				var takenPositions = [];
+				
+				$('.box').each(function(){
+					var id = $(this).attr("id");
+					var position = getStartPositionForId(id);
+					
+					takenPositions.push(position);
+				});
+
+				// now loop through the rows
+				for(var row = 1; row <= 8; row++){
+					// loop through the columns
+					for(var column = 1; column <= 8; column++){
+						// determine the position
+						var position = "" + row + column;
+						// check if position is in the array
+						if(! takenPositions.includes(position)){
+
+							// determine the row and column of this space
+							var row = position[0];
+							var column = position[1];
+
+							// return this
+							var result = {row: row, column: column};
+							return result;
+						}
+					}
+				}
+				
+			}
+
+			function getStartPositionForId(id){
+				var style = $('#' + id).attr('style');
+				style = style.replace(/ /g,"");
+				style = style.replace("grid-area:","");
+
+				var row = style.split("/")[0];
+				var column = style.split("/")[1];
+
+				var result = "" + row + column;
+				return result;
+			}
+
+			$('div').on("click", "div.box", function(){
+				// get the id
+				var id = $(this).attr("id");
+
+				// get the grid area properties
+				var gridAreaProperties = getGridAreaForId(id);
+
+				// fill the form with this properties
+				$('#panelID').val(id);
+				$('#startRow').val(gridAreaProperties['row']);
+				$('#startColumn').val(gridAreaProperties['column']);
+				$('#height').val(gridAreaProperties['height']);
+				$('#width').val(gridAreaProperties['width']);
+				
+			});
+
+			function getGridAreaForId(id){
+				var style = $('#' + id).attr('style');
+				style = style.replace(/ /g,"");
+				style = style.replace("grid-area:","");
+				style = style.replace(/span/g,"");
+
+				var row = parseInt(style.split("/")[0]);
+				var column = parseInt(style.split("/")[1]);
+				var height = parseInt(style.split("/")[2]);
+				var width = parseInt(style.split("/")[3]);
+
+				var result = {row: row, column: column, height: height, width: width};
+				return result;
+			}
+
+			$('#editPanelForm').change(function(){
+				// triggered when an item in the form is changed
+				// time to update the grid
+
+				// get the values from the form
+				var id = $('#panelID').val();
+				var row =    parseInt($('#startRow').val());
+				var column = parseInt($('#startColumn').val());
+				var height = parseInt($('#height').val());
+				var width =  parseInt($('#width').val());
+
+				// panel limitations
+				var max_columns = 8;
+				var max_rows = 8;
+
+				// calculate in which column the panel will end
+				var columnEnd = (column - 1) + width;
+
+				// calculate in which row the panel will end
+				var rowEnd = (row - 1) + height;
+
+				// now check if the change is allowed
+				if(columnEnd <= max_columns && rowEnd <= max_rows){
+					// now determine the new style
+					var style = createNewStyle(row, column, height, width);
+
+					// update the box
+					$('#' + id).css({"grid-area": style});
+				}
+
+				
+			});
+
+			function createNewStyle(row, column, heigth, width){
+				var newStyle = "" + row + " / " + column + " / span " + heigth + " / span " +  width;
+				return newStyle;
+			}
+
+		</script>
+		
+		
+	</body>
+</html>
