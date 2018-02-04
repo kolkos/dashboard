@@ -13,4 +13,5 @@ public interface PanelRepository extends CrudRepository<Panel, Long>{
 	Panel findByPanelIdAndScreen(String panelId, Screen screen);
 	
 	List<Panel> findByScreen(Screen screen);
+	
 }

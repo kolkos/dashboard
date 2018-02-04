@@ -1,6 +1,5 @@
 @import url("navigation.css");
-@import url("page.css");
-
+@import url("dashboard.css");
 
 body {
   margin: 10px;

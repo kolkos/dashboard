@@ -115,16 +115,34 @@ public class ConfigurationController {
 		panel.setColumnStart(column);
 		panel.setHeight(height);
 		panel.setWidth(width);
+				
+		return panelService.save(panel);
+	}
+	
+	@RequestMapping(value = "/{safeNameDashboard}/{safeNameScreen}/update", method = RequestMethod.POST)
+	public @ResponseBody String updateThePanel
+			(@PathVariable("safeNameDashboard") String safeNameDashboard,
+			@PathVariable("safeNameScreen") String safeNameScreen,
+			@RequestParam("id") String panelId,
+			@RequestParam("row") int row,
+			@RequestParam("column") int column,
+			@RequestParam("height") int height,
+			@RequestParam("width") int width) {
 		
-		// now try to save it
-		String message = "";
-		try {
-			panelService.save(panel);
-			message = "Panel created";
-		} catch (Exception e) {
-			message = e.getMessage();
-		}
+		// get the dashboard
+		Dashboard dashboard = dashboardService.findBySafeName(safeNameDashboard);
 		
-		return message;
+		// get the screen
+		Screen screen = screenService.getScreen(safeNameScreen, dashboard);
+		
+		// finally get the panel
+		Panel panel = panelService.findPanelByPanelIdAndScreen(panelId, screen);
+		panel.setRowStart(row);
+		panel.setColumnStart(column);
+		panel.setHeight(height);
+		panel.setWidth(width);
+		
+		
+		return panelService.updatePanelPosition(panel);
 	}
 }

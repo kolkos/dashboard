@@ -3,8 +3,6 @@
 
 body{
 	background-color: white;
-	font-family: 'Roboto', sans-serif;
-	font-size: calc(12px + 0.25vw);
 }
 
 #configPageWrapper{
@@ -12,25 +10,24 @@ body{
 	display: grid;
 	grid-gap: 10px;
 	grid-template: 
-		'form2 form1'
-		'form2 result'
+		'form1 result'
 		'form2 demo';
-	grid-template-columns: 30% 70%;
-	grid-template-rows: 50px 50px auto;
+	grid-template-columns: 40% 60%;
+	grid-template-rows: 50px auto;
 	
 }
 
 #formResult{
 	grid-area: result;
-	border-bottom: 1px dotted #ccc;
+	
 }
 #newPanelFormHolder{
 	grid-area: form1;
-	border-bottom: 1px dotted #ccc;
+	border-bottom: 1px dotted #333;
 }
 #editPanelFormHolder{
 	grid-area: form2;
-	border-right: 1px dotted #ccc;
+	
 }
 #demoWrapperHolder{
 	grid-area: demo;

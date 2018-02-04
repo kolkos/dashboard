@@ -21,7 +21,7 @@
 <body>
 	<nav class="navigation">
 		<ul>
-			<li th:each="screen : ${page.screens}">
+			<li th:each="screen : ${screens}">
 				<a th:href="@{/dashboard/{dashboardName}/{screenName}(dashboardName=${dashboard.safeName}, screenName=${screen.safeName})}">
 					<i th:class="${screen.icon + ' fa-lg'}" aria-hidden="true"></i>
 					<span th:text="${screen.name}">name</span>
@@ -32,69 +32,15 @@
 	</nav>
 	
 	
-	<div class="wrapper">
-	 	<th:block th:each="pageRow : ${page.pageRows}">
-	 		<div th:each="panel : ${pageRow.panels}" class="panel" th:class="${'panel row_' + pageRow.row.position + ' width_' + panel.width}">
-	 			<span th:if="${panel.showTitle} == true" th:text="${panel.title}" class="title" >Title</span>
-	 			<div th:if="${panel.contentType} != null" th:id="${panel.safeName}" th:class="${'content ' + panel.contentType.name}">Loading content...</div>
-	 		</div>
-	 	</th:block>
+	<div id="wrapper">
+	 	<div th:each="panel : ${panels}" th:style="${'grid-area: ' + panel.rowStart + ' / ' + panel.columnStart + ' / span ' + panel.height + ' / span ' + panel.width}" th:id="${panel.panelId}" class="box">
+			<span th:text="${panel.name}">name</span>
+		</div>
  	</div>
 
     
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
- 	<script type="text/javascript">
-	 	$(function() {
-	 		buildGrid();
-	 		addClock();
-	    });
-
-	    function buildGrid(){
-	    		var curRowNr = 0;
-			var startPos = 0;
-			
-	 		$('.panel').each(function(){
-				var rowClass = $(this).attr('class').split(' ')[1];
-				var panelClass = $(this).attr('class').split(' ')[2];
-				
-				// get the row nr
-				var rowNr = parseInt(rowClass.split('_')[1]);
-
-				// get the width
-				var width = parseInt(panelClass.split('_')[1]);
-
-				// check if the row nr has changed
-				
-				if(rowNr != curRowNr){
-					// set the new start position
-					startPos = 1;
-					curRowNr = rowNr;
-				}
-
-				var gridAreaValue = rowNr + " / " + startPos + " / span 1 / span " + width;
-
-				// now set the css for this panel
-				$(this).css({
-					"grid-area": gridAreaValue
-				});
-
-				startPos = startPos + width;
-			
-			});
-		}
-
-		function addClock(){
-			$('.Clock').each(function(){
-				// get the id
-				var id = $(this).attr('id');
-
-				$.get( "/clock.html", function( data ) {
-					$("#" + id).html( data );
-				});
-			});
-		}
-		
- 	</script>
+ 	
 
 </body>
 </html>

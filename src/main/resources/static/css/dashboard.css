@@ -1,0 +1,15 @@
+#wrapper{
+	display: grid;
+	grid-gap: 0.3vw;
+	grid-template-columns: repeat(8, 1fr);
+	grid-template-rows: repeat(8, 1fr);
+	padding: 10px;
+	margin-top: 50px;
+}
+
+#wrapper div.box{
+	background: rgba(240, 240, 240, .5);
+	border-radius: 5px;
+	padding: 20px;
+	color: white;
+}

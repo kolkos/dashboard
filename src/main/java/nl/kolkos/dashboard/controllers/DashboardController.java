@@ -32,16 +32,16 @@ public class DashboardController {
 	@Autowired
 	private PanelService panelService;
 	
-	
-	
 	@RequestMapping(value = "/{safeName}", method = RequestMethod.GET)
 	public String redirectToFirstScreen(@PathVariable("safeName") String safeName, Model model) {
 		// get the dashboard
 		Dashboard dashboard = dashboardService.findBySafeName(safeName);
+		model.addAttribute("dashboard", dashboard);
 		
 		// now get the default page
 		// this is the page with the lowest position number
 		Screen screen = screenService.findDefaultScreenForDashboard(dashboard);
+		model.addAttribute("screen", screen);
 		
 		// now createe the redirecting ur;
 		String redirect = String.format("redirect:/dashboard/%s/%s", safeName, screen.getSafeName());
@@ -58,7 +58,18 @@ public class DashboardController {
 		// get the dashboard
 		Dashboard dashboard = dashboardService.findBySafeName(safeNameDashboard);
 		model.addAttribute("dashboard", dashboard);
+		
 		// get the screen
+		Screen screen = screenService.getScreen(safeNameScreen, dashboard);
+		model.addAttribute("screen", screen);
+		
+		// get the screens
+		List<Screen> screens = screenService.findScreensForDashboard(dashboard);
+		model.addAttribute("screens", screens);
+		
+		// get the panels for this screen
+		List<Panel> panels = panelService.getPanelsForScreen(screen);
+		model.addAttribute("panels", panels);
 		
 		return "show_screen";
 	}

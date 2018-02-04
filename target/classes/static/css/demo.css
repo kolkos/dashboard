@@ -2,17 +2,17 @@
 	display: grid;
 	grid-gap: 2px;
 	grid-template-columns: repeat(8, 50px);
-	grid-template-rows: repeat(8, 50px);
+	grid-template-rows: repeat(8, 30px);
 	padding: 5px;
 	
 }
 
 #demoWrapper div.box{
-	border-radius: 2px;
+	border-radius: 5px;
 	background-color: lime;
 	padding: 5px;
 	border: 1px solid #333;
-	font-size: 9pt;
+	font-size: 8pt;
 }
 #demoWrapper div.selected{
 	background-color: orange;
