@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<title>testje</title>
+	
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="https://use.fontawesome.com/4cbd5dcf0b.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="/css/config.css" rel="stylesheet">
+</head>
+<body>
+	
+	
+	
+	<!-- Create a form for a new panel -->
+	
+	
+	<!-- Create panel for editing panel -->
+	
+	
+	
+	<div id="configPageWrapper">
+		<div id="formResult">
+			<!-- position to return messages -->
+		</div>
+		<div id="newPanelFormHolder">
+			<!-- Position for the new panel form -->
+			<form id="createNewPanelForm">
+				<div class="form-element">
+					<input type="text" name="newPanelName" id="newPanelName" placeholder="New panel name" />
+					<button type="button" id="createPanelButton">Create new panel</button>
+				</div>
+				
+				
+			</form>
+		</div>
+		<div id="editPanelFormHolder">
+			<form id="editPanelForm">
+				
+				<div class="form-element">
+					<label for="selectedPanelId">Panel: </label>
+					<select name="selectedPanelId" id="selectedPanelId"></select>
+				</div>
+				
+				<div class="form-element">
+					<label for="startRow">Panel starts in row: </label>
+					<input type="number" id="startRow" step="1" placeholder="Start row" min="1" max="8" required="required" />
+				</div>
+				
+				<div class="form-element">
+					<label for="startColumn">Panel starts in column: </label>
+					<input type="number" id="startColumn" step="1" placeholder="Start column" min="1" max="8" required="required" />
+				</div>
+				
+				<div class="form-element">
+					<label for="height">Panel height (rows): </label>
+					<input type="number" id="height" step="1" placeholder="Height" min="1" max="8" required="required" />
+				</div>
+				
+				<div class="form-element">
+					<label for="width">Panel width (columns): </label>
+					<input type="number" id="width" step="1" placeholder="Width" min="1" max="8" required="required" />
+				</div>
+				
+				<div class="form-element">
+					<button id="editPanel">Update panel</button>
+				</div>
+				
+				
+				
+			</form>
+		</div>
+		<div id="demoWrapperHolder">
+			<h3>Demo</h3>
+			<div id="demoWrapper"></div>
+		</div>
+	</div>
+	
+	
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script th:inline="javascript">
+    		/*<![CDATA[*/
+	    		$(function() {
+	    			loadResults();
+	    			
+		    });
+
+			function loadResults(){
+				var dashboard = [[${dashboard.safeName}]];
+				var screen = [[${screen.safeName}]];
+				var url = "/config/" + dashboard + "/" + screen + "/results";
+				$.get( url, function( data ) {
+					$( "#demoWrapper" ).html( data );	  
+				});
+				
+			}
+
+			function buildPanelSelectField(){
+				// method to fill the select box dynamically
+				$('#selectedPanelId').html("<option value=''>- Select or click on a panel - </option>");
+				$('.box').each(function(){
+					var id = $(this).attr("id");
+					console.log(id);
+					var html = "<option value='" + id + "'>" + id + "</option>";
+					$('#selectedPanelId').append(html);
+				});
+			}
+
+			$('#createPanelButton').click(function(){
+				// first get a free position for this new panel
+				var freePosition = findFreePosition();
+
+				var height = 1;
+				var width = 1;
+				var row = freePosition['row'];
+				var column = freePosition['column'];
+
+				var name = $('#newPanelName').val();
+
+				var dashboard = [[${dashboard.safeName}]];
+				var screen = [[${screen.safeName}]];
+				var url = "/config/" + dashboard + "/" + screen + "/new";
+
+				var formData = {
+					name: name,
+					row: row,
+					column: column,
+					height: height,
+					width: width
+				};
+
+				console.log(formData);
+
+				$.post(url, formData,
+			    function(data){
+			        $('#formResult').html(data);
+			        loadResults();
+			    });
+
+			});
+
+			function findFreePosition(){
+				// this function only determines the starting position. This is to prevent one initial item covers a second item
+				// loop through the items
+				var takenPositions = [];
+				
+				$('.box').each(function(){
+					var id = $(this).attr("id");
+					var position = getStartPositionForId(id);
+					
+					takenPositions.push(position);
+				});
+
+				// now loop through the rows
+				for(var row = 1; row <= 8; row++){
+					// loop through the columns
+					for(var column = 1; column <= 8; column++){
+						// determine the position
+						var position = "" + row + column;
+						// check if position is in the array
+						if(! takenPositions.includes(position)){
+
+							// determine the row and column of this space
+							var row = position[0];
+							var column = position[1];
+
+							// return this
+							var result = {row: row, column: column};
+							return result;
+						}
+					}
+				}
+			}
+
+			function getStartPositionForId(id){
+				var style = $('#' + id).attr('style');
+				style = style.replace(/ /g,"");
+				style = style.replace("grid-area:","");
+
+				var row = style.split("/")[0];
+				var column = style.split("/")[1];
+
+				var result = "" + row + column;
+				return result;
+			}
+
+			function fillEditForm(id){
+				// get the grid area properties
+				var gridAreaProperties = getGridAreaForId(id);
+
+				// fill the form with this properties
+				$('#selectedPanelId').val(id);
+				$('#startRow').val(gridAreaProperties['row']);
+				$('#startColumn').val(gridAreaProperties['column']);
+				$('#height').val(gridAreaProperties['height']);
+				$('#width').val(gridAreaProperties['width']);
+
+				changeColorOfSelectedPanel(id);
+			}
+
+			$('div').on("click", "div.box", function(){
+				// get the id
+				var id = $(this).attr("id");
+				fillEditForm(id);
+				
+			});
+
+			function changeColorOfSelectedPanel(id){
+				// first change all to lime
+				$('.box').each(function(){
+					$(this).removeClass( "selected" )
+					
+				});
+
+				// now set the selected class
+				$('#' + id).addClass("selected");
+			}
+
+			$('#selectedPanelId').change(function(){
+				var selectedPanelId = $('#selectedPanelId').val();
+				fillEditForm(selectedPanelId);
+			});
+
+			function getGridAreaForId(id){
+				var style = $('#' + id).attr('style');
+				style = style.replace(/ /g,"");
+				style = style.replace("grid-area:","");
+				style = style.replace(/span/g,"");
+
+				var row = parseInt(style.split("/")[0]);
+				var column = parseInt(style.split("/")[1]);
+				var height = parseInt(style.split("/")[2]);
+				var width = parseInt(style.split("/")[3]);
+
+				var result = {row: row, column: column, height: height, width: width};
+				return result;
+			}
+
+			function updatePanelPosition(){
+				// this method changes the position of the panel
+				// before actually changing the position it checks if the panel is not outside the grid
+
+				// get the values from the form
+				var id = $('#selectedPanelId').val();
+				var row =    parseInt($('#startRow').val());
+				var column = parseInt($('#startColumn').val());
+				var height = parseInt($('#height').val());
+				var width =  parseInt($('#width').val());
+
+				// panel limitations
+				var max_columns = 8;
+				var max_rows = 8;
+
+				// calculate in which column the panel will end
+				var columnEnd = (column - 1) + width;
+
+				// calculate in which row the panel will end
+				var rowEnd = (row - 1) + height;
+
+				// now check if the change is allowed
+				if(columnEnd <= max_columns && rowEnd <= max_rows){
+					// now determine the new style
+					var style = createNewStyle(row, column, height, width);
+
+					// update the box
+					$('#' + id).css({"grid-area": style});
+				}
+				
+			}
+    		/*]]>*/
+    </script>
+ 	
+</body>
+</html>

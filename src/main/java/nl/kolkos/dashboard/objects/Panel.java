@@ -13,72 +13,98 @@ public class Panel {
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
+	private String name;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "row_id")
-	private Row row;
-	
-	private String title;
-	private int position;
-	private int width;
-	private String safeName;
-	
-	private boolean showTitle = true;
+	@JoinColumn(name = "screen_id")
+	private Screen screen;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "content_type_id")
 	private ContentType contentType;
 	
+	// positional elements
+	private int rowStart;      // the row where the panel starts
+	private int columnStart;   // the column where the panel starts
+	private int height;   // the height (in rows) of this panel
+	private int width;    // the width (in columns) of this panel
+	
+	private String panelId; // the html id for this panel. needs to be unique
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Row getRow() {
-		return row;
+
+	public String getName() {
+		return name;
 	}
-	public void setRow(Row row) {
-		this.row = row;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
+
 	
-	public int getPosition() {
-		return position;
+	public int getRowStart() {
+		return rowStart;
 	}
-	public void setPosition(int position) {
-		this.position = position;
+
+	public void setRowStart(int rowStart) {
+		this.rowStart = rowStart;
 	}
+
+	public int getColumnStart() {
+		return columnStart;
+	}
+
+	public void setColumnStart(int columnStart) {
+		this.columnStart = columnStart;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
 	public int getWidth() {
 		return width;
 	}
+
 	public void setWidth(int width) {
 		this.width = width;
 	}
-	
-	public String getSafeName() {
-		return safeName;
+
+	public String getPanelId() {
+		return panelId;
 	}
-	public void setSafeName(String safeName) {
-		this.safeName = safeName;
+
+	public void setPanelId(String panelId) {
+		this.panelId = panelId;
 	}
+
+	public Screen getScreen() {
+		return screen;
+	}
+
+	public void setScreen(Screen screen) {
+		this.screen = screen;
+	}
+
 	public ContentType getContentType() {
 		return contentType;
 	}
+
 	public void setContentType(ContentType contentType) {
 		this.contentType = contentType;
 	}
-	public boolean isShowTitle() {
-		return showTitle;
-	}
-	public void setShowTitle(boolean showTitle) {
-		this.showTitle = showTitle;
-	}
+	
+	
 	
 	
 }

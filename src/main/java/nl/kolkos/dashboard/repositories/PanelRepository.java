@@ -6,9 +6,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import nl.kolkos.dashboard.objects.Panel;
-import nl.kolkos.dashboard.objects.Row;
+import nl.kolkos.dashboard.objects.Screen;
 
 @Repository
 public interface PanelRepository extends CrudRepository<Panel, Long>{
-	public List<Panel> findByRowOrderByPosition(Row row);
+	Panel findByPanelIdAndScreen(String panelId, Screen screen);
+	
+	List<Panel> findByScreen(Screen screen);
 }

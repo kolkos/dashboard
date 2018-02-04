@@ -12,14 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.kolkos.dashboard.objects.Dashboard;
-import nl.kolkos.dashboard.objects.Page;
-import nl.kolkos.dashboard.objects.PageRow;
 import nl.kolkos.dashboard.objects.Panel;
-import nl.kolkos.dashboard.objects.Row;
 import nl.kolkos.dashboard.objects.Screen;
 import nl.kolkos.dashboard.services.DashboardService;
 import nl.kolkos.dashboard.services.PanelService;
-import nl.kolkos.dashboard.services.RowService;
 import nl.kolkos.dashboard.services.ScreenService;
 
 
@@ -32,8 +28,6 @@ public class DashboardController {
 	@Autowired
 	private ScreenService screenService;
 	
-	@Autowired
-	private RowService rowService;
 	
 	@Autowired
 	private PanelService panelService;
@@ -65,39 +59,6 @@ public class DashboardController {
 		Dashboard dashboard = dashboardService.findBySafeName(safeNameDashboard);
 		model.addAttribute("dashboard", dashboard);
 		// get the screen
-		Screen screen = screenService.findBySafeName(safeNameScreen);
-				
-		// now get all the screens for this dashboard
-		List<Screen> screens = screenService.findScreensForDashboard(dashboard);
-		
-		// create a Page object
-		Page page = new Page();
-		page.setScreen(screen);
-		page.setScreens(screens);
-		
-		
-		// now get the rows for this screen
-		List<Row> rows = rowService.findRowsForScreen(screen);
-		List<PageRow> pageRows = new ArrayList<>();
-		// loop through the rows
-		for(Row row : rows) {
-			// create a PageRow object
-			PageRow pageRow = new PageRow();
-			pageRow.setRow(row);
-			
-			// now get the panels for this object
-			List<Panel> panels = panelService.findPanelsForRow(row);
-			pageRow.setPanels(panels);
-			
-			// add to the list
-			pageRows.add(pageRow);
-		}
-		
-		page.setPageRows(pageRows);
-		
-		// add to the page
-		model.addAttribute("page", page);
-		
 		
 		return "show_screen";
 	}

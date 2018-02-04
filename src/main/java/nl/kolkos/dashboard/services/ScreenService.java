@@ -34,8 +34,8 @@ public class ScreenService {
 		return screenRepository.findByDashboardOrderByLocationAsc(dashboard);
 	}
 	
-	public Screen findBySafeName(String safeName) {
-		return screenRepository.findBySafeName(safeName);
+	public Screen getScreen(String safeName, Dashboard dashboard) {
+		return screenRepository.findBySafeNameAndDashboard(safeName, dashboard);
 	}
 	
 }

@@ -1,0 +1,10 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:each="panel : ${panels}" th:style="${'grid-area: ' + panel.rowStart + ' / ' + panel.columnStart + ' / span ' + panel.height + ' / span ' + panel.width}" th:id="${panel.panelId}" class="box">
+	<span th:text="${panel.name}">name</span>
+</div>
+<script>
+	$(function() {
+		buildPanelSelectField()
+		
+	});
+</script>
