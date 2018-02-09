@@ -32,6 +32,25 @@ public class DashboardController {
 	@Autowired
 	private PanelService panelService;
 	
+	@RequestMapping(value = "/{safeNameDashboard}/{safeNameScreen}/results", method = RequestMethod.GET)
+	public String loadPanelsForScreen(@PathVariable("safeNameDashboard") String safeNameDashboard,
+			@PathVariable("safeNameScreen") String safeNameScreen,
+			Model model) {
+		
+		// get the dashboard
+		Dashboard dashboard = dashboardService.findBySafeName(safeNameDashboard);
+		model.addAttribute("dashboard", dashboard);
+		
+		// get the screen
+		Screen screen = screenService.getScreen(safeNameScreen, dashboard);
+		
+		// get the panels for this screen
+		List<Panel> panels = panelService.getPanelsForScreen(screen);
+		model.addAttribute("panels", panels);
+		
+		return "panels_list_frontend";
+	}
+	
 	@RequestMapping(value = "/{safeName}", method = RequestMethod.GET)
 	public String redirectToFirstScreen(@PathVariable("safeName") String safeName, Model model) {
 		// get the dashboard
@@ -66,10 +85,6 @@ public class DashboardController {
 		// get the screens
 		List<Screen> screens = screenService.findScreensForDashboard(dashboard);
 		model.addAttribute("screens", screens);
-		
-		// get the panels for this screen
-		List<Panel> panels = panelService.getPanelsForScreen(screen);
-		model.addAttribute("panels", panels);
 		
 		return "show_screen";
 	}

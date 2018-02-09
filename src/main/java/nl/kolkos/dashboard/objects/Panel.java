@@ -1,5 +1,6 @@
 package nl.kolkos.dashboard.objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Panel {
@@ -19,10 +21,6 @@ public class Panel {
 	@JoinColumn(name = "screen_id")
 	private Screen screen;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "content_type_id")
-	private ContentType contentType;
-	
 	// positional elements
 	private int rowStart;      // the row where the panel starts
 	private int columnStart;   // the column where the panel starts
@@ -30,6 +28,10 @@ public class Panel {
 	private int width;    // the width (in columns) of this panel
 	
 	private String panelId; // the html id for this panel. needs to be unique
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "panel_configuration_id")
+	private PanelConfiguration panelConfiguration;
 
 	public Long getId() {
 		return id;
@@ -96,15 +98,12 @@ public class Panel {
 		this.screen = screen;
 	}
 
-	public ContentType getContentType() {
-		return contentType;
+	public PanelConfiguration getPanelConfiguration() {
+		return panelConfiguration;
 	}
 
-	public void setContentType(ContentType contentType) {
-		this.contentType = contentType;
+	public void setPanelConfiguration(PanelConfiguration panelConfiguration) {
+		this.panelConfiguration = panelConfiguration;
 	}
-	
-	
-	
 	
 }

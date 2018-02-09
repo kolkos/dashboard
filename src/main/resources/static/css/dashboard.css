@@ -1,10 +1,43 @@
+#dashboardWrapper{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	display: grid;
+	grid-gap: 5px;
+	grid-template: 
+		'navigation settings'
+		'content content';
+	grid-template-columns: 30fr 1fr;
+	grid-template-rows: 30px auto;
+}
+
+#dashboardWrapper a,
+#dashboardWrapper a:hover,
+#dashboardWrapper a:visited{
+	color: white;
+	text-decoration: none;
+}
+
+#navigationHolder{
+	grid-area: navigation;
+}
+
+#settingsHolder{
+	grid-area: settings;
+	padding:5px;
+}
+
+#contentHolder{
+	grid-area: content;
+}
+
 #wrapper{
 	display: grid;
 	grid-gap: 0.3vw;
 	grid-template-columns: repeat(8, 1fr);
 	grid-template-rows: repeat(8, 1fr);
 	padding: 10px;
-	margin-top: 50px;
 }
 
 #wrapper div.box{

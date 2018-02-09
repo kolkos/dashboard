@@ -17,12 +17,8 @@ public class Device {
     private Long id;
 	
 	private int idx;
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "device_type_id")
-	private DeviceType deviceType;
 	
-	
-	private String icon; // the icon to show on the tile
+	private String icon; // the icon for this device
 	
 	public Long getId() {
 		return id;
@@ -36,14 +32,7 @@ public class Device {
 	public void setIdx(int idx) {
 		this.idx = idx;
 	}
-	public DeviceType getDeviceType() {
-		return deviceType;
-	}
-	public void setDeviceType(DeviceType deviceType) {
-		this.deviceType = deviceType;
-	}
-
-
+	
 	public String getIcon() {
 		return icon;
 	}
