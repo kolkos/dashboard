@@ -15,8 +15,8 @@ public class ContentDeviceField {
     private Long id;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "sub_device_field_id")
-	private SubDeviceTypeField subDeviceField;
+	@JoinColumn(name = "sub_device_type_field_id")
+	private SubDeviceTypeField subDeviceTypeField;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "content_device_id")
@@ -30,12 +30,12 @@ public class ContentDeviceField {
 		this.id = id;
 	}
 
-	public SubDeviceTypeField getSubDeviceField() {
-		return subDeviceField;
+	public SubDeviceTypeField getSubDeviceTypeField() {
+		return subDeviceTypeField;
 	}
 
-	public void setSubDeviceField(SubDeviceTypeField subDeviceField) {
-		this.subDeviceField = subDeviceField;
+	public void setSubDeviceTypeField(SubDeviceTypeField subDeviceField) {
+		this.subDeviceTypeField = subDeviceField;
 	}
 
 	public ContentDevice getContentDevice() {
