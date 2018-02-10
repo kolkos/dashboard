@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Template: Switch</title>
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+	<style>
+		body{
+			background-color: #333;
+			font-family: 'Roboto', sans-serif;
+			font-size: calc(10px + 0.25vw);
+		}
+		div.panel{
+			width: 400px;
+			background: rgba(240, 240, 240, .5);
+			border-radius: 5px;
+			padding: 10px;
+			color: #f3f3f3;
+		}
+	
+		div.dimmerContent{
+			display: grid;
+			grid-gap: 2px;
+			grid-template: 
+				'icon title'
+				'icon slider'
+				'icon changed';
+			grid-template-columns: 15% 85%;
+			
+		}
+		div.dimmerContent div.deviceTitle{
+			grid-area: title;
+			
+		}
+		div.dimmerContent div.deviceIcon{
+			grid-area: icon;
+			
+		}
+		div.dimmerContent div.slider{
+			grid-area: slider;
+		}
+		div.dimmerContent div.deviceChanged{
+			grid-area: changed;
+		}
+		div.deviceIcon{
+			text-align: center;
+			padding: 10px 0;
+		}
+		div.deviceTitle{
+			font-weight: bold;
+			
+		}
+		input.sliderInput{
+			width: 100%;
+		}
+	
+	
+	</style>
+
+</head>
+<body>
+
+	<div class="panel">
+		<div class="dimmerContent">
+			<div class="deviceTitle">Device name</div>
+			<div class="deviceIcon">
+				<i class="fas fa-lightbulb fa-3x"></i>
+			</div>
+			<div class="slider">
+				<input type="range" min="1" max="100" value="50" class="sliderInput" id="myRange">
+			</div>
+			<div class="deviceChanged info">Last changed: 07-02-2018 9:15:36</div>
+		</div>
+	</div>
+
+		
+
+
+
+</body>
+</html>

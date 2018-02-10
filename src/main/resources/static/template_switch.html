@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Template: Switch</title>
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+	<style>
+		body{
+			background-color: #333;
+			font-family: 'Roboto', sans-serif;
+		}
+		div.panel{
+			width: 400px;
+			background: rgba(240, 240, 240, .5);
+			border-radius: 5px;
+			padding: 10px;
+			color: #f3f3f3;
+		}
+	
+		div.switchContent{
+			display: grid;
+			grid-gap: 2px;
+			grid-template: 
+				'icon title'
+				'icon status'
+				'icon changed';
+			grid-template-columns: 15% 85%;
+			
+		}
+		div.switchContent div.deviceTitle{
+			grid-area: title;
+			
+		}
+		div.switchContent div.deviceIcon{
+			grid-area: icon;
+			
+		}
+		div.switchContent div.deviceStatus{
+			grid-area: status;
+		}
+		div.switchContent div.deviceChanged{
+			grid-area: changed;
+		}
+		div.deviceIcon{
+			text-align: center;
+			padding: 10px 0;
+		}
+		div.deviceTitle{
+			font-weight: bold;
+			font-size: 1vmax;
+		}
+		div.info{
+			font-size: 0.70vmax;
+		}
+	
+	
+	</style>
+
+</head>
+<body>
+
+	<div class="panel">
+		<div class="switchContent">
+			<div class="deviceTitle">Device name</div>
+			<div class="deviceIcon">
+				<i class="fas fa-lightbulb fa-3x"></i>
+			</div>
+			<div class="deviceStatus info">Status: On</div>
+			<div class="deviceChanged info">Last changed: 07-02-2018 9:15:36</div>
+		</div>
+	</div>
+
+		
+
+
+
+</body>
+</html>

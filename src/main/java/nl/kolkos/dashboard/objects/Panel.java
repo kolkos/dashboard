@@ -29,10 +29,6 @@ public class Panel {
 	
 	private String panelId; // the html id for this panel. needs to be unique
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "panel_configuration_id")
-	private PanelConfiguration panelConfiguration;
-
 	public Long getId() {
 		return id;
 	}
@@ -96,14 +92,6 @@ public class Panel {
 
 	public void setScreen(Screen screen) {
 		this.screen = screen;
-	}
-
-	public PanelConfiguration getPanelConfiguration() {
-		return panelConfiguration;
-	}
-
-	public void setPanelConfiguration(PanelConfiguration panelConfiguration) {
-		this.panelConfiguration = panelConfiguration;
 	}
 	
 }
