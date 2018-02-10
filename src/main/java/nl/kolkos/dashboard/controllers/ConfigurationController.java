@@ -30,6 +30,7 @@ import nl.kolkos.dashboard.objects.SubDeviceType;
 import nl.kolkos.dashboard.services.DashboardService;
 import nl.kolkos.dashboard.services.DeviceTypeService;
 import nl.kolkos.dashboard.services.DomoticzCommunicator;
+import nl.kolkos.dashboard.services.DomoticzSyncService;
 import nl.kolkos.dashboard.services.PanelService;
 import nl.kolkos.dashboard.services.ScreenService;
 import nl.kolkos.dashboard.services.SubDeviceTypeService;
@@ -55,6 +56,8 @@ public class ConfigurationController {
 	@Autowired
 	private SubDeviceTypeService subDeviceTypeService;
 	
+	@Autowired
+	private DomoticzSyncService domoticzSyncService;
 	
 	/**
 	 * This loads the overal configuration page for the selected dashboard / screen
@@ -348,4 +351,11 @@ public class ConfigurationController {
 		result += "<hr>";
 		return result;
 	}
+	
+	@RequestMapping(value = "/sync", method = RequestMethod.GET)
+	public @ResponseBody String syncDomoticz() {
+		domoticzSyncService.syncDevices();
+		return "Synced";
+	}
+	
 }
