@@ -38,4 +38,7 @@ public class ScreenService {
 		return screenRepository.findBySafeNameAndDashboard(safeName, dashboard);
 	}
 	
+	public List<Screen> findAll(){
+		return screenRepository.findAllByOrderByNameAsc();
+	}
 }

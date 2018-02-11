@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -220,6 +221,40 @@ public class PanelService {
 		
 		// if no free position could be found, we will return the default position (so 1,1)
 		return panel;
+	}
+	
+	public List<Panel> getPanels(String dashboardIdString, String screenIdString){
+		// get all the panels
+		List<Panel> panels = panelRepository.findAllByOrderByNameAsc();
+		
+		// now check if the dashboard filter string is not null
+		if(dashboardIdString != null) {
+			long dashboardId = Long.parseLong(dashboardIdString);
+			panels = this.filterByDashboard(panels, dashboardId);
+		}
+		
+		// same check for the screen id
+		if(screenIdString != null) {
+			long screenId = Long.parseLong(screenIdString);
+			panels = this.filterByScreen(panels, screenId);
+		}
+		
+		
+		return panels;
+	}
+	
+	public List<Panel> filterByDashboard(List<Panel> panels, long dashboardId){
+		return panels.stream()
+				.filter(x -> x.getScreen().getDashboard().getId() == dashboardId)
+				.map(s -> s)
+				.collect(Collectors.toCollection(ArrayList::new));
+	}
+	
+	public List<Panel> filterByScreen(List<Panel> panels, long screenId){
+		return panels.stream()
+				.filter(x -> x.getScreen().getId() == screenId)
+				.map(s -> s)
+				.collect(Collectors.toCollection(ArrayList::new));
 	}
 	
 }

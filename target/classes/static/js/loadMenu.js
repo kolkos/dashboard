@@ -1,5 +1,5 @@
 $(function() {
-	$.get("/config/menu", function(data) {
+	$.get("/config/general/menu", function(data) {
 		$("#menuHolder").html(data);
 	});
 });

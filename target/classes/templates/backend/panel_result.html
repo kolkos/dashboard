@@ -9,13 +9,72 @@
 	
 	<!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="/css/open-iconic-bootstrap.css" rel="stylesheet">
 	<link href="/css/config.css" rel="stylesheet">
 </head>
 <body>
 	<div id="menuHolder"></div>
 
 	<div class="container">
-	  	
+	  	<h1>Panels</h1>
+        <p class="lead">These panels are currently available.</p>
+        
+        <form>
+		  <div class="form-row">
+		    <div class="form-group col-md-5">
+		      	<select name="dashboard" id="dashboard" class="form-control">
+					<option value="">- Filter by dashboard -</option>
+					<option th:each="dashboard : ${dashboards}" th:text="${dashboard.name}" th:value="${dashboard.id}" th:selected="${dashboard.id} == ${dashId}">Dashboard</option> 
+				</select>
+		    </div>
+		    <div class="form-group col-md-5">
+		      <select name="screen" id="screen" class="form-control">
+					<option value="">- Filter by screen -</option>
+					<option th:each="screen : ${screens}" th:text="${screen.name}" th:value="${screen.id}" th:selected="${screen.id} == ${scrId}">Screen</option> 
+				</select>
+		    </div>
+		    <div class="form-group col-md-2">
+		      <a class="btn btn-primary btn-block" href="/config/panel/results" role="button">Reset</a>
+		    </div>
+		  </div>
+		</form>
+        <br/>
+        
+        <table class="table table-striped">
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">Dashboard</th>
+		      <th scope="col">Screen</th>
+		      <th scope="col">Name</th>
+		      <th scope="col">Panel ID</th>
+		      <th scope="col">Content type</th>
+		      <th scope="col">Row</th>
+		      <th scope="col">Column</th>
+		      <th scope="col">Height</th>
+		      <th scope="col">Width</th>
+		      <th scope="col">Edit</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr th:each="panel : ${panels}">
+		    		<th scope="row" th:text="${panel.id}">ID</th>
+		    		<td th:text="${panel.screen.dashboard.name}">Dashboard</td>
+		    		<td th:text="${panel.screen.name}">Screen</td>
+		    		<td th:text="${panel.name}">Name</td>
+		    		<td th:text="${panel.panelId}">Panel ID</td>
+		    		<td th:text="${panel.contentType.name}">Content Type</td>
+		    		<td th:text="${panel.rowStart}">Start row</td>
+		    		<td th:text="${panel.columnStart}">Column row</td>
+		    		<td th:text="${panel.height}">Height</td>
+		    		<td th:text="${panel.width}">Width</td>
+		    		<td>
+		    			<span class="oi oi-pencil" title="edit panel" aria-hidden="true"></span>
+		    		</td>
+		    </tr>
+		  </tbody>
+		</table>
+        
 	</div>
 	
 	
@@ -29,7 +88,23 @@
 	
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/js/loadMenu.js"></script>
-   
+    
+    <script type="text/javascript">
+	    $('#dashboard').change(function(){
+			var dashboardId = $(this).val();
+	
+			window.location.href = "/config/panel/results?dashboardId=" + dashboardId;
+	
+		});
+
+	    $('#screen').change(function(){
+			var screenId = $(this).val();
+			var dashboardId = $('#dashboard').val();
+	
+			window.location.href = "/config/panel/results?dashboardId=" + dashboardId + "&screenId=" + screenId;
+	
+		});
+    </script>
    
  	
 </body>

@@ -16,4 +16,5 @@ public interface PanelRepository extends CrudRepository<Panel, Long>{
 	
 	List<Panel> findByScreen(Screen screen);
 	
+	List<Panel> findAllByOrderByNameAsc();
 }
