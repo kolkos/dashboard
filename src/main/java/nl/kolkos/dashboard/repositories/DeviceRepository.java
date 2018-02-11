@@ -10,4 +10,5 @@ import nl.kolkos.dashboard.objects.SubDeviceType;
 public interface DeviceRepository extends CrudRepository<Device, Long> {
 	Device findBySubDeviceTypeAndIdx(SubDeviceType subDeviceType, int ixd);
 	
+	
 }

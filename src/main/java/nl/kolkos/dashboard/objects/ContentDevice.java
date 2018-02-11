@@ -16,14 +16,13 @@ public class ContentDevice {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "panel_id")
+	@OneToOne(mappedBy = "contentDevice")
 	private Panel panel;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "device_id")
 	private Device device;
-
+	
 	public Long getId() {
 		return id;
 	}

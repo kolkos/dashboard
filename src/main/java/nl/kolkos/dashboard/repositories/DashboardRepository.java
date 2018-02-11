@@ -9,4 +9,6 @@ import nl.kolkos.dashboard.objects.Dashboard;
 @Repository
 public interface DashboardRepository extends CrudRepository<Dashboard, Long>{
 	Dashboard findBySafeName(String safeName);
+	
+	Dashboard findById(Long id);
 }

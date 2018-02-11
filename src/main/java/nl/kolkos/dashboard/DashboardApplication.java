@@ -13,17 +13,24 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import nl.kolkos.dashboard.configurations.DomoticzConfiguration;
+import nl.kolkos.dashboard.objects.ContentDevice;
 import nl.kolkos.dashboard.objects.ContentType;
 import nl.kolkos.dashboard.objects.Dashboard;
+import nl.kolkos.dashboard.objects.Device;
 import nl.kolkos.dashboard.objects.DeviceType;
 import nl.kolkos.dashboard.objects.Panel;
 import nl.kolkos.dashboard.objects.Screen;
 import nl.kolkos.dashboard.objects.SubDeviceType;
+import nl.kolkos.dashboard.repositories.SubDeviceTypeRepository;
+import nl.kolkos.dashboard.services.ContentDeviceService;
 import nl.kolkos.dashboard.services.ContentTypeService;
 import nl.kolkos.dashboard.services.DashboardService;
+import nl.kolkos.dashboard.services.DeviceService;
 import nl.kolkos.dashboard.services.DeviceTypeService;
+import nl.kolkos.dashboard.services.DomoticzSyncService;
 import nl.kolkos.dashboard.services.PanelService;
 import nl.kolkos.dashboard.services.ScreenService;
+import nl.kolkos.dashboard.services.SubDeviceTypeService;
 
 
 @SpringBootApplication
@@ -42,11 +49,19 @@ public class DashboardApplication {
 	private PanelService panelService;
 	
 	@Autowired
-	private DomoticzConfiguration domoticzConfig;
+	private DomoticzSyncService domoticzSyncService;
 	
 	@Autowired
 	private DeviceTypeService deviceTypeService;
 	
+	@Autowired
+	private SubDeviceTypeService subDeviceTypeService;
+	
+	@Autowired
+	private DeviceService deviceService;
+	
+	@Autowired
+	private ContentDeviceService contentDeviceService;
 	
 
 	public static void main(String[] args) {
@@ -67,8 +82,8 @@ public class DashboardApplication {
             
             this.testContent();
             this.createDeviceConfig();
-            
-            
+            domoticzSyncService.syncDevices();
+            this.createTestDevicePanels();
 
         };
         
@@ -116,6 +131,7 @@ public class DashboardApplication {
 		// now create some panels
 		Panel panelA = new Panel();
 		panelA.setName("Initial panel A");
+		panelA.setContentType(clock);
 		panelA.setScreen(homeScreen);
 		panelA.setRowStart(1);
 		panelA.setColumnStart(1);
@@ -124,6 +140,7 @@ public class DashboardApplication {
 		
 		Panel panelB = new Panel();
 		panelB.setName("Initial panel B");
+		panelB.setContentType(domoticzDevice);
 		panelB.setScreen(homeScreen);
 		panelB.setRowStart(1);
 		panelB.setColumnStart(3);
@@ -132,6 +149,7 @@ public class DashboardApplication {
 		
 		Panel panelC = new Panel();
 		panelC.setName("Initial panel C");
+		panelC.setContentType(domoticzDevice);
 		panelC.setScreen(homeScreen);
 		panelC.setRowStart(3);
 		panelC.setColumnStart(1);
@@ -146,7 +164,7 @@ public class DashboardApplication {
 			e.printStackTrace();
 		}
 		
-		
+				
 	}
 	
 	public void createDeviceConfig() {
@@ -295,6 +313,23 @@ public class DashboardApplication {
 		general.setSubDeviceTypes(generalSubDevices);
 		
 		deviceTypeService.save(general);
+		
+	}
+	
+	public void createTestDevicePanels() {
+		Dashboard dashboard = dashboardService.findBySafeName("Default");
+		Screen screen = screenService.getScreen("Home", dashboard);
+		Panel panel = panelService.findPanelByPanelIdAndScreen("Initial_panel_A", screen);
+		
+		SubDeviceType subDeviceType = subDeviceTypeService.findBySubDeviceType("Dimmer");
+		Device device = deviceService.findBySubDeviceTypeAndIdx(subDeviceType, 9);
+		
+		
+		ContentDevice contentDevice1 = new ContentDevice();
+		contentDevice1.setPanel(panel);
+		contentDevice1.setDevice(device);
+		
+		contentDeviceService.save(contentDevice1);
 		
 	}
 	

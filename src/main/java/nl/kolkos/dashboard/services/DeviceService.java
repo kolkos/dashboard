@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nl.kolkos.dashboard.objects.Device;
+import nl.kolkos.dashboard.objects.SubDeviceType;
 import nl.kolkos.dashboard.repositories.DeviceRepository;
 
 @Service
@@ -20,5 +21,9 @@ public class DeviceService {
 			System.out.println(String.format("%s: saving '%s' with idx '%d'", new Date(), device.getSubDeviceType().getSubDeviceType(), device.getIdx() ));
 			deviceRepository.save(device);
 		}
+	}
+	
+	public Device findBySubDeviceTypeAndIdx(SubDeviceType subDeviceType, int ixd) {
+		return deviceRepository.findBySubDeviceTypeAndIdx(subDeviceType, ixd);
 	}
 }

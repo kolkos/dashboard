@@ -29,6 +29,14 @@ public class Panel {
 	
 	private String panelId; // the html id for this panel. needs to be unique
 	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "content_type_id")
+	private ContentType contentType;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "content_device_id")
+	private ContentDevice contentDevice;
+	
 	public Long getId() {
 		return id;
 	}
@@ -92,6 +100,22 @@ public class Panel {
 
 	public void setScreen(Screen screen) {
 		this.screen = screen;
+	}
+
+	public ContentType getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(ContentType contentType) {
+		this.contentType = contentType;
+	}
+
+	public ContentDevice getContentDevice() {
+		return contentDevice;
+	}
+
+	public void setContentDevice(ContentDevice contentDevice) {
+		this.contentDevice = contentDevice;
 	}
 	
 }

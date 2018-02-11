@@ -22,4 +22,8 @@ public class ContentTypeService {
 			this.save(contentType);
 		}
 	}
+	
+	public Iterable<ContentType> findAll(){
+		return contentTypeRepository.findAll();
+	}
 }

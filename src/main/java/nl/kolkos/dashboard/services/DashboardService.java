@@ -26,4 +26,12 @@ public class DashboardService {
 	public Dashboard findBySafeName(String safeName) {
 		return dashboardRepository.findBySafeName(safeName);
 	}
+	
+	public Iterable<Dashboard> findAll(){
+		return dashboardRepository.findAll();
+	}
+	
+	public Dashboard findById(long id) {
+		return dashboardRepository.findById(id);
+	}
 }

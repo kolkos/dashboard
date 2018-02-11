@@ -12,6 +12,8 @@ import nl.kolkos.dashboard.objects.Screen;
 public interface PanelRepository extends CrudRepository<Panel, Long>{
 	Panel findByPanelIdAndScreen(String panelId, Screen screen);
 	
+	Panel findByPanelId(String panelId);
+	
 	List<Panel> findByScreen(Screen screen);
 	
 }

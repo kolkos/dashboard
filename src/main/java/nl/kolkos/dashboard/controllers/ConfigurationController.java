@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +28,7 @@ import nl.kolkos.dashboard.objects.DeviceType;
 import nl.kolkos.dashboard.objects.Panel;
 import nl.kolkos.dashboard.objects.Screen;
 import nl.kolkos.dashboard.objects.SubDeviceType;
+import nl.kolkos.dashboard.services.ContentTypeService;
 import nl.kolkos.dashboard.services.DashboardService;
 import nl.kolkos.dashboard.services.DeviceTypeService;
 import nl.kolkos.dashboard.services.DomoticzCommunicator;
@@ -58,6 +60,93 @@ public class ConfigurationController {
 	
 	@Autowired
 	private DomoticzSyncService domoticzSyncService;
+	
+	@Autowired
+	private ContentTypeService contentTypeService;
+	
+	/**
+	 * Build the form screen to create a panel
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/panel/add", method = RequestMethod.GET)
+	public String createNewPanelForm(
+			@RequestParam(value = "dashboardId", required = false) String dashboardId,
+			@RequestParam(value = "screenId", required = false) String screenId,
+			Model model) {
+		
+		Panel panel = new Panel();
+		model.addAttribute("panel", panel);
+		
+		Iterable<Dashboard> dashboards = dashboardService.findAll();
+		model.addAttribute("dashboards", dashboards);
+		
+		
+		
+		List<Screen> screens = new ArrayList<>();
+		if(dashboardId!=null) {
+			// find the Dashboard by id
+			long dashId = Long.parseLong(dashboardId);
+			Dashboard dashboard = dashboardService.findById(dashId);
+			
+			screens = screenService.findScreensForDashboard(dashboard);
+			
+			model.addAttribute("dashId", dashId);
+			
+		}
+		
+		if(screenId != null) {
+			model.addAttribute("screenId", Long.parseLong(screenId));
+		}
+		
+		model.addAttribute("contentTypes", contentTypeService.findAll());
+		
+		
+		model.addAttribute("screens", screens);
+		
+		return "backend/panel_add_form";
+	}
+	
+	@RequestMapping(value = "/panel/add", method = RequestMethod.POST)
+	public String createNewPanel(@ModelAttribute Panel panel) {
+		panelService.createNewPanel(panel);
+		
+		
+		
+		return "redirect:/config/panel/add";
+	}
+	
+	@RequestMapping(value = "/menu", method = RequestMethod.GET)
+	public String loadMenu() {
+		
+		return "backend/menu";
+	}
+	
+	
+	@RequestMapping(value = "/panel/results", method = RequestMethod.GET)
+	public String loadPanelResults(
+			@RequestParam(value = "dashboardId", required = false) String dashboardId,
+			@RequestParam(value = "screenId", required = false) String screenId,
+			Model model) {
+		
+		
+		
+		return "backend/panel_result";
+	}
+	
+	/**
+	 * This method gets the generated panel id. jQuery is used to load it in the panelId field
+	 * @param name
+	 * @return
+	 */
+	@RequestMapping(value = "/panel/generate_panel_id", method = RequestMethod.GET)
+	public @ResponseBody String generateUniquePanelId(
+			@RequestParam("name") String name) {
+		String panelId = panelService.createPanelId(name);
+		return panelId;
+	}
+	
+	
 	
 	/**
 	 * This loads the overal configuration page for the selected dashboard / screen
