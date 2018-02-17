@@ -35,8 +35,6 @@ public class BackendPanelController {
 	@Autowired
 	private PanelService panelService;
 	
-	
-	
 	/*
 	 * =================================================
 	 * Add panels
@@ -90,7 +88,7 @@ public class BackendPanelController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String createNewPanel(@ModelAttribute Panel panel) {
 		panelService.createNewPanel(panel);
-		return "redirect:/config/panel/add";
+		return "redirect:/config/panel/results";
 	}
 	
 	/**
