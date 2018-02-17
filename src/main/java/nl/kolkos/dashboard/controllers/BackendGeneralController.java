@@ -1,5 +1,6 @@
 package nl.kolkos.dashboard.controllers;
 
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,5 +12,9 @@ public class BackendGeneralController {
 	public String loadMenu() {
 		return "backend/menu";
 	}
+	
+	
+	
+	
 	
 }

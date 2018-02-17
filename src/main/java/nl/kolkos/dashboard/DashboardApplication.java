@@ -109,6 +109,8 @@ public class DashboardApplication {
 		// create a Dashboard
 		Dashboard defaultDashboard = new Dashboard();
 		defaultDashboard.setName("Default");
+		defaultDashboard.setSafeName(dashboardService.createSafeName(defaultDashboard.getName()));
+		defaultDashboard.setDefaultDashboard(true);
 		dashboardService.save(defaultDashboard);
 		
 		// create a few screens

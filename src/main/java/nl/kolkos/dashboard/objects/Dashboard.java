@@ -12,8 +12,9 @@ public class Dashboard {
     private Long id;
 	private String name;
 	private String safeName;
-	
 	private String backgroundImage;
+	private boolean defaultDashboard = false;
+	
 	
 	public Long getId() {
 		return id;
@@ -39,6 +40,12 @@ public class Dashboard {
 	}
 	public void setSafeName(String safeName) {
 		this.safeName = safeName;
+	}
+	public boolean isDefaultDashboard() {
+		return defaultDashboard;
+	}
+	public void setDefaultDashboard(boolean defaultDashboard) {
+		this.defaultDashboard = defaultDashboard;
 	}
 	
 	

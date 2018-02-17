@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+	<title>Create new panel</title>
+	
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href="/css/config.css" rel="stylesheet">
+</head>
+<body>
+	<div id="menuHolder"></div>
+
+
+	<div class="container">
+		<h1>Create dashboard</h1>
+        <p class="lead">Create a new dashboard.</p>
+        <br />
+        
+	  	<form id="createNewPanel" autocomplete="off" th:object="${dashboard}" action="#" method="post" th:action="@{/config/dashboard/add}">
+			<div class="form-group row">
+				<label for="name" class="col-sm-4 col-form-label">Dashboard name: </label>
+				<div class="col">
+					<input type="text" th:field="*{name}" required="required" class="form-control trigger-change" placeholder="Dashboard name" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="safeName" class="col-sm-4 col-form-label">Safe name: </label>
+				<div class="col">
+					<input type="text" th:field="*{safeName}" required="required" class="form-control trigger-change" placeholder="Safe name (generated automatically)" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<!-- This field is just used to filter the screens -->
+				<label for="backgroundImage" class="col-sm-4 col-form-label">Background: </label>
+				<div class="col">
+					<select th:field="*{backgroundImage}" class="form-control">
+						<option value="">- Select a background -</option>
+						<option th:each="background : ${backgrounds}" th:text="${background}" th:value="${background}">Background</option> 
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="defaultDashboard1" class="col-sm-4 col-form-label">Default dashboard: </label>
+				<div class="col">
+					<div class="form-check">
+					  <input class="form-check-input" type="checkbox" th:field="*{defaultDashboard}">
+					  <label class="form-check-label" for="defaultDashboard1">
+					    This is the default dashboard
+					  </label>
+					</div>
+				</div>
+					
+			</div>
+			
+				
+			
+			
+			<input type="submit" class="btn btn-primary btn-lg btn-block" value="Create dashboard" />
+			
+		</form>
+	</div>
+	
+	
+	
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+	
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/loadMenu.js"></script>
+    
+    <script type="text/javascript">
+		
+
+		$('#name').keyup(function(){
+			
+			var name = $(this).val();
+			
+			var url = "/config/dashboard/generate_safe_name";
+			var formData = {name: name};
+			$.get(url, formData,
+				    function(data){
+				        $('#safeName').val(data);
+				        
+				    });
+		});
+    </script>
+   
+ 	
+</body>
+</html>
