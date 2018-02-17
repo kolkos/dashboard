@@ -19,8 +19,8 @@ import nl.kolkos.dashboard.services.PanelService;
 import nl.kolkos.dashboard.services.ScreenService;
 
 @Controller
-@RequestMapping(path="/config/screen")
-public class BackendScreenController {
+@RequestMapping(path="/config/layout")
+public class BackendLayoutController {
 	@Autowired
 	private DashboardService dashboardService;
 	
