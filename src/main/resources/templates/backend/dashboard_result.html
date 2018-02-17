@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+	<title>Create new panel</title>
+	
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="/css/open-iconic-bootstrap.css" rel="stylesheet">
+	<link href="/css/config.css" rel="stylesheet">
+</head>
+<body>
+	<div id="menuHolder"></div>
+
+	<div class="container">
+	  	<h1>Dashboards</h1>
+        <p class="lead">These dashboards are currently available.</p>
+        
+        
+        <table class="table table-striped">
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">Name</th>
+		      <th scope="col">Safe name</th>
+		      <th scope="col">Background image</th>
+		      <th scope="col">Default dashboard</th>
+		      <th scope="col">Edit</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr th:each="dashboard : ${dashboards}">
+		    		<th scope="row" th:text="${dashboard.id}">ID</th>
+		    		<td th:text="${dashboard.name}">Name</td>
+		    		<td th:text="${dashboard.safeName}">Safe name</td>
+		    		
+		    		<td>
+		    			<span th:if="${dashboard.backgroundImage} != null" class="oi oi-check" title="edit panel" aria-hidden="true"></span>
+		    			<span th:unless="${dashboard.backgroundImage} != null" class="oi oi-x" title="edit panel" aria-hidden="true"></span>
+		    		</td>
+		    		
+		    		<td>
+		    			<span th:if="${dashboard.defaultDashboard}" class="oi oi-check" title="edit panel" aria-hidden="true"></span>
+		    			<span th:unless="${dashboard.defaultDashboard}" class="oi oi-x" title="edit panel" aria-hidden="true"></span>
+		    		</td>
+		    		<td>
+		    			<span class="oi oi-pencil" title="edit panel" aria-hidden="true"></span>
+		    		</td>
+		    		
+		    </tr>
+		  </tbody>
+		</table>
+        
+	</div>
+	
+	
+	
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+	
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/loadMenu.js"></script>
+    
+   
+ 	
+</body>
+</html>

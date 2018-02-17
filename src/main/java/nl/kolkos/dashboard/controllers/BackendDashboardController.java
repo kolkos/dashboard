@@ -57,4 +57,15 @@ public class BackendDashboardController {
 		dashboardService.createNewDashboard(dashboard);
 		return "redirect:/config/dashboard/results";
 	}
+	
+	
+	@RequestMapping(value = "/results", method = RequestMethod.GET)
+	public String listDashboards(
+			Model model) {
+		
+		Iterable<Dashboard> dashboards = dashboardService.findAll();
+		model.addAttribute("dashboards", dashboards);
+		
+		return "backend/dashboard_result";
+	}
 }

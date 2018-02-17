@@ -89,6 +89,11 @@ public class DashboardService {
 			this.resetDefaultDashboards();
 		}
 		
+		// check if the background image is filled
+		if(dashboard.getBackgroundImage().length() < 1) {
+			dashboard.setBackgroundImage(null);
+		}
+		
 		dashboardRepository.save(dashboard);
 	}
 }
