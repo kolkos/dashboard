@@ -83,7 +83,7 @@ public class DashboardService {
 		}
 	}
 	
-	public void createNewDashboard(Dashboard dashboard) {
+	public void saveDashboard(Dashboard dashboard) {
 		// check if this is the (new) default dashboard
 		if(dashboard.isDefaultDashboard()) {
 			this.resetDefaultDashboards();

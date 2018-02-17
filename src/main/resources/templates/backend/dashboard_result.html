@@ -47,7 +47,10 @@
 		    			<span th:unless="${dashboard.defaultDashboard}" class="oi oi-x" title="edit panel" aria-hidden="true"></span>
 		    		</td>
 		    		<td>
-		    			<span class="oi oi-pencil" title="edit panel" aria-hidden="true"></span>
+		    			<a th:href="@{/config/dashboard/edit/{id}(id=${dashboard.id})}" style="color: black;">
+		    				<span class="oi oi-pencil" title="edit panel" aria-hidden="true"></span>
+		    			</a>
+		    			
 		    		</td>
 		    		
 		    </tr>

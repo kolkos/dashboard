@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,7 +55,7 @@ public class BackendDashboardController {
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String createNewDashboard(@ModelAttribute Dashboard dashboard) {
-		dashboardService.createNewDashboard(dashboard);
+		dashboardService.saveDashboard(dashboard);
 		return "redirect:/config/dashboard/results";
 	}
 	
@@ -67,5 +68,46 @@ public class BackendDashboardController {
 		model.addAttribute("dashboards", dashboards);
 		
 		return "backend/dashboard_result";
+	}
+	
+	@RequestMapping(value = "/edit/{dashboardId}", method = RequestMethod.GET)
+	public String editDashboardForm(
+			@PathVariable("dashboardId") long dashboardId,
+			Model model) {
+		
+		if(dashboardService.findById(dashboardId) == null) {
+			model.addAttribute("message", "The dashboard could not be found");
+			return "backend/error";
+		}
+		
+		Dashboard dashboard = dashboardService.findById(dashboardId);
+		model.addAttribute("dashboard", dashboard);
+		
+		List<String> backgrounds = backendService.loadBackgroundImages();
+		model.addAttribute("backgrounds", backgrounds);
+		
+		
+		return "backend/dashboard_edit_form";
+	}
+	
+	@RequestMapping(value = "/edit/{dashboardId}", method = RequestMethod.POST)
+	public String editDashboard(
+			@PathVariable("dashboardId") long dashboardId,
+			@ModelAttribute Dashboard dashboard,
+			Model model) {
+		
+		if(dashboardService.findById(dashboardId) == null) {
+			model.addAttribute("message", "The dashboard could not be found");
+			return "backend/error";
+		}
+		
+		// set the dashboard id to make sure the dashboard is being updated and not created
+		dashboard.setId(dashboardId);
+		
+		//Dashboard dashboard = dashboardService.findById(dashboardId);
+		dashboardService.saveDashboard(dashboard);
+		
+		
+		return "redirect:/config/dashboard/results";
 	}
 }

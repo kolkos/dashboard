@@ -16,46 +16,10 @@
 	<div id="menuHolder"></div>
 
 	<div class="container">
-	  	<h1>Dashboards</h1>
-        <p class="lead">These dashboards are currently available.</p>
+	  	<h1>Oops!</h1>
+        <p class="lead" th:text="${message}">Message</p>
         
         
-        <table class="table table-striped">
-		  <thead>
-		    <tr>
-		      <th scope="col">#</th>
-		      <th scope="col">Name</th>
-		      <th scope="col">Safe name</th>
-		      <th scope="col">Background image</th>
-		      <th scope="col">Default dashboard</th>
-		      <th scope="col">Edit</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr th:each="dashboard : ${dashboards}">
-		    		<th scope="row" th:text="${dashboard.id}">ID</th>
-		    		<td th:text="${dashboard.name}">Name</td>
-		    		<td th:text="${dashboard.safeName}">Safe name</td>
-		    		
-		    		<td>
-		    			<span th:if="${dashboard.backgroundImage} != null" class="oi oi-check" title="edit panel" aria-hidden="true"></span>
-		    			<span th:unless="${dashboard.backgroundImage} != null" class="oi oi-x" title="edit panel" aria-hidden="true"></span>
-		    		</td>
-		    		
-		    		<td>
-		    			<span th:if="${dashboard.defaultDashboard}" class="oi oi-check" title="edit panel" aria-hidden="true"></span>
-		    			<span th:unless="${dashboard.defaultDashboard}" class="oi oi-x" title="edit panel" aria-hidden="true"></span>
-		    		</td>
-		    		<td>
-		    			<a th:href="@{/config/dashboard/edit/{id}(id=${dashboard.id})}" style="color: black;">
-		    				<span class="oi oi-pencil" title="edit panel" aria-hidden="true"></span>
-		    			</a>
-		    			
-		    		</td>
-		    		
-		    </tr>
-		  </tbody>
-		</table>
         
 	</div>
 	
@@ -70,6 +34,7 @@
 	
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/js/loadMenu.js"></script>
+    
     
    
  	
