@@ -21,7 +21,7 @@ public class Screen {
 	
 	private String name;
 	private int location;
-	private String backgroundImage;
+	private String backgroundImage; // overwrite the dashboard background image
 	private String icon;
 	private String safeName;
 		

@@ -16,5 +16,9 @@ public interface ScreenRepository extends CrudRepository<Screen, Long>{
 	
 	Screen findBySafeNameAndDashboard(String safeName, Dashboard dashboard);
 	
+	Screen findBySafeName(String safeName);
+	
 	List<Screen> findAllByOrderByNameAsc();
+	
+	Screen findFirstByDashboardOrderByLocationDesc(Dashboard dashboard);
 }
