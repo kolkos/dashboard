@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-	<title>Create new panel</title>
+	<title th:text="${title}">Title</title>
 	
 	<!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -16,8 +16,8 @@
 
 
 	<div class="container">
-		<h1>Create dashboard</h1>
-        <p class="lead">Create a new dashboard.</p>
+		<h1 th:text="${title}">Title</h1>
+        <p class="lead" th:text="${description}">Page description</p>
         <br />
         
 	  	<form id="createNewPanel" autocomplete="off" th:object="${dashboard}" action="#" method="post" th:action="@{/config/dashboard/add}">

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-	<title>Screens</title>
+	<title th:text="${title}">Title</title>
 	
 	<!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -16,8 +16,9 @@
 	<div id="menuHolder"></div>
 
 	<div class="container">
-	  	<h1>Screens</h1>
-        <p class="lead">These screens are currently available.</p>
+	  	<h1 th:text="${title}">Title</h1>
+        <p class="lead" th:text="${description}">Page description</p>
+        <br/>
         
         
         <table class="table table-striped">
@@ -62,20 +63,20 @@
 		    		<td>
 		    			<!-- Move screen up -->
 		    			<a href="#" style="color: black;" th:if="${screen.location} > 0" th:href="@{/config/screen/position/up/{id}(id=${screen.id})}">
-		    				<span class="oi oi-arrow-thick-top" title="edit panel" aria-hidden="true"></span>
+		    				<span class="oi oi-arrow-thick-top" title="move up" aria-hidden="true"></span>
 		    			</a>
 		    		</td>
 		    		
 		    		<td>
 		    			<!-- Move screen down -->
 		    			<a href="#" style="color: black;" th:unless="${screen.lastScreen}" th:href="@{/config/screen/position/down/{id}(id=${screen.id})}">
-		    				<span class="oi oi-arrow-thick-bottom" title="edit panel" aria-hidden="true"></span>
+		    				<span class="oi oi-arrow-thick-bottom" title="move down" aria-hidden="true"></span>
 		    			</a>
 		    		</td>
 		    		
 		    		<td>
 		    			<a th:href="@{/config/screen/edit/{id}(id=${screen.id})}" style="color: black;">
-		    				<span class="oi oi-pencil" title="edit panel" aria-hidden="true"></span>
+		    				<span class="oi oi-pencil" title="edit screen" aria-hidden="true"></span>
 		    			</a>
 		    			
 		    		</td>

@@ -43,6 +43,9 @@ public class BackendDashboardController {
 	public String createNewDashboardForm(
 			Model model) {
 		
+		model.addAttribute("title", "Create new dashboard");
+		model.addAttribute("description", "This page let's you create a new dashboard. A dashboard is a set of screens.");
+		
 		Dashboard dashboard = new Dashboard();
 		model.addAttribute("dashboard", dashboard);
 		
@@ -64,6 +67,9 @@ public class BackendDashboardController {
 	public String listDashboards(
 			Model model) {
 		
+		model.addAttribute("title", "Dashboards");
+		model.addAttribute("description", "This page shows the created dashboards. Click on the pencil to edit a dashboard.");
+		
 		Iterable<Dashboard> dashboards = dashboardService.findAll();
 		model.addAttribute("dashboards", dashboards);
 		
@@ -74,6 +80,9 @@ public class BackendDashboardController {
 	public String editDashboardForm(
 			@PathVariable("dashboardId") long dashboardId,
 			Model model) {
+		
+		model.addAttribute("title", "Edit dashboard");
+		model.addAttribute("description", "On this page you can edit the settings of the chosen dashboard.");
 		
 		if(dashboardService.findById(dashboardId) == null) {
 			model.addAttribute("message", "The dashboard could not be found");

@@ -42,6 +42,9 @@ public class BackendScreenController {
 	public String createNewScreen(
 			Model model) {
 		
+		model.addAttribute("title", "Create new screen");
+		model.addAttribute("description", "With this page you can create a new screen. A screen contains a collection of panels.");
+		
 		Screen screen = new Screen();
 		model.addAttribute("screen", screen);
 		
@@ -64,14 +67,19 @@ public class BackendScreenController {
 	public String listScreens(
 			Model model) {
 		
+		model.addAttribute("title", "Screens");
+		model.addAttribute("description", "This page shows the created screens. Click on the pencil to edit a screen.");
+		
 		List<Screen> screens = screenService.findScreens();
 		model.addAttribute("screens", screens);
 		
 		return "backend/screen_result";
 	}
 	
+	
+	
 	@RequestMapping(value = "/position/{direction}/{screenId}", method = RequestMethod.GET)
-	public String moveScreenUp(
+	public String moveScreen(
 			@PathVariable("screenId") long screenId,
 			@PathVariable("direction") String direction,
 			Model model) {

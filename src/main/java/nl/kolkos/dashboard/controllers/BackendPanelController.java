@@ -52,6 +52,10 @@ public class BackendPanelController {
 			@RequestParam(value = "screenId", required = false) String screenId,
 			Model model) {
 		
+		model.addAttribute("title", "Create new panel");
+		model.addAttribute("description", "With this page you can create a new panel.");
+		
+		
 		Panel panel = new Panel();
 		model.addAttribute("panel", panel);
 		
@@ -115,6 +119,8 @@ public class BackendPanelController {
 			@RequestParam(value = "screenId", required = false) String screenId,
 			Model model) {
 		
+		model.addAttribute("title", "Panels");
+		model.addAttribute("description", "The panels created are listed below. You can filter the panels by using the form below.");
 		
 		// check if the dashboard id is empty
 		if(dashboardId != null && dashboardId.equals("")) {
