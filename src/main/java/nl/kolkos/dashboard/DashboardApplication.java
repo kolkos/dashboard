@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import nl.kolkos.dashboard.configurations.DomoticzConfiguration;
 import nl.kolkos.dashboard.objects.ContentDevice;
@@ -34,6 +35,7 @@ import nl.kolkos.dashboard.services.SubDeviceTypeService;
 
 
 @SpringBootApplication
+@EnableScheduling
 @EnableConfigurationProperties(DomoticzConfiguration.class)
 public class DashboardApplication {
 	@Autowired
@@ -47,9 +49,6 @@ public class DashboardApplication {
 		
 	@Autowired
 	private PanelService panelService;
-	
-	@Autowired
-	private DomoticzSyncService domoticzSyncService;
 	
 	@Autowired
 	private DeviceTypeService deviceTypeService;
@@ -82,14 +81,14 @@ public class DashboardApplication {
             
             this.testContent();
             this.createDeviceConfig();
-            domoticzSyncService.syncDevices();
-            this.createTestDevicePanels();
+            
+            //this.createTestDevicePanels();
 
         };
         
     }
 	
-	public void testContent() {
+	private void testContent() {
 		// create the content types
 		ContentType clock = new ContentType("Clock");
 		ContentType html = new ContentType("HTML");
@@ -116,13 +115,13 @@ public class DashboardApplication {
 		// create a few screens
 		Screen homeScreen = new Screen();
 		homeScreen.setName("Home");
-		homeScreen.setIcon("fas fa-home");
+		homeScreen.setIcon("oi oi-home");
 		homeScreen.setLocation(0);
 		homeScreen.setDashboard(defaultDashboard);
 		
 		Screen livingRoomScreen = new Screen();
 		livingRoomScreen.setName("Living room");
-		livingRoomScreen.setIcon("fas fa-glass-martini");
+		livingRoomScreen.setIcon("oi oi-monitor");
 		livingRoomScreen.setLocation(1);
 		livingRoomScreen.setDashboard(defaultDashboard);
 		
@@ -169,7 +168,7 @@ public class DashboardApplication {
 				
 	}
 	
-	public void createDeviceConfig() {
+	private void createDeviceConfig() {
 		DeviceType lighting = new DeviceType();
 		lighting.setDeviceType("Lighting");
 		lighting.setSubDeviceField("SwitchType");
@@ -318,7 +317,7 @@ public class DashboardApplication {
 		
 	}
 	
-	public void createTestDevicePanels() {
+	private void createTestDevicePanels() {
 		Dashboard dashboard = dashboardService.findBySafeName("Default");
 		Screen screen = screenService.getScreen("Home", dashboard);
 		Panel panel = panelService.findPanelByPanelIdAndScreen("Initial_panel_A", screen);

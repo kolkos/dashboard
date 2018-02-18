@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,4 +59,54 @@ public class BackendScreenController {
 		screenService.saveNewScreen(screen);
 		return "redirect:/config/screen/results";
 	}
+	
+	@RequestMapping(value = "/results", method = RequestMethod.GET)
+	public String listScreens(
+			Model model) {
+		
+		List<Screen> screens = screenService.findScreens();
+		model.addAttribute("screens", screens);
+		
+		return "backend/screen_result";
+	}
+	
+	@RequestMapping(value = "/position/{direction}/{screenId}", method = RequestMethod.GET)
+	public String moveScreenUp(
+			@PathVariable("screenId") long screenId,
+			@PathVariable("direction") String direction,
+			Model model) {
+		
+		// get the screen
+		if(screenService.findById(screenId) == null) {
+			model.addAttribute("message", "The dashboard could not be found");
+			return "backend/error";
+		}
+		
+				
+		Screen screenToMove = screenService.findById(screenId);
+		List<Screen> screens = screenService.findScreensForDashboard(screenToMove.getDashboard());
+		
+		// determine where to move the screen
+		if(direction.toUpperCase().equals("UP")) {
+			screenToMove.setLocation(screenToMove.getLocation() - 1);
+						
+			// now do the actual moving
+			screenService.movePositionUp(screenToMove, screens);
+			
+		}else {
+			screenToMove.setLocation(screenToMove.getLocation() + 1);
+			
+			// now do the actual moving
+			screenService.movePositionDown(screenToMove, screens);
+		}
+		
+		// save the new positions
+		screenService.saveNewLocations(screens);
+		
+		
+		
+		
+		return "redirect:/config/screen/results";
+	}
+	
 }

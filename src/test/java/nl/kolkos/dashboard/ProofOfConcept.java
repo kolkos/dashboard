@@ -3,13 +3,16 @@ package nl.kolkos.dashboard;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
 import nl.kolkos.dashboard.objects.Panel;
+import nl.kolkos.dashboard.objects.Screen;
 
 
 public class ProofOfConcept {
@@ -145,6 +148,139 @@ public class ProofOfConcept {
 		return panel;
 	}
 	
+	
+	@Test
+	public void testOrderScreens() {
+		// first create some screens
+		Screen originalPositionIs0 = new Screen();
+		originalPositionIs0.setName("Original position is 0");
+		originalPositionIs0.setLocation(0);
+		originalPositionIs0.setId(1L);
+		
+		Screen originalPositionIs1 = new Screen();
+		originalPositionIs1.setName("Original position is 1");
+		originalPositionIs1.setLocation(1);
+		originalPositionIs1.setId(2L);
+		
+		Screen originalPositionIs2 = new Screen();
+		originalPositionIs2.setName("Original position is 2");
+		originalPositionIs2.setLocation(2);
+		originalPositionIs2.setId(3L);
+		
+		Screen originalPositionIs3 = new Screen();
+		originalPositionIs3.setName("Original position is 3");
+		originalPositionIs3.setLocation(3);
+		originalPositionIs3.setId(4L);
+		
+		Screen newPositionScreen = new Screen();
+		newPositionScreen.setName("This screen will be moved Down. Original is 1");
+		newPositionScreen.setLocation(2); // new position
+		newPositionScreen.setId(4L);
+		
+		List<Screen> screens = new ArrayList<>();
+		screens.add(originalPositionIs0);
+		screens.add(originalPositionIs1);
+		
+		screens.add(originalPositionIs3);
+		screens.add(originalPositionIs2);
+		
+		this.movePositionDown(newPositionScreen, screens);
+		this.fixPositions(screens);
+		
+		// now loop through the screens to check the new positon
+		for(Screen screen : screens) {
+			System.out.println(String.format("%s. New position: %d", screen.getName(), screen.getLocation()));
+		}
+		
+		
+		
+		newPositionScreen.setName("This screen will be moved Up. Original is 1");
+		newPositionScreen.setLocation(1); // new position
+		newPositionScreen.setId(1L);
+		
+		System.out.println("---Movind up---");
+		
+		this.movePositionUp(newPositionScreen, screens);
+		this.fixPositions(screens);
+		
+		for(Screen screen : screens) {
+			System.out.println(String.format("%s. New position: %d", screen.getName(), screen.getLocation()));
+		}
+		
+	}
+	
+	public void movePositionDown(Screen screenToMove, List<Screen> screens) {
+		int newPosition = screenToMove.getLocation();
+		
+		// loop through the screens
+		for(Screen screen : screens) {
+			// check if the screen is the same as the screen we wish to move
+			if(screen.getId() == screenToMove.getId()) {
+				// set this screen to the new position
+				// skip the other tasks
+				screen.setLocation(newPosition);
+				continue;
+			}
+			
+			int thisScreenPosition = screen.getLocation();
+			
+			// now check the position of the screen and compare it to the screen to move
+			if(thisScreenPosition == newPosition) {
+				// location is equal to the new location, move one up
+				screen.setLocation(screen.getLocation() + 1);
+			} else if (thisScreenPosition > newPosition) {
+				// position is greater than the new position
+				// we will fix any gaps later
+				screen.setLocation(screen.getLocation() + 1);
+			} else {
+				// location is smaller than the new position, don't move
+				continue;
+			}
+		}
+		
+	}
+	
+	
+	public void movePositionUp(Screen screenToMove, List<Screen> screens) {
+		int newPosition = screenToMove.getLocation();
+		
+		// loop through the screens
+		for(Screen screen : screens) {
+			System.out.println(String.format("ID=%d, Location=%d", screen.getId(), screen.getLocation()));
+			
+			// check if the screen is the same as the screen we wish to move
+			if(screen.getId() == screenToMove.getId()) {
+				// set this screen to the new position
+				screen.setLocation(newPosition);
+				continue;
+			}
+			
+			int thisScreenPosition = screen.getLocation();
+			// change the order
+			if(thisScreenPosition == newPosition) {
+				// move one position down
+				screen.setLocation(screen.getLocation() - 1);
+			} else if (thisScreenPosition > newPosition) {
+				screen.setLocation(screen.getLocation() + 1);
+			}else {
+				screen.setLocation(screen.getLocation() - 1);
+			}
+		}
+		
+	}
+	
+	
+	public void fixPositions(List<Screen> screens) {
+		// first sort on Location
+		screens = screens.stream().sorted(Comparator.comparing(Screen::getLocation)).collect(Collectors.toList());
+		// now reset the positions
+		int position = 0;
+		for(Screen screen : screens) {
+			screen.setLocation(position);
+			position++;
+		}
+		
+	}
 	
 
 }

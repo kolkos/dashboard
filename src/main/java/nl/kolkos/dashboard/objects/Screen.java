@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -24,6 +25,9 @@ public class Screen {
 	private String backgroundImage; // overwrite the dashboard background image
 	private String icon;
 	private String safeName;
+	
+	@Transient
+	private boolean lastScreen = false;
 		
 	
 	public Long getId() {
@@ -67,6 +71,12 @@ public class Screen {
 	}
 	public void setSafeName(String safeName) {
 		this.safeName = safeName;
+	}
+	public boolean isLastScreen() {
+		return lastScreen;
+	}
+	public void setLastScreen(boolean lastScreen) {
+		this.lastScreen = lastScreen;
 	}
 
 	

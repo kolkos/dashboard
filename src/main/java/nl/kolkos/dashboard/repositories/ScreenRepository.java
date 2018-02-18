@@ -21,4 +21,8 @@ public interface ScreenRepository extends CrudRepository<Screen, Long>{
 	List<Screen> findAllByOrderByNameAsc();
 	
 	Screen findFirstByDashboardOrderByLocationDesc(Dashboard dashboard);
+	
+	List<Screen> findAllByOrderByDashboardAscLocationAsc();
+	
+	Screen findById(long id);
 }

@@ -64,13 +64,11 @@
 						<option value="">- Select a background -</option>
 						<option th:each="background : ${backgrounds}" th:text="${background}" th:value="${background}">Background</option> 
 					</select>
+					<small id="passwordHelpBlock" class="form-text text-muted">
+  						This background image overwrites the background image set to the dashboard.
+					</small>
 				</div>
 			</div>
-			
-			
-			
-				
-			
 			
 			<input type="submit" class="btn btn-primary btn-lg btn-block" value="Create dashboard" />
 			
@@ -104,6 +102,8 @@
 				        
 				    });
 		});
+
+		
     </script>
    
  	

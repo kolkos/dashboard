@@ -1,8 +1,10 @@
 package nl.kolkos.dashboard.services;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,6 +80,20 @@ public class ScreenService {
 		return screenRepository.findAllByOrderByNameAsc();
 	}
 	
+	public List<Screen> findScreens(){
+		List<Screen> screens = screenRepository.findAllByOrderByDashboardAscLocationAsc();
+		
+		// loop through screens
+		for(Screen screen : screens) {
+			// get the last screen for the dashboard
+			if(screenRepository.findFirstByDashboardOrderByLocationDesc(screen.getDashboard()).getId() == screen.getId()) {
+				screen.setLastScreen(true);
+			}
+		}
+		
+		return screens;
+	}
+	
 	public void saveNewScreen(Screen screen) {
 		// get the last position for this dashboard
 		int lastLocation = screenRepository.findFirstByDashboardOrderByLocationDesc(screen.getDashboard()).getLocation();
@@ -93,5 +109,87 @@ public class ScreenService {
 		}
 		
 		screenRepository.save(screen);
+	}
+	
+	public void movePositionUp(Screen screenToMove, List<Screen> screens) {
+		int newPosition = screenToMove.getLocation();
+		
+		// loop through the screens
+		for(Screen screen : screens) {
+			// check if the screen is the same as the screen we wish to move
+			if(screen.getId() == screenToMove.getId()) {
+				// set this screen to the new position
+				// skip the other tasks
+				screen.setLocation(newPosition);
+				continue;
+			}
+			
+			int thisScreenPosition = screen.getLocation();
+			
+			// now check the position of the screen and compare it to the screen to move
+			if(thisScreenPosition == newPosition) {
+				// location is equal to the new location, move one up
+				screen.setLocation(screen.getLocation() + 1);
+			} else if (thisScreenPosition > newPosition) {
+				// position is greater than the new position
+				// we will fix any gaps later
+				screen.setLocation(screen.getLocation() + 1);
+			} else {
+				// location is smaller than the new position, don't move
+				continue;
+			}
+		}
+		
+	}
+	
+	
+	public void movePositionDown(Screen screenToMove, List<Screen> screens) {
+		int newPosition = screenToMove.getLocation();
+		
+		// loop through the screens
+		for(Screen screen : screens) {
+			
+			
+			// check if the screen is the same as the screen we wish to move
+			if(screen.getId() == screenToMove.getId()) {
+				// set this screen to the new position
+				screen.setLocation(newPosition);
+				continue;
+			}
+			
+			int thisScreenPosition = screen.getLocation();
+			// change the order
+			if(thisScreenPosition == newPosition) {
+				// move one position down
+				screen.setLocation(screen.getLocation() - 1);
+			} else if (thisScreenPosition > newPosition) {
+				screen.setLocation(screen.getLocation() + 1);
+			}else {
+				screen.setLocation(screen.getLocation() - 1);
+			}
+		}
+		
+	}
+	
+	public void fixPositions(List<Screen> screens) {
+		// first sort on Location
+		screens = screens.stream().sorted(Comparator.comparing(Screen::getLocation)).collect(Collectors.toList());
+		// now reset the positions
+		int position = 0;
+		for(Screen screen : screens) {
+			screen.setLocation(position);
+			position++;
+		}
+	}
+	
+	public void saveNewLocations(List<Screen> screens) {
+		this.fixPositions(screens);
+		for(Screen screen : screens) {
+			screenRepository.save(screen);
+		}
+	}
+	
+	public Screen findById(long id) {
+		return screenRepository.findById(id);
 	}
 }
