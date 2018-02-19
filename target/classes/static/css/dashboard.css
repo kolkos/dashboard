@@ -3,33 +3,23 @@
 	top: 0;
 	left: 0;
 	width: 100%;
+	height: 100%;
 	display: grid;
-	grid-gap: 5px;
+	grid-gap: 0px;
 	grid-template: 
-		'navigation settings'
-		'content content';
-	grid-template-columns: 30fr 1fr;
-	grid-template-rows: 30px auto;
+		'navigation content';
+	grid-template-columns: 43px auto;
 }
 
-#dashboardWrapper a,
-#dashboardWrapper a:hover,
-#dashboardWrapper a:visited{
-	color: white;
-	text-decoration: none;
-}
+
 
 #navigationHolder{
 	grid-area: navigation;
 }
 
-#settingsHolder{
-	grid-area: settings;
-	padding:5px;
-}
-
 #contentHolder{
 	grid-area: content;
+	padding: 10px;
 }
 
 #wrapper{
@@ -37,7 +27,10 @@
 	grid-gap: 0.3vw;
 	grid-template-columns: repeat(8, 1fr);
 	grid-template-rows: repeat(8, 1fr);
-	padding: 10px;
+
+	width: 100%;
+	height: 100%;
+	margin-right: 100px;
 }
 
 #wrapper div.box{

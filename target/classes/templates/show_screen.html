@@ -20,28 +20,47 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
+	
+	<div th:if="${screen.backgroundImage} != null" th:style="'background:url(/images/backgrounds/' + ${screen.backgroundImage} + ');'" class="background"></div>
+	<div th:if="${screen.backgroundImage} == null and ${dashboard.backgroundImage} != null" th:style="'background:url(/images/backgrounds/' + ${dashboard.backgroundImage} + ');'" class="background"></div>
 	<div id="dashboardWrapper">
 		<div id="navigationHolder">
-			<nav class="navigation">
-				<ul>
-					<li th:each="screen : ${screens}">
-						<a th:href="@{/dashboard/{dashboardName}/{screenName}(dashboardName=${dashboard.safeName}, screenName=${screen.safeName})}">
-							<i th:class="${screen.icon + ' fa-lg'}" aria-hidden="true"></i>
-							<span th:text="${screen.name}">name</span>
-							
-						</a>
-					</li>
-				</ul>
+			<nav role="navigation">
+			  <div id="menuToggle">
+			    <!--
+			    A fake / hidden checkbox is used as click reciever,
+			    so you can use the :checked selector on it.
+			    -->
+			    <input type="checkbox" />
+			    
+			    <!--
+			    Some spans to act as a hamburger.
+			    
+			    They are acting like a real hamburger,
+			    not that McDonalds stuff.
+			    -->
+			    <span class="hamburger"></span>
+			    <span class="hamburger"></span>
+			    <span class="hamburger"></span>
+			    
+			    <!--
+			    Too bad the menu has to be inside of the button
+			    but hey, it's pure CSS magic.
+			    -->
+			    <ul id="menu">
+			      <li th:each="screen : ${screens}">
+			      	<a th:href="@{/dashboard/{dashboardName}/{screenName}(dashboardName=${dashboard.safeName}, screenName=${screen.safeName})}">
+			      		<i th:class="${screen.icon + ' fa-lg'}" aria-hidden="true"></i>
+						<span th:text="${screen.name}" class="linkText">name</span>
+			      	</a>
+			      </li>
+			    </ul>
+			  </div>
 			</nav>
 		</div>
-		<div id="settingsHolder">
-			<a th:href="@{/config/{dashboardName}/{screenName}(dashboardName=${dashboard.safeName}, screenName=${screen.safeName})}">
-				<i class="fas fa-cog fa-lg"></i>
-			</a>
-			<a href="#">
-				<i class="fas fa-sync-alt fa-lg"></i>
-			</a>
-		</div>
+		
+		
+		
 		<div id="contentHolder">
 			<div id="wrapper">
 		 	<div th:each="panel : ${panels}" th:style="${'grid-area: ' + panel.rowStart + ' / ' + panel.columnStart + ' / span ' + panel.height + ' / span ' + panel.width}" th:id="${panel.panelId}" class="box">

@@ -70,16 +70,24 @@ public class DashboardController {
 	}
 	
 	@RequestMapping(value = "/{safeNameDashboard}/{safeNameScreen}", method = RequestMethod.GET)
-	public String buildScreen(@PathVariable("safeNameDashboard") String safeNameDashboard,
+	public String buildScreen(
+			@PathVariable("safeNameDashboard") String safeNameDashboard,
 			@PathVariable("safeNameScreen") String safeNameScreen,
 			Model model) {
 		
 		// get the dashboard
 		Dashboard dashboard = dashboardService.findBySafeName(safeNameDashboard);
+		if(dashboard == null) {
+			System.out.println("Dashboard!?");
+		}
 		model.addAttribute("dashboard", dashboard);
 		
 		// get the screen
-		Screen screen = screenService.getScreen(safeNameScreen, dashboard);
+		Screen screen = screenService.findBySafeName(safeNameScreen);
+		if(screen == null) {
+			System.out.println("Screen!?");
+		}
+		
 		model.addAttribute("screen", screen);
 		
 		// get the screens
