@@ -7,5 +7,5 @@ import nl.kolkos.dashboard.objects.ContentType;
 
 @Repository
 public interface ContentTypeRepository extends CrudRepository<ContentType, Long>{
-
+	ContentType findByName(String name);
 }

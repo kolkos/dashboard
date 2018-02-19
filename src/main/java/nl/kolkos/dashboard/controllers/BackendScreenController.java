@@ -117,4 +117,50 @@ public class BackendScreenController {
 		return "redirect:/config/screen/results";
 	}
 	
+	@RequestMapping(value = "/edit/{screenId}", method = RequestMethod.GET)
+	public String editScreenForm(
+			@PathVariable("screenId") long screenId,
+			Model model) {
+		
+		model.addAttribute("title", "Edit screen");
+		model.addAttribute("description", "Edit the details of this screen.");
+		
+		// get the screen
+		if(screenService.findById(screenId) == null) {
+			model.addAttribute("message", "The screen could not be found");
+			return "backend/error";
+		}
+		
+		Iterable<Dashboard> dashboards = dashboardService.findAll();
+		model.addAttribute("dashboards", dashboards);
+		
+		List<String> backgrounds = backendService.loadBackgroundImages();
+		model.addAttribute("backgrounds", backgrounds);
+		
+		Screen screen = screenService.findById(screenId);
+		model.addAttribute("screen", screen);
+		
+		
+		return "backend/screen_edit_form";
+	}
+	
+	@RequestMapping(value = "/edit/{screenId}", method = RequestMethod.POST)
+	public String editScreen(
+			@PathVariable("screenId") long screenId,
+			@ModelAttribute Screen screen,
+			Model model) {
+		
+		if(screenService.findById(screenId) == null) {
+			model.addAttribute("message", "The screen could not be found");
+			return "backend/error";
+		}
+		
+		// set the dashboard id to make sure the dashboard is being updated and not created
+		screen.setId(screenId);
+		
+		screenService.save(screen);
+		
+		return "redirect:/config/screen/results";
+	}
+	
 }

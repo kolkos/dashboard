@@ -26,4 +26,8 @@ public class ContentTypeService {
 	public Iterable<ContentType> findAll(){
 		return contentTypeRepository.findAll();
 	}
+	
+	public ContentType findByName(String name) {
+		return contentTypeRepository.findByName(name);
+	}
 }

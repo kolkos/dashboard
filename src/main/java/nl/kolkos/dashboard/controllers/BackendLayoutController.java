@@ -83,40 +83,7 @@ public class BackendLayoutController {
 		return "backend/panels_list_backend";
 	}
 	
-	/**
-	 * This creates a new panel
-	 * @param safeNameDashboard
-	 * @param safeNameScreen
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/{safeNameDashboard}/{safeNameScreen}/new", method = RequestMethod.POST)
-	public @ResponseBody String createNewPanel
-			(@PathVariable("safeNameDashboard") String safeNameDashboard,
-			@PathVariable("safeNameScreen") String safeNameScreen,
-			@RequestParam("name") String name,
-			@RequestParam("row") int row,
-			@RequestParam("column") int column,
-			@RequestParam("height") int height,
-			@RequestParam("width") int width) {
-		
-		// get the dashboard
-		Dashboard dashboard = dashboardService.findBySafeName(safeNameDashboard);
-		
-		// get the screen
-		Screen screen = screenService.getScreen(safeNameScreen, dashboard);
-		
-		// create a new panel object
-		Panel panel = new Panel();
-		panel.setScreen(screen);
-		panel.setName(name);
-		panel.setRowStart(row);
-		panel.setColumnStart(column);
-		panel.setHeight(height);
-		panel.setWidth(width);
-				
-		return panelService.save(panel);
-	}
+	
 	
 	@RequestMapping(value = "/{safeNameDashboard}/{safeNameScreen}/update", method = RequestMethod.POST)
 	public @ResponseBody String updateThePanel

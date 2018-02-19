@@ -60,7 +60,19 @@ public class ScreenService {
 	
 	
 	public void save(Screen screen) {
-		screen.setSafeName(this.createSafeName(screen.getName()));
+		if(screen.getSafeName() == null) {
+			screen.setSafeName(this.createSafeName(screen.getName()));
+		}
+		
+		if(screen.getIcon().length() < 1) {
+			screen.setIcon(null);
+		}
+		
+		if(screen.getBackgroundImage() != null && screen.getBackgroundImage().length() < 1) {
+			screen.setBackgroundImage(null);
+		}
+		
+		
 		screenRepository.save(screen);
 	}
 	
@@ -74,6 +86,10 @@ public class ScreenService {
 	
 	public Screen getScreen(String safeName, Dashboard dashboard) {
 		return screenRepository.findBySafeNameAndDashboard(safeName, dashboard);
+	}
+	
+	public Screen findBySafeName(String safeName) {
+		return screenRepository.findBySafeName(safeName);
 	}
 	
 	public List<Screen> findAll(){
@@ -96,15 +112,22 @@ public class ScreenService {
 	
 	public void saveNewScreen(Screen screen) {
 		// get the last position for this dashboard
-		int lastLocation = screenRepository.findFirstByDashboardOrderByLocationDesc(screen.getDashboard()).getLocation();
-		lastLocation = lastLocation + 1;
+		int lastLocation;
+		try {
+			lastLocation = screenRepository.findFirstByDashboardOrderByLocationDesc(screen.getDashboard()).getLocation();
+			lastLocation = lastLocation + 1;
+		} catch(NullPointerException e) {
+			lastLocation = 0;
+		}
+		
+		
 		screen.setLocation(lastLocation);
 		
-		if(screen.getBackgroundImage().length() < 1) {
+		if(screen.getBackgroundImage() != null && screen.getBackgroundImage().length() < 1) {
 			screen.setBackgroundImage(null);
 		}
 		
-		if(screen.getIcon().length() < 1) {
+		if(screen.getIcon() != null && screen.getIcon().length() < 1) {
 			screen.setIcon(null);
 		}
 		

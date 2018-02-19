@@ -9,7 +9,7 @@
 	
 	<!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link href="/css/config.css" rel="stylesheet">
+    <link href="/css/config.css" rel="stylesheet">
 </head>
 <body>
 	<div id="menuHolder"></div>
@@ -20,7 +20,7 @@
         <p class="lead" th:text="${description}">Page description</p>
         <br />
         
-	  	<form id="createNewPanel" autocomplete="off" th:object="${screen}" action="#" method="post" th:action="@{/config/screen/add}">
+	  	<form id="createNewPanel" autocomplete="off" th:object="${screen}" action="#" method="post" th:action="@{/config/screen/edit/{id}(id=${screen.id})}">
 			<div class="form-group row">
 				<!-- This field is just used to filter the screens -->
 				<label for="dashboard" class="col-sm-4 col-form-label">Dashboard: </label>
@@ -51,7 +51,7 @@
 				<div class="col">
 					<input type="text" th:field="*{icon}" class="form-control trigger-change" placeholder="icon" />
 					<small id="passwordHelpBlock" class="form-text text-muted">
-  						This application uses the icons from <a href="https://useiconic.com/open/" target="_blank">https://useiconic.com/open/</a>. Provide the class from the Bootstrap icon font. For example: 'oi oi-home'.
+  						This application uses the icons from <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">https://fontawesome.com/icons</a>. Paste the class of this icon in this field. For example 'fas fa-home'.
 					</small>
 				</div>
 			</div>
@@ -70,7 +70,9 @@
 				</div>
 			</div>
 			
-			<input type="submit" class="btn btn-primary btn-lg btn-block" value="Create dashboard" />
+			<input type="hidden" th:field="*{location}" />
+			
+			<input type="submit" class="btn btn-warning btn-lg btn-block" value="Edit screen" />
 			
 		</form>
 	</div>

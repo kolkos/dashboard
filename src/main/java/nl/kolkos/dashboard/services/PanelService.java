@@ -26,29 +26,8 @@ public class PanelService {
 	private static final int MAX_ROWS = 8;
 	private static final int MAX_COLUMNS = 8;
 	
-	public String save(Panel panel) {
-		// first create a Panel ID
-		String panelId = this.createPanelId(panel.getName());
-		
-		// now check if this panel already exists
-		Panel tempPanel = panelRepository.findByPanelIdAndScreen(panelId, panel.getScreen());
-		String message = ""; 
-		if(tempPanel != null) {
-			message = contentBuilderService.buildDismissibleAlert("There is already a panel on this page with the same name.", "alert-danger");
-		} else {
-			// panel does not exist, add the panel ID
-			panel.setPanelId(panelId);
-			
-			// save the panel
-			panelRepository.save(panel);
-			
-			// build a message
-			message = contentBuilderService.buildDismissibleAlert("Panel successfully created.", "alert-success");
-		}
-		tempPanel = null;
-		
-		
-		return message;
+	public void save(Panel panel) {
+		panelRepository.save(panel);
 	}
 	
 	public void createNewPanel(Panel panel) {
