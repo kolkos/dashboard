@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+	<title th:text="${title}">Title</title>
+	
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="/css/open-iconic-bootstrap.css" rel="stylesheet">
+	<link href="/css/config.css" rel="stylesheet">
+</head>
+<body>
+	<div id="menuHolder"></div>
+
+	<div class="container-fluid" style="width: 90%;">
+	  	<h1 th:text="${title}">Title</h1>
+        <p class="lead" th:text="${description}">Page description</p>
+        <br/>
+        
+        
+        <div id="configPageWrapper">
+        		<div id="selectScreenFormDiv">
+        			<form>
+				  <div class="form-row">
+				  	<label for="dashboard" class="col-sm-1 col-form-label">Dashboard:</label>
+				    <div class="form-group col">
+				      	<select name="dashboard" id="dashboard" class="form-control">
+							<option value="">- Select dashboard -</option>
+							<option th:each="dashboard : ${dashboards}" th:text="${dashboard.name}" th:value="${dashboard.id}" th:selected="${dashboard.id} == ${dashboardId}">Dashboard</option> 
+						</select>
+				    </div>
+				    <label for="screen" class="col-sm-1 col-form-label">Screen:</label>
+				    <div class="form-group col">
+				      <select name="screen" id="screen" class="form-control">
+							<option value="">- Select screen -</option>
+							<option th:each="screen : ${screens}" th:text="${screen.name}" th:value="${screen.id}" th:selected="${screen.id} == ${screenId}">Screen</option> 
+						</select>
+				    </div>
+				    
+				  </div>
+				</form>
+        		
+        		
+        		</div>
+        		<div id="editPanelFormHolder"></div>
+        		<div id="demoWrapperHolder"></div>
+        </div>
+        
+	</div>
+	
+	
+	
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+	
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/loadMenu.js"></script>
+    
+    <script type="text/javascript">
+	    $('#dashboard').change(function(){
+			var dashboardId = $(this).val();
+	
+			window.location.href = "/config/layout/edit?dashboardId=" + dashboardId;
+	
+		});
+
+	    $('#screen').change(function(){
+			var screenId = $(this).val();
+			var dashboardId = $('#dashboard').val();
+	
+			window.location.href = "/config/layout/edit?dashboardId=" + dashboardId + "&screenId=" + screenId;
+	
+		});
+
+	    $(function() {
+	    		var screenId = $("#screen").val();
+	    		// only load if the screen is not empty
+	    		if(screenId.length > 0){
+				console.log("Screen ID has been set to " + screenId);
+				loadPreview(screenId);
+			}
+	    		loadPanelForm("NONE");
+        });
+
+        function loadPreview(screenId){
+        		var url = "/config/layout/loadPanelsForScreen";
+			var formData = {screenId: screenId};
+			$.get(url, formData,
+				function(data){
+					$('#demoWrapperHolder').html(data);
+				        
+			});
+
+
+        }
+
+        function loadPanelForm(panelId){
+    			var url = "/config/layout/loadPanelForm";
+			var formData = {panelId: panelId};
+			$.get(url, formData,
+				function(data){
+					$('#editPanelFormHolder').html(data);
+				        
+			});
+        }
+
+        $('div').on("click", "div.box", function(){
+			// this method is triggered when clicking on a ID
+			var id = $(this).attr("id");
+			loadPanelForm(id);
+			changeColorOfSelectedPanel(id);
+		});
+
+        function changeColorOfSelectedPanel(id){
+        		console.log(id);
+            
+			// first change all to lime
+			$('.box').each(function(){
+				$(this).removeClass( "selected" )
+				
+			});
+
+			// now set the selected class
+			$('#' + id).addClass("selected");
+		}
+
+		function changePositionOfPanel(formData){
+			console.log(formData);
+
+			var url = "/config/layout/movePanel";
+			$.get(url, formData,
+				function(data){
+					$('#editPanelFormHolder').html(data);
+					
+					// update the preview screen
+					var screenId = $("#screen").val();
+					loadPreview(screenId);
+
+					
+				        
+			});			
+		}
+
+		function selectPanelAgain(){
+			// select the panel again
+			var panelId = $('#panelId').val();
+			changeColorOfSelectedPanel(panelId);
+		
+		}
+		
+    </script>
+   
+ 	
+</body>
+</html>

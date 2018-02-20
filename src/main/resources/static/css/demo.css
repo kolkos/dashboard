@@ -1,9 +1,11 @@
 #demoWrapper{
 	display: grid;
 	grid-gap: 2px;
-	grid-template-columns: repeat(8, 50px);
-	grid-template-rows: repeat(8, 30px);
+	grid-template-columns: repeat(8, 1fr);
+	grid-template-rows: repeat(8, 1fr);
 	padding: 5px;
+	border: 1px dotted #333;
+	min-height: 400px;
 	
 }
 

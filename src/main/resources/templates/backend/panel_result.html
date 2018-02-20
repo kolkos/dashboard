@@ -51,7 +51,8 @@
 		      <th scope="col">Panel ID</th>
 		      <th scope="col">Content type</th>
 		      <th scope="col">Edit panel</th>
-		      <th scope="col">Open screen</th>
+		      <th scope="col">Change content</th>
+		      <th scope="col">Screen layout</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -63,10 +64,22 @@
 		    		<td th:text="${panel.panelId}">Panel ID</td>
 		    		<td th:text="${panel.contentType.name}">Content Type</td>
 		    		<td>
-		    			<span class="oi oi-pencil" title="edit panel" aria-hidden="true"></span>
+		    			<a th:href="@{/config/panel/edit/{id}(id=${panel.id})}" style="color: black;">
+		    				<span class="oi oi-pencil" title="edit screen" aria-hidden="true"></span>
+		    			</a>
+		    			
 		    		</td>
 		    		<td>
-		    			<span class="oi oi-grid-three-up" title="edit panel" aria-hidden="true"></span>
+		    			<a th:href="@{/config/panel/content/{contentType}/{id}(id=${panel.id}, contentType=${panel.contentType.name})}" style="color: black;">
+		    				<span class="oi oi-paperclip" title="change content" aria-hidden="true"></span>
+		    			</a>
+		    			
+		    		</td>
+		    		<td>
+		    			<a th:href="@{/config/layout/edit(dashboardId=${panel.screen.dashboard.id},screenId=${panel.screen.id})}" style="color: black;">
+		    				<span class="oi oi-grid-four-up" title="edit screen layout" aria-hidden="true"></span>
+		    			</a>
+		    			
 		    		</td>
 		    </tr>
 		  </tbody>

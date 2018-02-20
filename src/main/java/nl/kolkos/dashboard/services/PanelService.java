@@ -30,6 +30,10 @@ public class PanelService {
 		panelRepository.save(panel);
 	}
 	
+	public Panel findById(long id) {
+		return panelRepository.findById(id);
+	}
+	
 	public void createNewPanel(Panel panel) {
 		// set the default position attributes
 		panel.setRowStart(1);
@@ -97,7 +101,9 @@ public class PanelService {
 		}
 	}
 	
-	
+	public Panel findByPanelId(String panelId) {
+		return panelRepository.findByPanelId(panelId);
+	}
 	
 	
 	public List<Panel> getPanelsForScreen(Screen screen){

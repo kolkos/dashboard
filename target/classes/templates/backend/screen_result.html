@@ -84,8 +84,8 @@
 		    		</td>
 		    		
 		    		<td>
-		    			<a th:href="@{/config/layout/edit/{id}(id=${screen.id})}" style="color: black;">
-		    				<span class="oi oi-grid-three-up" title="edit layout" aria-hidden="true"></span>
+		    			<a th:href="@{/config/layout/edit(dashboardId=${screen.dashboard.id},screenId=${screen.id})}" style="color: black;">
+		    				<span class="oi oi-grid-four-up" title="edit screen layout" aria-hidden="true"></span>
 		    			</a>
 		    			
 		    		</td>

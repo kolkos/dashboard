@@ -1,0 +1,130 @@
+<div id="editLayoutPanelFormDiv" xmlns:th="http://www.thymeleaf.org">
+	
+	<div th:if="${message} != null" th:class="${alertClass}" th:text="${message}">Message</div>
+       
+  	<form id="editPanelPosition" autocomplete="off" th:object="${panel}" th:if="${panel} != null">
+		<h4 th:text="${'Change position of ' + panel.name}"></h4>
+		<div class="form-group row">
+			<label for="name" class="col-sm-3 col-form-label">Panel name: </label>
+			<div class="col">
+				<input type="text" readonly="readonly" th:field="*{name}" required="required" class="form-control-plaintext" placeholder="Panel name" />
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="panelId" class="col-sm-3 col-form-label">Panel ID: </label>
+			<div class="col">
+				<input type="text" readonly="readonly" th:field="*{panelId}" required="required" class="form-control-plaintext" placeholder="Panel name" />
+			</div>
+		</div>
+		
+		
+		
+		
+		<div class="form-group row">
+			<label for="rowStart" class="col-sm-3 col-form-label">Start row: </label>
+			<div class="col">
+				<div class="input-group">
+				  <input type="number" class="form-control" placeholder="Start row" th:field="*{rowStart}" />
+				  <div class="input-group-append">
+				    <button class="btn btn-outline-secondary move rowStart up" type="button"><span class="oi oi-arrow-bottom" title="Move up" aria-hidden="true" style="width: 30px;"></span></button>
+				    <button class="btn btn-outline-secondary move rowStart down" type="button"><span class="oi oi-arrow-top" title="Move down" aria-hidden="true" style="width: 30px;"></span></button>
+				  </div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="form-group row">
+			<label for="columnStart" class="col-sm-3 col-form-label">Start column: </label>
+			<div class="col">
+				<div class="input-group">
+				  <input type="number" class="form-control" placeholder="Start column" th:field="*{columnStart}" />
+				  <div class="input-group-append">
+				    <button class="btn btn-outline-secondary move columnStart left" type="button"><span class="oi oi-arrow-left" title="Move left" aria-hidden="true" style="width: 30px;"></span></button>
+				    <button class="btn btn-outline-secondary move columnStart right" type="button"><span class="oi oi-arrow-right" title="Move right" aria-hidden="true" style="width: 30px;"></span></button>
+				  </div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="height" class="col-sm-3 col-form-label">Height: </label>
+			<div class="col">
+				<div class="input-group">
+				  <input type="number" class="form-control" placeholder="Height"  th:field="*{height}" />
+				  <div class="input-group-append">
+				    <button class="btn btn-outline-secondary move height smaller" type="button"><span class="oi oi-arrow-bottom" title="Smaller" aria-hidden="true" style="width: 30px;"></span></button>
+				    <button class="btn btn-outline-secondary move height bigger" type="button"><span class="oi oi-arrow-top" title="Bigger" aria-hidden="true" style="width: 30px;"></span></button>
+				  </div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="width" class="col-sm-3 col-form-label">Width: </label>
+			<div class="col">
+				<div class="input-group">
+				  <input type="number" class="form-control" placeholder="Width" th:field="*{width}" />
+				  <div class="input-group-append">
+				    <button class="btn btn-outline-secondary move width smaller" type="button"><span class="oi oi-arrow-left" title="Smaller" aria-hidden="true" style="width: 30px;"></span></button>
+				    <button class="btn btn-outline-secondary move width wider" type="button"><span class="oi oi-arrow-right" title="Wider" aria-hidden="true" style="width: 30px;"></span></button>
+				  </div>
+				</div>
+			</div>
+		</div>
+		
+				
+		
+	</form>
+</div>
+
+<script>
+	$('button.move').click(function(){
+		// get the form field id and the action from the class
+		var btnClass = $(this).attr("class");
+		var formFieldId = btnClass.split(" ")[3];
+		var action = btnClass.split(" ")[4];
+
+		// get the current value of the field
+		var currentValue = parseInt($('#' + formFieldId).val());
+		var newValue = 1;
+
+		switch(action) {
+		    case "up":
+		    case "right":
+		    case "bigger":
+		    case "wider":
+		    		newValue = currentValue + 1;
+		        break;
+		    case "down":
+		    case "left":
+		    case "smaller":
+		    		newValue = currentValue - 1;
+		        break;
+		    default:
+		    		newValue = currentValue;
+		}
+
+		// check the limits
+		if(newValue > 8){
+			newValue = 8;
+		}
+		if(newValue < 1){
+			newValue = 1;
+		}
+
+		$('#' + formFieldId).val(newValue);
+
+		// send an 'change' trigger
+		$('#editPanelPosition').trigger("change");
+	});
+
+	$('#editPanelPosition').change(function(){
+		console.log("form edited");
+
+		// get the values
+		var formData = $( "#editPanelPosition" ).serialize(); 
+		changePositionOfPanel(formData);
+    });
+</script>

@@ -1,5 +1,6 @@
 package nl.kolkos.dashboard.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,85 +31,202 @@ public class BackendLayoutController {
 	@Autowired
 	private PanelService panelService;
 	
-	/**
-	 * This loads the overal configuration page for the selected dashboard / screen
-	 * @param safeNameDashboard
-	 * @param safeNameScreen
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/{safeNameDashboard}/{safeNameScreen}", method = RequestMethod.GET)
-	public String loadConfigPageForScreen(@PathVariable("safeNameDashboard") String safeNameDashboard,
-			@PathVariable("safeNameScreen") String safeNameScreen,
+//	/**
+//	 * This loads the overal configuration page for the selected dashboard / screen
+//	 * @param safeNameDashboard
+//	 * @param safeNameScreen
+//	 * @param model
+//	 * @return
+//	 */
+//	@RequestMapping(value = "/{safeNameDashboard}/{safeNameScreen}", method = RequestMethod.GET)
+//	public String loadConfigPageForScreen(@PathVariable("safeNameDashboard") String safeNameDashboard,
+//			@PathVariable("safeNameScreen") String safeNameScreen,
+//			Model model) {
+//		
+//		// get the dashboard
+//		Dashboard dashboard = dashboardService.findBySafeName(safeNameDashboard);
+//		model.addAttribute("dashboard", dashboard);
+//		
+//		// get the screen
+//		Screen screen = screenService.getScreen(safeNameScreen, dashboard);
+//		model.addAttribute("screen", screen);
+//		
+//		Panel panel = new Panel();
+//		model.addAttribute("panel", panel);
+//		
+//		
+//		return "backend/panel_edit";
+//	}
+//	
+//	/**
+//	 * This creates a result page for the panels
+//	 * @param safeNameDashboard
+//	 * @param safeNameScreen
+//	 * @param model
+//	 * @return
+//	 */
+//	@RequestMapping(value = "/{safeNameDashboard}/{safeNameScreen}/results", method = RequestMethod.GET)
+//	public String loadPanelsForScreen(@PathVariable("safeNameDashboard") String safeNameDashboard,
+//			@PathVariable("safeNameScreen") String safeNameScreen,
+//			Model model) {
+//		
+//		// get the dashboard
+//		Dashboard dashboard = dashboardService.findBySafeName(safeNameDashboard);
+//		model.addAttribute("dashboard", dashboard);
+//		
+//		// get the screen
+//		Screen screen = screenService.getScreen(safeNameScreen, dashboard);
+//		
+//		// get the panels for this screen
+//		List<Panel> panels = panelService.getPanelsForScreen(screen);
+//		model.addAttribute("panels", panels);
+//		
+//		return "backend/panels_list_backend";
+//	}
+//	
+//	
+//	
+//	@RequestMapping(value = "/{safeNameDashboard}/{safeNameScreen}/update", method = RequestMethod.POST)
+//	public @ResponseBody String updateThePanel
+//			(@PathVariable("safeNameDashboard") String safeNameDashboard,
+//			@PathVariable("safeNameScreen") String safeNameScreen,
+//			@RequestParam("id") String panelId,
+//			@RequestParam("row") int row,
+//			@RequestParam("column") int column,
+//			@RequestParam("height") int height,
+//			@RequestParam("width") int width) {
+//		
+//		// get the dashboard
+//		Dashboard dashboard = dashboardService.findBySafeName(safeNameDashboard);
+//		
+//		// get the screen
+//		Screen screen = screenService.getScreen(safeNameScreen, dashboard);
+//		
+//		// finally get the panel
+//		Panel panel = panelService.findPanelByPanelIdAndScreen(panelId, screen);
+//		panel.setRowStart(row);
+//		panel.setColumnStart(column);
+//		panel.setHeight(height);
+//		panel.setWidth(width);
+//		
+//		
+//		return panelService.updatePanelPosition(panel);
+//	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public String editLayoutPage(
+			@RequestParam(value = "screenId", required = false) String screenId,
+			@RequestParam(value = "dashboardId", required = false) String dashboardId,
 			Model model) {
 		
-		// get the dashboard
-		Dashboard dashboard = dashboardService.findBySafeName(safeNameDashboard);
-		model.addAttribute("dashboard", dashboard);
+		model.addAttribute("title", "Edit screen layout");
+		model.addAttribute("description", "Change the layout of a screen. After selecting a screen, the screen layout will be loaded.");
 		
-		// get the screen
-		Screen screen = screenService.getScreen(safeNameScreen, dashboard);
-		model.addAttribute("screen", screen);
+		// check if the dashboard id is empty
+		if(dashboardId != null && !dashboardId.equals("")) {
+			long dashboardIdLong = Long.parseLong(dashboardId);
+			model.addAttribute("dashboardId", dashboardIdLong);
+		}
 		
-		Panel panel = new Panel();
+		// check if the screen id is empty
+		if(screenId != null && !screenId.equals("")) {
+			long screenIdLong = Long.parseLong(screenId);
+			model.addAttribute("screenId", screenIdLong);
+		}
+		
+		// get the dashboards
+		Iterable<Dashboard> dashboards = dashboardService.findAll();
+		model.addAttribute("dashboards", dashboards);
+		
+		// get the screens
+		List<Screen> screens = screenService.findScreens();
+		model.addAttribute("screens", screens);
+		
+		
+		
+		
+		return "backend/layout_edit";
+	}
+	
+	
+	@RequestMapping(value = "/loadPanelForm", method = RequestMethod.GET)
+	public String loadPanelForm(
+			@RequestParam(value = "panelId", required = false) String panelId,
+			Model model) {
+		
+		if(panelId.equals("NONE")) {
+			model.addAttribute("message", "Click on a panel to load the form.");
+			model.addAttribute("alertClass", "alert alert-info");
+			return "backend/layout_edit_panel_form";
+		}
+		
+		
+		Panel panel = panelService.findByPanelId(panelId);
+		if(panel == null) {
+			model.addAttribute("message", "Panel could not be found.");
+			model.addAttribute("alertClass", "alert alert-danger");
+			return "backend/layout_edit_panel_form";
+		}
 		model.addAttribute("panel", panel);
 		
 		
-		return "backend/panel_edit";
+		
+		return "backend/layout_edit_panel_form";
 	}
 	
-	/**
-	 * This creates a result page for the panels
-	 * @param safeNameDashboard
-	 * @param safeNameScreen
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/{safeNameDashboard}/{safeNameScreen}/results", method = RequestMethod.GET)
-	public String loadPanelsForScreen(@PathVariable("safeNameDashboard") String safeNameDashboard,
-			@PathVariable("safeNameScreen") String safeNameScreen,
+	@RequestMapping(value = "/loadPanelsForScreen", method = RequestMethod.GET)
+	public String loadPanelsForScreen(
+			@RequestParam(value = "screenId", required = false) long screenId,
 			Model model) {
 		
-		// get the dashboard
-		Dashboard dashboard = dashboardService.findBySafeName(safeNameDashboard);
-		model.addAttribute("dashboard", dashboard);
+		Screen screen = screenService.findById(screenId);
+		if(screen == null) {
+			model.addAttribute("message", "This screen could not be found");
+			return "backend/layout_preview_screen";
+		}
+		model.addAttribute("screen", screen);
 		
-		// get the screen
-		Screen screen = screenService.getScreen(safeNameScreen, dashboard);
-		
-		// get the panels for this screen
+		// load panels for screen
 		List<Panel> panels = panelService.getPanelsForScreen(screen);
 		model.addAttribute("panels", panels);
 		
-		return "backend/panels_list_backend";
+		return "backend/layout_preview_screen";
 	}
 	
-	
-	
-	@RequestMapping(value = "/{safeNameDashboard}/{safeNameScreen}/update", method = RequestMethod.POST)
-	public @ResponseBody String updateThePanel
-			(@PathVariable("safeNameDashboard") String safeNameDashboard,
-			@PathVariable("safeNameScreen") String safeNameScreen,
-			@RequestParam("id") String panelId,
-			@RequestParam("row") int row,
-			@RequestParam("column") int column,
-			@RequestParam("height") int height,
-			@RequestParam("width") int width) {
+	@RequestMapping(value = "/movePanel", method = RequestMethod.GET)
+	public String movePanel(
+			@RequestParam(value = "panelId", required = true) String panelId,
+			@RequestParam(value = "rowStart", required = true) int rowStart,
+			@RequestParam(value = "columnStart", required = true) int columnStart,
+			@RequestParam(value = "height", required = true) int height,
+			@RequestParam(value = "width", required = true) int width,
+			Model model) {
 		
-		// get the dashboard
-		Dashboard dashboard = dashboardService.findBySafeName(safeNameDashboard);
+		Panel panel = panelService.findByPanelId(panelId);
+		if(panel == null) {
+			model.addAttribute("message", "Panel could not be found.");
+			model.addAttribute("alertClass", "alert alert-danger");
+			return "backend/layout_edit_panel_form";
+		}
 		
-		// get the screen
-		Screen screen = screenService.getScreen(safeNameScreen, dashboard);
-		
-		// finally get the panel
-		Panel panel = panelService.findPanelByPanelIdAndScreen(panelId, screen);
-		panel.setRowStart(row);
-		panel.setColumnStart(column);
+		// set new values
+		panel.setRowStart(rowStart);
+		panel.setColumnStart(columnStart);
 		panel.setHeight(height);
 		panel.setWidth(width);
 		
+		// save the panel
+		panelService.save(panel);
 		
-		return panelService.updatePanelPosition(panel);
+		// set the message
+		model.addAttribute("message", "Panel updated.");
+		model.addAttribute("alertClass", "alert alert-info");
+		
+		// finally set the panel
+		model.addAttribute("panel", panel);
+		return "backend/layout_edit_panel_form";
 	}
+	
+	
+	
 }

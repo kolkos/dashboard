@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+	<title th:text="${title}">Title</title>
+	
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href="/css/config.css" rel="stylesheet">
+</head>
+<body>
+	<div id="menuHolder"></div>
+
+
+	<div class="container">
+		<h1 th:text="${title}">Title</h1>
+        <p class="lead" th:text="${description}">Page description</p>
+        <br />
+        
+	  	<form id="editPanel" autocomplete="off" th:object="${panel}" action="#" method="post" th:action="@{/config/panel/edit/{id}(id=${panel.id})}">
+			<div class="form-group row">
+				<!-- This field is just used to filter the screens -->
+				<label for="dashboard" class="col-sm-4 col-form-label">Dashboard: </label>
+				<div class="col">
+					<select name="dashboard" id="dashboard" class="form-control">
+						<option value="">- Select a dashboard -</option>
+						<option th:each="dashboard : ${dashboards}" th:text="${dashboard.name}" th:value="${dashboard.id}" th:selected="${dashboard.id} == ${dashId}">Dashboard</option> 
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<!-- This field is just used to filter the screens -->
+				<label for="screen" class="col-sm-4 col-form-label">Screen: </label>
+				<div class="col">
+					<select th:field="*{screen}" class="form-control" required="required">
+						<option value="">- Select the screen -</option>
+						<option th:each="screen : ${screens}" th:text="${screen.name}" th:value="${screen.id}" th:selected="${screen.id} == ${screenId}">Screen</option> 
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<!-- This field is just used to filter the screens -->
+				<label for="dashboard" class="col-sm-4 col-form-label">Content Type: </label>
+				<div class="col">
+					<select th:field="*{contentType}" class="form-control">
+						<option value="">- Select the content type -</option>
+						<option th:each="contentType : ${contentTypes}" th:text="${contentType.name}" th:value="${contentType.id}">Content Type</option> 
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="name" class="col-sm-4 col-form-label">Panel name: </label>
+				<div class="col">
+					<input type="text" th:field="*{name}" required="required" class="form-control trigger-change" placeholder="Panel name" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="panelId" class="col-sm-4 col-form-label">Panel ID: </label>
+				<div class="col">
+					<input type="text" th:field="*{panelId}" required="required" class="form-control trigger-change" placeholder="Panel ID (generated automatically)" />
+				</div>
+			</div>
+			
+			<p class="alert alert-info">The following values can also be edited by using the layout view. This gives you a live preview of the changes.</p>
+			
+			<div class="form-group row">
+				<label for="rowStart" class="col-sm-4 col-form-label">Start row: </label>
+				<div class="col">
+					<input type="number" th:field="*{rowStart}" required="required" class="form-control trigger-change" placeholder="Start row" step="1" min="1" max="8" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="columnStart" class="col-sm-4 col-form-label">Start column: </label>
+				<div class="col">
+					<input type="number" th:field="*{columnStart}" required="required" class="form-control trigger-change" placeholder="Start column" step="1" min="1" max="8" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="height" class="col-sm-4 col-form-label">Height: </label>
+				<div class="col">
+					<input type="number" th:field="*{height}" required="required" class="form-control trigger-change" placeholder="Height" step="1" min="1" max="8" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="width" class="col-sm-4 col-form-label">Width: </label>
+				<div class="col">
+					<input type="number" th:field="*{width}" required="required" class="form-control trigger-change" placeholder="Width" step="1" min="1" max="8" />
+				</div>
+			</div>
+			
+			<input type="submit" class="btn btn-warning btn-lg btn-block" value="Edit panel" />
+			
+		</form>
+	</div>
+	
+	
+	
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+	
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/loadMenu.js"></script>
+    
+    <script type="text/javascript">
+		$('#dashboard').change(function(){
+			var dashboardId = $(this).val();
+
+			window.location.href = window.location.href + "?dashboardId=" + dashboardId;
+
+		});
+
+		$('#name').keyup(function(){
+			
+			var name = $(this).val();
+			
+			var url = "/config/panel/generate_panel_id";
+			var formData = {name: name};
+			$.get(url, formData,
+				    function(data){
+				        $('#panelId').val(data);
+				        
+				    });
+		});
+    </script>
+   
+ 	
+</body>
+</html>

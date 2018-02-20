@@ -5,29 +5,25 @@ body{
 }
 
 #configPageWrapper{
-	padding: 20px;
 	display: grid;
 	grid-gap: 10px;
 	grid-template: 
-		'form1 result'
+		'form1 form1'
 		'form2 demo';
 	grid-template-columns: 40% 60%;
 	grid-template-rows: 50px auto;
 	
 }
 
-#formResult{
-	grid-area: result;
-	
-}
-#newPanelFormHolder{
-	grid-area: form1;
-	border-bottom: 1px dotted #333;
-}
+
 #editPanelFormHolder{
 	grid-area: form2;
 	
 }
 #demoWrapperHolder{
 	grid-area: demo;
+}
+#selectScreenFormDiv{
+	grid-area: form1;
+	border-bottom: 1px dotted #333;
 }
