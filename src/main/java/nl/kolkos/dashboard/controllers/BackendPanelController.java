@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.kolkos.dashboard.objects.Dashboard;
+import nl.kolkos.dashboard.objects.Device;
 import nl.kolkos.dashboard.objects.Panel;
 import nl.kolkos.dashboard.objects.Screen;
 import nl.kolkos.dashboard.services.ContentTypeService;
 import nl.kolkos.dashboard.services.DashboardService;
+import nl.kolkos.dashboard.services.DeviceService;
+import nl.kolkos.dashboard.services.DomoticzSyncService;
 import nl.kolkos.dashboard.services.PanelService;
 import nl.kolkos.dashboard.services.ScreenService;
 
@@ -35,6 +38,12 @@ public class BackendPanelController {
 	
 	@Autowired
 	private PanelService panelService;
+	
+	@Autowired
+	private DomoticzSyncService domoticzSyncService;
+	
+	@Autowired
+	private DeviceService deviceService;
 	
 	/*
 	 * =================================================
@@ -229,5 +238,24 @@ public class BackendPanelController {
 		panelService.save(panel);
 		
 		return "redirect:/config/panel/results";
+	}
+	
+	@RequestMapping(value = "/content/Device/{panelId}", method = RequestMethod.GET)
+	public String editPanelForm(
+			@PathVariable("panelId") long panelId,
+			Model model) {
+		
+		model.addAttribute("title", "Edit panel content");
+		model.addAttribute("description", "This page let's you select a Domoticz Device to display.");
+		
+		// sync the devices
+		domoticzSyncService.syncDevices();
+		
+		// now get the devices
+		List<Device> devices = deviceService.findAllDevices();
+		
+		model.addAttribute("devices", devices);
+
+		return "backend/panel_content_device_form";
 	}
 }

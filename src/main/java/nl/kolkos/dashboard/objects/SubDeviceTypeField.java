@@ -19,6 +19,8 @@ public class SubDeviceTypeField {
 	private SubDeviceType subDeviceType;
 	
 	private String field;
+	
+	private boolean statusField; // this determines if the field is displayed as the status on a panel
 
 	public Long getId() {
 		return id;
@@ -42,6 +44,14 @@ public class SubDeviceTypeField {
 
 	public void setField(String field) {
 		this.field = field;
+	}
+
+	public boolean isStatusField() {
+		return statusField;
+	}
+
+	public void setStatusField(boolean statusField) {
+		this.statusField = statusField;
 	}
 	
 	

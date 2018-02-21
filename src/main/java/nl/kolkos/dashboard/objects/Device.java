@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -21,6 +22,7 @@ public class Device {
 	@JoinColumn(name = "sub_device_type_id")
 	private SubDeviceType subDeviceType;
 	
+	private String name;
 	
 	
 	public SubDeviceType getSubDeviceType() {
@@ -40,6 +42,13 @@ public class Device {
 	}
 	public void setIdx(int idx) {
 		this.idx = idx;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

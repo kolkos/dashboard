@@ -1,7 +1,9 @@
 package nl.kolkos.dashboard.services;
 
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -98,7 +100,9 @@ public class DomoticzSyncService {
 				Device device = new Device();
 				device.setIdx(idx);
 				device.setSubDeviceType(subDeviceType);
+				device.setName(name);
 				
+								
 				deviceService.save(device);
 			
 				
@@ -111,6 +115,7 @@ public class DomoticzSyncService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	
 }
