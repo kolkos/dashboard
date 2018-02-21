@@ -37,11 +37,15 @@ public class InstallerService {
 	@Autowired
 	private DeviceTypeService deviceTypeService;
 	
+	@Autowired
+	private SubDeviceTypeService subDeviceTypeService;
+	
 	private List<InstallLogLine> logLines = new ArrayList<>();
 	
 	
 	
 	public List<InstallLogLine> installDefaultData() {
+		logLines = new ArrayList<>();
 		logLines.add(new InstallLogLine("General", "Starting installation", ""));
 		
 		this.createDashboards();
@@ -62,21 +66,31 @@ public class InstallerService {
 	private void createDashboards() {
 		logLines.add(new InstallLogLine("Dashboard", "Creating default dashboard(s)", "Creating the default dashboards."));
 		logLines.add(new InstallLogLine("Dashboard", "Creating dashboard 'Default'", ""));
-		// create a Dashboard
-		Dashboard defaultDashboard = new Dashboard();
-		defaultDashboard.setName("Default");
-		defaultDashboard.setSafeName(dashboardService.createSafeName(defaultDashboard.getName()));
-		defaultDashboard.setDefaultDashboard(true);
-		dashboardService.save(defaultDashboard);
 		
-		String dashboardLine = String.format("Dashboard name: '%s'.%n"
-				+ "Dasboard safe name: '%s'.%n"
-				+ "Default dashboard: '%s'.",
-				defaultDashboard.getName(),
-				defaultDashboard.getSafeName(),
-				defaultDashboard.isDefaultDashboard());
 		
-		logLines.add(new InstallLogLine("Dashboard", "'Default' Dashboard created", dashboardLine));
+		// check if the dashboard exists
+		if(dashboardService.findBySafeName("Default") == null) {
+			logLines.add(new InstallLogLine("Dashboard", "'Default' dashboard does not exist.", ""));
+			
+			// create a Dashboard
+			Dashboard defaultDashboard = new Dashboard();
+			defaultDashboard.setName("Default");
+			defaultDashboard.setSafeName(dashboardService.createSafeName(defaultDashboard.getName()));
+			defaultDashboard.setDefaultDashboard(true);
+			dashboardService.save(defaultDashboard);
+			
+			String dashboardLine = String.format("Dashboard name: '%s'.%n"
+					+ "Dasboard safe name: '%s'.%n"
+					+ "Default dashboard: '%s'.",
+					defaultDashboard.getName(),
+					defaultDashboard.getSafeName(),
+					defaultDashboard.isDefaultDashboard());
+			
+			logLines.add(new InstallLogLine("Dashboard", "'Default' Dashboard created", dashboardLine));
+		}else {
+			logLines.add(new InstallLogLine("Dashboard", "'Default' dashboard does exists.", "Skip creating this dashboard."));
+		}
+		logLines.add(new InstallLogLine("Dashboard", "All dashboards created.", "Finished creating dashboards"));
 				
 	}
 	
@@ -90,54 +104,53 @@ public class InstallerService {
 			return;
 		}
 		
-		logLines.add(new InstallLogLine("Screen", "Creating dashboard 'Home'", ""));
+		List<Screen> screens = new ArrayList<>();
 		
 		Screen homeScreen = new Screen();
 		homeScreen.setName("Home");
-		homeScreen.setSafeName(screenService.createSafeName(homeScreen.getName()));
+		homeScreen.setSafeName("Home");
 		homeScreen.setIcon("fas fa-home");
 		homeScreen.setLocation(0);
 		homeScreen.setDashboard(defaultDashboard);
-		screenService.saveNewScreen(homeScreen);
-		
-		String screenLine = String.format("Screen name: '%s'.%n"
-				+ "Safe name: '%s'.%n"
-				+ "Icon: '%s'.%n"
-				+ "Location: %d.%n"
-				+ "Dashboard: '%s'.", 
-				homeScreen.getName(),
-				homeScreen.getSafeName(),
-				homeScreen.getIcon(),
-				homeScreen.getLocation(),
-				homeScreen.getDashboard().getName());
-		
-		logLines.add(new InstallLogLine("Screen", "Screen created", screenLine));
-		
-		
-		logLines.add(new InstallLogLine("Screen", "Creating dashboard 'Living room'", ""));
-		
+		screens.add(homeScreen);
+				
 		Screen livingRoomScreen = new Screen();
 		livingRoomScreen.setName("Living room");
-		livingRoomScreen.setSafeName(screenService.createSafeName(livingRoomScreen.getName()));
+		livingRoomScreen.setSafeName("Living_room");
 		livingRoomScreen.setIcon("fas fa-glass-martini");
 		livingRoomScreen.setLocation(1);
 		livingRoomScreen.setDashboard(defaultDashboard);
-		screenService.saveNewScreen(livingRoomScreen);
+		screens.add(livingRoomScreen);
 		
-		screenLine = String.format("Screen name: '%s'.%n"
-				+ "Safe name: '%s'.%n"
-				+ "Icon: '%s'.%n"
-				+ "Location: %d.%n"
-				+ "Dashboard: '%s'.", 
-				livingRoomScreen.getName(),
-				livingRoomScreen.getSafeName(),
-				livingRoomScreen.getIcon(),
-				livingRoomScreen.getLocation(),
-				livingRoomScreen.getDashboard().getName());
+		// now loop through the screens
+		for(Screen screen : screens) {
+			
+			// check if the screen already exists
+			if(screenService.findBySafeName(screen.getSafeName()) != null) {
+				// screen exists
+				logLines.add(new InstallLogLine("Screen", "Screen already exists", String.format("Skip creating screen '%s'.", screen.getName())));
+				continue;
+			}
+			// Screen does not exist, create a line for the log
+			String screenLine = String.format("Screen name: '%s'.%n"
+					+ "Safe name: '%s'.%n"
+					+ "Icon: '%s'.%n"
+					+ "Location: %d.%n"
+					+ "Dashboard: '%s'.", 
+					screen.getName(),
+					screen.getSafeName(),
+					screen.getIcon(),
+					screen.getLocation(),
+					screen.getDashboard().getName());
+			
+			screenService.save(screen);
+			
+			logLines.add(new InstallLogLine("Screen", "Screen created", screenLine));
+			
+		}
 		
-		logLines.add(new InstallLogLine("Screen", "Screen created", screenLine));
 		
-		logLines.add(new InstallLogLine("Screen", "All screens created", ""));
+		logLines.add(new InstallLogLine("Screen", "Finished creating screens.", ""));
 		
 	}
 	
@@ -158,8 +171,13 @@ public class InstallerService {
 		contentTypes.add(domoticzChart);
 		
 		for(ContentType contentType : contentTypes) {
+			// check if the contetType already exists
+			if(contentTypeService.findByName(contentType.getName()) != null) {
+				logLines.add(new InstallLogLine("Content Types", "Content Type already exists.", String.format("Content Type: '%s'", contentType.getName())));
+				continue;
+			}
+			// does not exist, create
 			contentTypeService.save(contentType);
-			
 			logLines.add(new InstallLogLine("Content Types", "Content type saved.", String.format("Name: '%s'.", contentType.getName())));
 		}
 		
@@ -193,7 +211,7 @@ public class InstallerService {
 		// now create some panels
 		Panel panelA = new Panel();
 		panelA.setName("Example panel A");
-		panelA.setPanelId(panelService.createPanelId(panelA.getName()));
+		panelA.setPanelId("Example_panel_A");
 		panelA.setContentType(clock);
 		panelA.setScreen(homeScreen);
 		panelA.setRowStart(1);
@@ -203,7 +221,7 @@ public class InstallerService {
 		
 		Panel panelB = new Panel();
 		panelB.setName("Example panel B");
-		panelB.setPanelId(panelService.createPanelId(panelB.getName()));
+		panelB.setPanelId("Example_panel_B");
 		panelB.setContentType(domoticzDevice);
 		panelB.setScreen(homeScreen);
 		panelB.setRowStart(1);
@@ -213,7 +231,7 @@ public class InstallerService {
 		
 		Panel panelC = new Panel();
 		panelC.setName("Example panel C");
-		panelC.setPanelId(panelService.createPanelId(panelC.getName()));
+		panelC.setPanelId("Example_panel_C");
 		panelC.setContentType(domoticzDevice);
 		panelC.setScreen(homeScreen);
 		panelC.setRowStart(3);
@@ -227,8 +245,14 @@ public class InstallerService {
 		panels.add(panelC);
 		
 		for(Panel panel : panels) {
-			panelService.save(panel);
+			// check if panel already exists
+			if(panelService.findByPanelId(panel.getPanelId()) != null) {
+				logLines.add(new InstallLogLine("Panel", "Panel already exists.", String.format("Content Type: '%s'", panel.getName())));
+				continue;
+			}
+			// does not exits, save
 			
+			panelService.save(panel);
 			String logLine = String.format("Name: '%s'.%n"
 					+ "Panel ID: '%s'.%n"
 					+ "Content Type: '%s'.%n"
@@ -259,10 +283,12 @@ public class InstallerService {
 		logLines.add(new InstallLogLine("Domoticz Configuration", "Start creating domoticz configuration", "Create Device Types and SubDevice Types."));
 		
 		List<DeviceType> deviceTypes = new ArrayList<>();
+		List<SubDeviceType> subDeviceTypes = new ArrayList<>();
 		
 		DeviceType lighting = new DeviceType();
 		lighting.setDeviceType("Lighting");
 		lighting.setSubDeviceField("SwitchType");
+		deviceTypes.add(lighting);
 		
 		// create the sub devices for lighting
 		SubDeviceType onOff = new SubDeviceType();
@@ -284,18 +310,17 @@ public class InstallerService {
 		contact.setTemplatePage("contact");
 		contact.setStaticDevice(true);
 		
-		List<SubDeviceType> lightingSubDevices = new ArrayList<>();
-		lightingSubDevices.add(onOff);
-		lightingSubDevices.add(dimmer);
-		lightingSubDevices.add(contact);
-		lighting.setSubDeviceTypes(lightingSubDevices);
+		// add the sub device types to the list
+		subDeviceTypes.add(onOff);
+		subDeviceTypes.add(dimmer);
+		subDeviceTypes.add(contact);
 		
-		deviceTypes.add(lighting);
 		
 		// create the group type
 		DeviceType group = new DeviceType();
 		group.setDeviceType("Group");
 		group.setSubDeviceField("Type");
+		deviceTypes.add(group);
 		
 		// create the SINGLE sub device for group
 		SubDeviceType groupSubDevice = new SubDeviceType();
@@ -303,133 +328,126 @@ public class InstallerService {
 		groupSubDevice.setSubDeviceType("Group");
 		groupSubDevice.setIcon("fas fa-object-group");
 		groupSubDevice.setTemplatePage("group");
-		
-		List<SubDeviceType> groupSubDevices = new ArrayList<>();
-		groupSubDevices.add(groupSubDevice);
-		group.setSubDeviceTypes(groupSubDevices);
-		
-		deviceTypes.add(group);
+		subDeviceTypes.add(groupSubDevice);
 		
 		
 		// create the scene type
 		DeviceType scene = new DeviceType();
 		scene.setDeviceType("Scene");
 		scene.setSubDeviceField("Type");
+		deviceTypes.add(scene);
 		
-		// create the SINGLE sub device for group
+		// create the SINGLE sub device for scene
 		SubDeviceType sceneSubDevice = new SubDeviceType();
 		sceneSubDevice.setDeviceType(scene);
 		sceneSubDevice.setSubDeviceType("Scene");
 		sceneSubDevice.setIcon("far fa-object-group");
 		sceneSubDevice.setTemplatePage("scene");
+		subDeviceTypes.add(sceneSubDevice);
 		
-		List<SubDeviceType> sceneSubDevices = new ArrayList<>();
-		sceneSubDevices.add(sceneSubDevice);
-		scene.setSubDeviceTypes(sceneSubDevices);
-		
-		deviceTypes.add(scene);
 		
 		// create the p1 meter type
 		DeviceType p1meter = new DeviceType();
 		p1meter.setDeviceType("P1 Smart Meter");
 		p1meter.setSubDeviceField("Type");
+		deviceTypes.add(p1meter);
 		
-		// create the SINGLE sub device for group
 		SubDeviceType p1SubDevice = new SubDeviceType();
 		p1SubDevice.setDeviceType(p1meter);
 		p1SubDevice.setSubDeviceType("P1 Smart Meter");
 		p1SubDevice.setIcon("fas fa-tachometer-alt");
 		p1SubDevice.setTemplatePage("p1");
 		p1SubDevice.setStaticDevice(true);
+		subDeviceTypes.add(p1SubDevice);
 		
-		List<SubDeviceType> p1SubDevices = new ArrayList<>();
-		p1SubDevices.add(p1SubDevice);
-		p1meter.setSubDeviceTypes(p1SubDevices);
-		
-		deviceTypes.add(p1meter);
 		
 		// create the temperature type
 		DeviceType temp = new DeviceType();
 		temp.setDeviceType("Temp");
 		temp.setSubDeviceField("Type");
+		deviceTypes.add(temp);
 		
-		// create the SINGLE sub device for group
 		SubDeviceType tempSubDevice = new SubDeviceType();
 		tempSubDevice.setDeviceType(temp);
 		tempSubDevice.setSubDeviceType("Temp");
 		tempSubDevice.setIcon("fas fa-thermometer-half");
 		tempSubDevice.setTemplatePage("temp");
 		tempSubDevice.setStaticDevice(true);
-		
-		List<SubDeviceType> tempSubDevices = new ArrayList<>();
-		tempSubDevices.add(tempSubDevice);
-		temp.setSubDeviceTypes(tempSubDevices);
-		
-		deviceTypes.add(temp);
+		subDeviceTypes.add(tempSubDevice);
+
 		
 		// create the temperature + humiditu type
 		DeviceType tempHumidity = new DeviceType();
 		tempHumidity.setDeviceType("Temp + Humidity");
 		tempHumidity.setSubDeviceField("Type");
+		deviceTypes.add(tempHumidity);
 		
-		// create the SINGLE sub device for group
 		SubDeviceType tempHumiditySubDevice = new SubDeviceType();
 		tempHumiditySubDevice.setDeviceType(tempHumidity);
 		tempHumiditySubDevice.setSubDeviceType("Temp + Humidity");
 		tempHumiditySubDevice.setIcon("fas fa-thermometer-half");
 		tempHumiditySubDevice.setTemplatePage("tempHumidity");
 		tempHumiditySubDevice.setStaticDevice(true);
-		
-		List<SubDeviceType> tempHumiditySubDevices = new ArrayList<>();
-		tempHumiditySubDevices.add(tempHumiditySubDevice);
-		tempHumidity.setSubDeviceTypes(tempHumiditySubDevices);
-		
-		deviceTypes.add(tempHumidity);
-		
+		subDeviceTypes.add(tempHumiditySubDevice);
+
 		
 		// create the temperature + humiditu type
 		DeviceType general = new DeviceType();
 		general.setDeviceType("General");
 		general.setSubDeviceField("Type");
+		deviceTypes.add(general);
 		
-		// create the SINGLE sub device for group
 		SubDeviceType generalSubDevice = new SubDeviceType();
 		generalSubDevice.setDeviceType(general);
 		generalSubDevice.setSubDeviceType("General");
 		generalSubDevice.setIcon("fas fa-info-circle");
 		generalSubDevice.setTemplatePage("general");
 		generalSubDevice.setStaticDevice(true);
+		subDeviceTypes.add(generalSubDevice);
+
 		
-		List<SubDeviceType> generalSubDevices = new ArrayList<>();
-		generalSubDevices.add(generalSubDevice);
-		general.setSubDeviceTypes(generalSubDevices);
 		
-		deviceTypes.add(general);
-		
-		// now loop to save the device types
+		// first loop through the Device Types to create them
 		for(DeviceType deviceType : deviceTypes) {
-			// create log line for the device type
-			String logLineDeviceType = String.format("Device Type: '%s'.%n"
-					+ "Field to determine subdevice: '%s'.%n", deviceType.getDeviceType(), deviceType.getSubDeviceField());
-			// now loop through the sub device types
-			logLines.add(new InstallLogLine("Device Type", "Creating Device Type", logLineDeviceType));
-			for(SubDeviceType subDeviceType : deviceType.getSubDeviceTypes()) {
-				// create log line for the sub device types
-				String logLineSubDeviceType = String.format("SubDevice Type: '%s'.%n"
-						+ "Device Type: '%s'.%n"
-						+ "Icon: '%s'.%n"
-						+ "Template page: '%s'.%n"
-						+ "Static device: %s.",
-						subDeviceType.getSubDeviceType(),
-						subDeviceType.getDeviceType().getDeviceType(),
-						subDeviceType.getIcon(),
-						subDeviceType.getTemplatePage(),
-						subDeviceType.isStaticDevice());
-				logLines.add(new InstallLogLine("SubDevice Type", "Creating SubDevice Type", logLineSubDeviceType));
+			// check if Device Type already exists
+			if(deviceTypeService.findByDeviceType(deviceType.getDeviceType()) != null) {
+				// device type already exists
+				logLines.add(new InstallLogLine("Device Type", "Device Type already exists.", String.format("Device Type: '%s'", deviceType.getDeviceType())));
+				continue;
 			}
+			// does not exists, save it
 			deviceTypeService.save(deviceType);
 			logLines.add(new InstallLogLine("SubDevice Type", "Device Type saved", String.format("'%s' with SubDevice Types saved.", deviceType.getDeviceType())));
 		}
+		
+		// now create the sub device types
+		for(SubDeviceType subDeviceType : subDeviceTypes) {
+			// check if sub device already exists
+			if(subDeviceTypeService.findBySubDeviceType(subDeviceType.getSubDeviceType()) != null) {
+				// subdevice type already exists
+				logLines.add(new InstallLogLine("SubDevice Type", "SubDevice Type already exists", String.format("SubDevice Type '%s'.", subDeviceType.getSubDeviceType())));
+				continue;
+			}
+			// does not exists
+			// create log line for the sub device types
+			String logLineSubDeviceType = String.format("SubDevice Type: '%s'.%n"
+					+ "Device Type: '%s'.%n"
+					+ "Icon: '%s'.%n"
+					+ "Template page: '%s'.%n"
+					+ "Static device: %s.",
+					subDeviceType.getSubDeviceType(),
+					subDeviceType.getDeviceType().getDeviceType(),
+					subDeviceType.getIcon(),
+					subDeviceType.getTemplatePage(),
+					subDeviceType.isStaticDevice());
+			
+			subDeviceTypeService.save(subDeviceType);
+			
+			logLines.add(new InstallLogLine("SubDevice Type", "Creating SubDevice Type", logLineSubDeviceType));
+			
+		}
+		
+		
 		
 		logLines.add(new InstallLogLine("Device Type", "All Device Types created", ""));
 	}

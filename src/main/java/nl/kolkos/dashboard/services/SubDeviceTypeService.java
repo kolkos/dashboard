@@ -18,18 +18,9 @@ public class SubDeviceTypeService {
 		return subDeviceTypeRepository.findBySubDeviceType(subDeviceType);
 	}
 	
-	public String replacePlaceholdersUrl(String templateUrl, HashMap<String, String> templateValues) {
-		if(templateUrl == null) {
-			return null;
-		}
-		
-		
-		// loop through the hash
-		String newUrl = templateUrl;
-		for(String placeHolder : templateValues.keySet()) {
-			newUrl = newUrl.replaceAll(placeHolder, templateValues.get(placeHolder));
-		}
-		
-		return newUrl;
+	public void save(SubDeviceType subDeviceType) {
+		subDeviceTypeRepository.save(subDeviceType);
 	}
+	
+	
 }

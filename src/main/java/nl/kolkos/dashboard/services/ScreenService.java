@@ -60,10 +60,6 @@ public class ScreenService {
 	
 	
 	public void save(Screen screen) {
-		if(screen.getSafeName() == null) {
-			screen.setSafeName(this.createSafeName(screen.getName()));
-		}
-		
 		if(screen.getIcon().length() < 1) {
 			screen.setIcon(null);
 		}
