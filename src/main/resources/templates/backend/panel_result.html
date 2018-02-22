@@ -20,6 +20,13 @@
         <p class="lead" th:text="${description}">Page description</p>
         <br/>
         
+        <p th:if="${buttons} != null">
+        		<a th:each="button : ${buttons}" th:href="${button.url}" th:class="${'btn ' + button.buttonClass}" role="button" aria-disabled="true">
+        			<span th:if="${button.icon} != null" th:class="${button.icon}"></span>
+        			<span th:text="${button.buttonText}">Text</span>
+        		</a>
+        </p>
+        
         <form>
 		  <div class="form-row">
 		    <div class="form-group col-md-5">

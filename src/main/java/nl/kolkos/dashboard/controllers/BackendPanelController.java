@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import nl.kolkos.dashboard.objects.Button;
 import nl.kolkos.dashboard.objects.ContentDevice;
 import nl.kolkos.dashboard.objects.Dashboard;
 import nl.kolkos.dashboard.objects.Device;
@@ -136,6 +137,14 @@ public class BackendPanelController {
 		
 		model.addAttribute("title", "Panels");
 		model.addAttribute("description", "The panels created are listed below. You can filter the panels by using the form below.");
+		
+		// create a button
+		Button newPanelButton = new Button("Create new panel", "btn-success", "/config/panel/add", "oi oi-plus");
+		List<Button> buttons =  new ArrayList<>();
+		buttons.add(newPanelButton);
+		model.addAttribute("buttons", buttons);
+		
+		
 		
 		// check if the dashboard id is empty
 		if(dashboardId != null && dashboardId.equals("")) {
