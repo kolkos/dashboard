@@ -64,38 +64,48 @@ public class BackendPanelController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String createNewPanelForm(
-			@RequestParam(value = "dashboardId", required = false) String dashboardId,
-			@RequestParam(value = "screenId", required = false) String screenId,
+			@RequestParam(value = "dashboardId", required = false) Long dashboardId,
+			@RequestParam(value = "screenId", required = false) Long screenId,
 			Model model) {
 		
 		model.addAttribute("title", "Create new panel");
 		model.addAttribute("description", "With this page you can create a new panel.");
 		
-		
-		Panel panel = new Panel();
-		model.addAttribute("panel", panel);
-		
 		Iterable<Dashboard> dashboards = dashboardService.findAll();
 		model.addAttribute("dashboards", dashboards);
 		
+		// find the screens for the dashboard
 		List<Screen> screens = new ArrayList<>();
-		if(dashboardId!=null) {
+		if(dashboardId != null) {
 			// find the Dashboard by id
-			long dashId = Long.parseLong(dashboardId);
-			Dashboard dashboard = dashboardService.findById(dashId);
+			
+			Dashboard dashboard = dashboardService.findById(dashboardId);
 			
 			screens = screenService.findScreensForDashboard(dashboard);
-			model.addAttribute("dashId", dashId);
+			model.addAttribute("dashboardId", dashboardId);
 		}
+		model.addAttribute("screens", screens);
+		
+		// create new panel for the form
+		Panel panel = new Panel();
+		
 		
 		if(screenId != null) {
-			model.addAttribute("screenId", Long.parseLong(screenId));
+			// screen id is set, add the screen to the panel
+			// first find the Screen
+			Screen screen = screenService.findById(screenId);
+			// check if the screen is found
+			if(screen != null) {
+				// there is a screen, add it to the panel
+				panel.setScreen(screen);
+			}
+			
+			model.addAttribute("screenId", screenId);
 		}
+		model.addAttribute("panel", panel);
 		
 		model.addAttribute("contentTypes", contentTypeService.findAll());
 		
-		
-		model.addAttribute("screens", screens);
 		
 		return "backend/panel_add_form";
 	}

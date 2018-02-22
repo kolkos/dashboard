@@ -27,7 +27,7 @@
 				<div class="col">
 					<select name="dashboard" id="dashboard" class="form-control">
 						<option value="">- Select a dashboard -</option>
-						<option th:each="dashboard : ${dashboards}" th:text="${dashboard.name}" th:value="${dashboard.id}" th:selected="${dashboard.id} == ${dashId}">Dashboard</option> 
+						<option th:each="dashboard : ${dashboards}" th:text="${dashboard.name}" th:value="${dashboard.id}" th:selected="${dashboard.id} == ${dashboardId}">Dashboard</option> 
 					</select>
 				</div>
 			</div>
@@ -86,11 +86,38 @@
     <script type="text/javascript" src="/js/loadMenu.js"></script>
     
     <script type="text/javascript">
+		function redirectPage(){
+			// get the values
+			var dashboardId = $("#dashboard").val();
+			var screenId = $("#screen").val();
+
+			// default url
+			var defaultUrl = "/config/panel/add";
+
+			// now check what suffix for the url needs to be formed
+			var suffix = "";
+			if(dashboardId.length > 0 && screenId.length > 0){
+				// both the dashboard id and screen id are set
+				suffix = "?dashboardId=" + dashboardId + "&screenId=" + screenId;
+			}else if(dashboardId.length > 0){
+				// only the dashboard id is set
+				suffix = "?dashboardId=" + dashboardId;
+			}else if(screenId.length > 0){
+				// only the screenId is set
+				suffix = "?screenId=" + screenId;
+			}
+
+			window.location.href = defaultUrl + suffix;
+		}
+
+
 		$('#dashboard').change(function(){
-			var dashboardId = $(this).val();
+			redirectPage();
 
-			window.location.href = window.location.href + "?dashboardId=" + dashboardId;
+		});
 
+		$('#screen').change(function(){
+			redirectPage();
 		});
 
 		$('#name').keyup(function(){
@@ -100,10 +127,10 @@
 			var url = "/config/panel/generate_panel_id";
 			var formData = {name: name};
 			$.get(url, formData,
-				    function(data){
-				        $('#panelId').val(data);
-				        
-				    });
+			    function(data){
+			        $('#panelId').val(data);
+			        
+			});
 		});
     </script>
    
