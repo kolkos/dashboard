@@ -63,9 +63,7 @@
 		
 		<div id="contentHolder">
 			<div id="wrapper">
-		 	<div th:each="panel : ${panels}" th:style="${'grid-area: ' + panel.rowStart + ' / ' + panel.columnStart + ' / span ' + panel.height + ' / span ' + panel.width}" th:id="${panel.panelId}" class="box">
-				<span th:text="${panel.name}">name</span>
-			</div>
+		 	
 	 	</div>
 		
 		</div>
@@ -78,7 +76,7 @@
     		/*<![CDATA[*/
 	    		$(function() {
 	    			loadResults();
-	    			
+	    			loadDevices();
 		    });
 
 			function loadResults(){
@@ -90,6 +88,14 @@
 				});
 
 				
+			}
+
+			function loadDevices(){
+				$('.Device').each(function(){
+					var panelId = $(this).attr("id");
+					console.log(panelId);
+		
+				});
 			}
 
     		/*]]>*/

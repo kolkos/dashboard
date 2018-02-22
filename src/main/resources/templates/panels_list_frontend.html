@@ -2,3 +2,9 @@
 <div th:each="panel : ${panels}" th:style="${'grid-area: ' + panel.rowStart + ' / ' + panel.columnStart + ' / span ' + panel.height + ' / span ' + panel.width}" th:id="${panel.panelId}" th:class="${'box '  + panel.contentType.name}">
 	
 </div>
+
+<script>
+$(function() {
+	loadDevices();
+});
+</script>

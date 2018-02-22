@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import nl.kolkos.dashboard.objects.ContentDevice;
 import nl.kolkos.dashboard.objects.Dashboard;
 import nl.kolkos.dashboard.objects.Device;
 import nl.kolkos.dashboard.objects.Panel;
 import nl.kolkos.dashboard.objects.Screen;
+import nl.kolkos.dashboard.services.ContentDeviceService;
 import nl.kolkos.dashboard.services.ContentTypeService;
 import nl.kolkos.dashboard.services.DashboardService;
 import nl.kolkos.dashboard.services.DeviceService;
@@ -44,6 +46,9 @@ public class BackendPanelController {
 	
 	@Autowired
 	private DeviceService deviceService;
+	
+	@Autowired
+	private ContentDeviceService contentDeviceService;
 	
 	/*
 	 * =================================================
@@ -241,7 +246,7 @@ public class BackendPanelController {
 	}
 	
 	@RequestMapping(value = "/content/Device/{panelId}", method = RequestMethod.GET)
-	public String editPanelForm(
+	public String selectDeviceForm(
 			@PathVariable("panelId") long panelId,
 			Model model) {
 		
@@ -253,9 +258,55 @@ public class BackendPanelController {
 		
 		// now get the devices
 		List<Device> devices = deviceService.findAllDevices();
-		
 		model.addAttribute("devices", devices);
+		
+		// get the panel
+		Panel panel = panelService.findById(panelId);
+		if(panel == null) {
+			model.addAttribute("message", "The panel could not be found");
+			return "backend/error";
+		}
+		model.addAttribute("panel", panel);
+		
+		
+		// check if there is a ContentDevice for this panel
+		ContentDevice contentDevice = contentDeviceService.findByPanel(panel);
+		if(contentDevice == null) {
+			// does not exist, create a new one
+			contentDevice = new ContentDevice();
+		}
+		
+		// create the content device
+		model.addAttribute("contentDevice", contentDevice);
+		
+		
 
 		return "backend/panel_content_device_form";
+	}
+	
+	@RequestMapping(value = "/content/Device/{panelId}", method = RequestMethod.POST)
+	public String selectDevice(
+			@ModelAttribute ContentDevice contentDevice,
+			@PathVariable("panelId") long panelId,
+			Model model) {
+		
+		model.addAttribute("title", "Edit panel content");
+		model.addAttribute("description", "This page let's you select a Domoticz Device to display.");
+				
+		// get the panel
+		Panel panel = panelService.findById(panelId);
+		if(panel == null) {
+			model.addAttribute("message", "The panel could not be found");
+			return "backend/error";
+		}
+		
+		// link the panel to the content device
+		contentDevice.setPanel(panel);
+		
+		// save it
+		contentDeviceService.save(contentDevice);
+		
+
+		return "redirect:/config/panel/results";
 	}
 }

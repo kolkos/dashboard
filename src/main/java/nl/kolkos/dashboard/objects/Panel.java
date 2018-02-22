@@ -33,8 +33,8 @@ public class Panel {
 	@JoinColumn(name = "content_type_id")
 	private ContentType contentType;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "content_device_id")
+	@OneToOne(mappedBy = "panel", cascade = CascadeType.ALL, 
+            fetch = FetchType.LAZY, optional = false)
 	private ContentDevice contentDevice;
 	
 	public Long getId() {

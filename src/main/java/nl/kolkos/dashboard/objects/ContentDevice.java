@@ -16,7 +16,8 @@ public class ContentDevice {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 	
-	@OneToOne(mappedBy = "contentDevice")
+	@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "panel_id")
 	private Panel panel;
 	
 	@ManyToOne(fetch=FetchType.EAGER)

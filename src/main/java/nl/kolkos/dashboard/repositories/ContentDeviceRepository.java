@@ -4,8 +4,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import nl.kolkos.dashboard.objects.ContentDevice;
+import nl.kolkos.dashboard.objects.Panel;
 
 @Repository
 public interface ContentDeviceRepository extends CrudRepository<ContentDevice, Long> {
-	
+	ContentDevice findByPanel(Panel panel);
 }
