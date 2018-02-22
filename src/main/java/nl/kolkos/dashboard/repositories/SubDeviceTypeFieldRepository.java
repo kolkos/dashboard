@@ -12,7 +12,7 @@ import nl.kolkos.dashboard.objects.SubDeviceType;
 public interface SubDeviceTypeFieldRepository extends CrudRepository<SubDeviceTypeField, Long>{
 	SubDeviceTypeField findBySubDeviceTypeAndField(SubDeviceType subDeviceType, String field);
 	
-	List<SubDeviceTypeField> findBySubDeviceTypeOrderByFieldAsc(SubDeviceType subDeviceType);
+	List<SubDeviceTypeField> findBySubDeviceTypeOrderByUseFieldDescFieldAsc(SubDeviceType subDeviceType);
 	
 	List<SubDeviceTypeField> findBySubDeviceTypeAndUseFieldTrueOrderByFieldAsc(SubDeviceType subDeviceType);
 	

@@ -30,7 +30,7 @@ public class SubDeviceTypeFieldService {
 	}
 	
 	public List<SubDeviceTypeField> findBySubDeviceType(SubDeviceType subDeviceType){
-		return subDeviceFieldRepository.findBySubDeviceTypeOrderByFieldAsc(subDeviceType);
+		return subDeviceFieldRepository.findBySubDeviceTypeOrderByUseFieldDescFieldAsc(subDeviceType);
 	}
 	
 	public SubDeviceTypeField findById(long id) {
