@@ -93,7 +93,11 @@
 			function loadDevices(){
 				$('.Device').each(function(){
 					var panelId = $(this).attr("id");
-					console.log(panelId);
+
+					var url = "/frontend/content/device/" + panelId;
+					$.get( url, function( data ) {
+						$("#" + panelId).html( data );	  
+					});
 		
 				});
 			}

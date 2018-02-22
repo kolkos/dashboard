@@ -20,6 +20,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import nl.kolkos.dashboard.configurations.DomoticzConfiguration;
+import nl.kolkos.dashboard.objects.DeviceType;
+import nl.kolkos.dashboard.objects.SubDeviceType;
 
 /**
  * This class is used to talk to domoticz
@@ -127,4 +129,6 @@ public class DomoticzCommunicator {
         urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
         return urlConnection;
     }
+	
+	
 }

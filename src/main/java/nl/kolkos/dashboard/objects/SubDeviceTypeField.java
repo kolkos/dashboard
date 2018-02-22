@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class SubDeviceTypeField {
@@ -19,6 +20,11 @@ public class SubDeviceTypeField {
 	private SubDeviceType subDeviceType;
 	
 	private String field;
+	
+	private boolean useField = false;
+	
+	@Transient
+	private String value;
 	
 	public Long getId() {
 		return id;
@@ -42,6 +48,22 @@ public class SubDeviceTypeField {
 
 	public void setField(String field) {
 		this.field = field;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public boolean isUseField() {
+		return useField;
+	}
+
+	public void setUseField(boolean useField) {
+		this.useField = useField;
 	}
 	
 }

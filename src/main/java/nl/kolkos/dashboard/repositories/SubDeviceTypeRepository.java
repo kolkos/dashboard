@@ -8,4 +8,6 @@ import nl.kolkos.dashboard.objects.SubDeviceType;
 @Repository
 public interface SubDeviceTypeRepository extends CrudRepository<SubDeviceType, Long> {
 	SubDeviceType findBySubDeviceType(String subDeviceType);
+	
+	SubDeviceType findById(Long id);
 }

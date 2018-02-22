@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+	<title th:text="${title}">Title</title>
+	
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="/css/open-iconic-bootstrap.css" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+	<link href="/css/config.css" rel="stylesheet">
+</head>
+<body>
+	<div id="menuHolder"></div>
+
+	<div class="container">
+	  	<h1 th:text="${title}">Title</h1>
+        <p class="lead" th:text="${description}">Page description</p>
+        <br/>
+        
+        
+        <table class="table table-striped">
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">SubDevice Type</th>
+		      <th scope="col">Main Device Type</th>
+		      <th scope="col">Icon</th>
+		      <th scope="col">Template page</th>
+		      <th scope="col">Static device</th>
+		      		      
+		      <th scope="col">Select fields</th>
+		      <th scope="col">Edit</th>
+		      
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr th:each="subDeviceType : ${subDeviceTypes}">
+		    		<th scope="row" th:text="${subDeviceType.id}">ID</th>
+		    		<td th:text="${subDeviceType.subDeviceType}">Subdevice type</td>
+		    		<td th:text="${subDeviceType.deviceType.deviceType}">Main Device type</td>
+		    		
+		    		<td >
+					<span th:class="${subDeviceType.icon}" aria-hidden="true"></span>
+					<small th:text="${'(' + subDeviceType.icon + ')'}">name</small>
+				</td>
+		    		
+		    		<td th:text="${subDeviceType.templatePage}">Template page</td>
+		    		
+		    		
+		    		<td>
+		    			<span th:if="${subDeviceType.staticDevice}" class="oi oi-check" title="edit panel" aria-hidden="true"></span>
+		    			<span th:unless="${subDeviceType.staticDevice}" class="oi oi-x" title="edit panel" aria-hidden="true"></span>
+		    		</td>
+		    		
+		    		<td>
+		    			<a th:href="@{/config/device/types/fields/{id}(id=${subDeviceType.id})}" style="color: black;">
+		    				<span class="oi oi-code" title="Change fields for this type" aria-hidden="true"></span>
+		    			</a>
+		    		</td>
+		    		
+		    		
+		    </tr>
+		  </tbody>
+		</table>
+        
+	</div>
+	
+	
+	
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+	
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/loadMenu.js"></script>
+    
+   
+ 	
+</body>
+</html>

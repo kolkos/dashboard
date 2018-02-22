@@ -1,6 +1,6 @@
 package nl.kolkos.dashboard.services;
 
-import java.util.HashMap;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +22,12 @@ public class SubDeviceTypeService {
 		subDeviceTypeRepository.save(subDeviceType);
 	}
 	
+	public Iterable<SubDeviceType> findAll(){
+		return subDeviceTypeRepository.findAll();
+	}
+	
+	public SubDeviceType findById(Long id) {
+		return subDeviceTypeRepository.findById(id);
+	}
 	
 }

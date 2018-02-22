@@ -15,6 +15,7 @@ import nl.kolkos.dashboard.objects.Dashboard;
 import nl.kolkos.dashboard.objects.Panel;
 import nl.kolkos.dashboard.objects.Screen;
 import nl.kolkos.dashboard.services.DashboardService;
+import nl.kolkos.dashboard.services.DeviceService;
 import nl.kolkos.dashboard.services.PanelService;
 import nl.kolkos.dashboard.services.ScreenService;
 
@@ -28,6 +29,8 @@ public class DashboardController {
 	@Autowired
 	private ScreenService screenService;
 	
+	@Autowired
+	private DeviceService deviceService;
 	
 	@Autowired
 	private PanelService panelService;
@@ -93,6 +96,8 @@ public class DashboardController {
 		// get the screens
 		List<Screen> screens = screenService.findScreensForDashboard(dashboard);
 		model.addAttribute("screens", screens);
+		
+		deviceService.getCurrentDeviceInfo();
 		
 		return "show_screen";
 	}
