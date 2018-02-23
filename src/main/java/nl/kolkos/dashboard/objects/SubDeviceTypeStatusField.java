@@ -16,8 +16,7 @@ public class SubDeviceTypeStatusField {
     private Long id;
 	
 	private String statusField;
-	@Transient
-	private String value;
+
 	
 	// link with the SubDeviceTypeConfig
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -30,14 +29,6 @@ public class SubDeviceTypeStatusField {
 
 	public void setStatusField(String statusField) {
 		this.statusField = statusField;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
 	}
 
 	public SubDeviceTypeConfig getSubDeviceTypeConfig() {

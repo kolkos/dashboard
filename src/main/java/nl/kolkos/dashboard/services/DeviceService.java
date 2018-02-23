@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import nl.kolkos.dashboard.objects.Device;
 import nl.kolkos.dashboard.objects.DeviceType;
 import nl.kolkos.dashboard.objects.SubDeviceType;
-import nl.kolkos.dashboard.objects.SubDeviceTypeField;
 import nl.kolkos.dashboard.repositories.DeviceRepository;
 
 @Service
@@ -29,8 +28,6 @@ public class DeviceService {
 	@Autowired
 	private DeviceTypeService deviceTypeService;
 	
-	@Autowired
-	private SubDeviceTypeFieldService subDeviceTypeFieldService;
 	
 	public void save(Device device) {
 		// check if the device already exists
@@ -93,17 +90,7 @@ public class DeviceService {
 				// get the sub device configuration
 				SubDeviceType subDeviceType = subDeviceTypeService.findBySubDeviceType(subDeviceValue);
 				
-				// get the fields for this sub device
-				List<SubDeviceTypeField> fields = subDeviceTypeFieldService.findUsedFields(subDeviceType);
 				
-				// loop through the fields and get the values
-				for(SubDeviceTypeField responseField : fields) {
-					String value = jsonSubObject.get(responseField.getField()).toString();
-					
-					
-					String log = String.format("idx:%d, Name:%s, field:%s, value:%s", idx, name, responseField.getField(), value);
-					System.out.println(log);
-				}
 				
 				
 				

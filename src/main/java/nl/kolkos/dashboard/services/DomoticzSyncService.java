@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import nl.kolkos.dashboard.objects.Device;
 import nl.kolkos.dashboard.objects.DeviceType;
-import nl.kolkos.dashboard.objects.SubDeviceTypeField;
 import nl.kolkos.dashboard.objects.SubDeviceType;
 
 
@@ -28,8 +27,7 @@ public class DomoticzSyncService {
 	@Autowired
 	private SubDeviceTypeService subDeviceTypeService;
 	
-	@Autowired
-	private SubDeviceTypeFieldService subDeviceFieldService;
+
 	
 	@Autowired
 	private DeviceService deviceService;
@@ -86,13 +84,7 @@ public class DomoticzSyncService {
 				while(jsonKeys.hasNext()) {
 					String jsonKey = (String)jsonKeys.next();
 					
-					// create a new SubDeviceField object
-					SubDeviceTypeField subDeviceField = new SubDeviceTypeField();
-					subDeviceField.setField(jsonKey);
-					subDeviceField.setSubDeviceType(subDeviceType);
 					
-					// save it
-					subDeviceFieldService.save(subDeviceField);
 					
 				}
 				

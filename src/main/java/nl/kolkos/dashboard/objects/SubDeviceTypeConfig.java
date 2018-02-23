@@ -22,28 +22,20 @@ public class SubDeviceTypeConfig {
 	// values for the icon status
 	private String iconStatusField;
 	// don't save the value
-	@Transient
-	private String iconStatusValue;
-	
+		
 	// action by clicking on icon
 	private String iconClickAction;
 	
 	// values for the slider (only for dimmers)
 	// value of the minimal value
-	private Integer sliderMinValue;
+	private int sliderMinValue;
 	// value of the maximum value
 	private String sliderMaxValueField;
-	// don't save the actual value
-	@Transient
-	private int sliderMaxValueValue;
 	// value of each step
 	private int sliderStepValue;
 	// field to determine the current value
 	private String sliderCurrentValueField;
-	// the current value
-	@Transient
-	private int sliderCurrentValueValue;
-	
+
 	
 	// relation with the SubDeviceType
 	@OneToOne(fetch = FetchType.LAZY)
@@ -72,22 +64,16 @@ public class SubDeviceTypeConfig {
 	public void setIconStatusField(String iconStatusField) {
 		this.iconStatusField = iconStatusField;
 	}
-	public String getIconStatusValue() {
-		return iconStatusValue;
-	}
-	public void setIconStatusValue(String iconStatusValue) {
-		this.iconStatusValue = iconStatusValue;
-	}
 	public String getIconClickAction() {
 		return iconClickAction;
 	}
 	public void setIconClickAction(String iconClickAction) {
 		this.iconClickAction = iconClickAction;
 	}
-	public Integer getSliderMinValue() {
+	public int getSliderMinValue() {
 		return sliderMinValue;
 	}
-	public void setSliderMinValue(Integer sliderMinValue) {
+	public void setSliderMinValue(int sliderMinValue) {
 		this.sliderMinValue = sliderMinValue;
 	}
 	public String getSliderMaxValueField() {
@@ -95,12 +81,6 @@ public class SubDeviceTypeConfig {
 	}
 	public void setSliderMaxValueField(String sliderMaxValueField) {
 		this.sliderMaxValueField = sliderMaxValueField;
-	}
-	public int getSliderMaxValueValue() {
-		return sliderMaxValueValue;
-	}
-	public void setSliderMaxValueValue(int sliderMaxValueValue) {
-		this.sliderMaxValueValue = sliderMaxValueValue;
 	}
 	public int getSliderStepValue() {
 		return sliderStepValue;
@@ -113,12 +93,6 @@ public class SubDeviceTypeConfig {
 	}
 	public void setSliderCurrentValueField(String sliderCurrentValueField) {
 		this.sliderCurrentValueField = sliderCurrentValueField;
-	}
-	public int getSliderCurrentValueValue() {
-		return sliderCurrentValueValue;
-	}
-	public void setSliderCurrentValueValue(int sliderCurrentValueValue) {
-		this.sliderCurrentValueValue = sliderCurrentValueValue;
 	}
 	public SubDeviceType getSubDeviceType() {
 		return subDeviceType;

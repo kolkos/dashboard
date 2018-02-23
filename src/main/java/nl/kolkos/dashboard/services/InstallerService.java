@@ -13,6 +13,8 @@ import nl.kolkos.dashboard.objects.InstallLogLine;
 import nl.kolkos.dashboard.objects.Panel;
 import nl.kolkos.dashboard.objects.Screen;
 import nl.kolkos.dashboard.objects.SubDeviceType;
+import nl.kolkos.dashboard.objects.SubDeviceTypeConfig;
+import nl.kolkos.dashboard.objects.SubDeviceTypeStatusField;
 
 /**
  * This service adds a set of default data
@@ -52,12 +54,15 @@ public class InstallerService {
 		this.createScreens();
 		this.createContentTypes();
 		this.createExamplePanels();
-		this.createDeviceConfig();
+		//this.createDeviceConfig();
 		
-		
-		for(InstallLogLine logLine : logLines) {
-			System.out.println(logLine.toString());
-		}
+		this.createLights();
+		this.createGroup();
+		this.createScene();
+		this.createSmartMeter();
+		this.createTemp();
+		this.createTempHumidity();
+		this.createGeneral();
 		
 		
 		return logLines;
@@ -285,125 +290,25 @@ public class InstallerService {
 		List<DeviceType> deviceTypes = new ArrayList<>();
 		List<SubDeviceType> subDeviceTypes = new ArrayList<>();
 		
-		DeviceType lighting = new DeviceType();
-		lighting.setDeviceType("Lighting");
-		lighting.setSubDeviceField("SwitchType");
-		deviceTypes.add(lighting);
-		
-		// create the sub devices for lighting
-		SubDeviceType onOff = new SubDeviceType();
-		onOff.setDeviceType(lighting);
-		onOff.setSubDeviceType("On/Off");
-		onOff.setIcon("fas fa-lightbulb");
-		onOff.setTemplatePage("switch");
-		
-		SubDeviceType dimmer = new SubDeviceType();
-		dimmer.setDeviceType(lighting);
-		dimmer.setSubDeviceType("Dimmer");
-		dimmer.setIcon("fas fa-lightbulb");
-		dimmer.setTemplatePage("dimmer");
-		
-		SubDeviceType contact = new SubDeviceType();
-		contact.setDeviceType(lighting);
-		contact.setSubDeviceType("Contact");
-		contact.setIcon("fab fa-nintendo-switch");
-		contact.setTemplatePage("contact");
-		contact.setStaticDevice(true);
-		
-		// add the sub device types to the list
-		subDeviceTypes.add(onOff);
-		subDeviceTypes.add(dimmer);
-		subDeviceTypes.add(contact);
 		
 		
-		// create the group type
-		DeviceType group = new DeviceType();
-		group.setDeviceType("Group");
-		group.setSubDeviceField("Type");
-		deviceTypes.add(group);
-		
-		// create the SINGLE sub device for group
-		SubDeviceType groupSubDevice = new SubDeviceType();
-		groupSubDevice.setDeviceType(group);
-		groupSubDevice.setSubDeviceType("Group");
-		groupSubDevice.setIcon("fas fa-object-group");
-		groupSubDevice.setTemplatePage("group");
-		subDeviceTypes.add(groupSubDevice);
 		
 		
-		// create the scene type
-		DeviceType scene = new DeviceType();
-		scene.setDeviceType("Scene");
-		scene.setSubDeviceField("Type");
-		deviceTypes.add(scene);
-		
-		// create the SINGLE sub device for scene
-		SubDeviceType sceneSubDevice = new SubDeviceType();
-		sceneSubDevice.setDeviceType(scene);
-		sceneSubDevice.setSubDeviceType("Scene");
-		sceneSubDevice.setIcon("far fa-object-group");
-		sceneSubDevice.setTemplatePage("scene");
-		subDeviceTypes.add(sceneSubDevice);
 		
 		
-		// create the p1 meter type
-		DeviceType p1meter = new DeviceType();
-		p1meter.setDeviceType("P1 Smart Meter");
-		p1meter.setSubDeviceField("Type");
-		deviceTypes.add(p1meter);
-		
-		SubDeviceType p1SubDevice = new SubDeviceType();
-		p1SubDevice.setDeviceType(p1meter);
-		p1SubDevice.setSubDeviceType("P1 Smart Meter");
-		p1SubDevice.setIcon("fas fa-tachometer-alt");
-		p1SubDevice.setTemplatePage("p1");
-		p1SubDevice.setStaticDevice(true);
-		subDeviceTypes.add(p1SubDevice);
 		
 		
-		// create the temperature type
-		DeviceType temp = new DeviceType();
-		temp.setDeviceType("Temp");
-		temp.setSubDeviceField("Type");
-		deviceTypes.add(temp);
 		
-		SubDeviceType tempSubDevice = new SubDeviceType();
-		tempSubDevice.setDeviceType(temp);
-		tempSubDevice.setSubDeviceType("Temp");
-		tempSubDevice.setIcon("fas fa-thermometer-half");
-		tempSubDevice.setTemplatePage("temp");
-		tempSubDevice.setStaticDevice(true);
-		subDeviceTypes.add(tempSubDevice);
+		
+		
+		
+		
 
 		
-		// create the temperature + humiditu type
-		DeviceType tempHumidity = new DeviceType();
-		tempHumidity.setDeviceType("Temp + Humidity");
-		tempHumidity.setSubDeviceField("Type");
-		deviceTypes.add(tempHumidity);
 		
-		SubDeviceType tempHumiditySubDevice = new SubDeviceType();
-		tempHumiditySubDevice.setDeviceType(tempHumidity);
-		tempHumiditySubDevice.setSubDeviceType("Temp + Humidity");
-		tempHumiditySubDevice.setIcon("fas fa-thermometer-half");
-		tempHumiditySubDevice.setTemplatePage("tempHumidity");
-		tempHumiditySubDevice.setStaticDevice(true);
-		subDeviceTypes.add(tempHumiditySubDevice);
 
 		
-		// create the temperature + humiditu type
-		DeviceType general = new DeviceType();
-		general.setDeviceType("General");
-		general.setSubDeviceField("Type");
-		deviceTypes.add(general);
 		
-		SubDeviceType generalSubDevice = new SubDeviceType();
-		generalSubDevice.setDeviceType(general);
-		generalSubDevice.setSubDeviceType("General");
-		generalSubDevice.setIcon("fas fa-info-circle");
-		generalSubDevice.setTemplatePage("general");
-		generalSubDevice.setStaticDevice(true);
-		subDeviceTypes.add(generalSubDevice);
 
 		
 		
@@ -451,5 +356,427 @@ public class InstallerService {
 		
 		logLines.add(new InstallLogLine("Device Type", "All Device Types created", ""));
 	}
+	
+	public void createLights() {
+		/*
+		 * On the first step I'll create light (devices)
+		 */
+		
+		/*
+		 * Create the (Main) Device Type
+		 */
+		DeviceType lighting = new DeviceType();
+		lighting.setDeviceType("Lighting");
+		lighting.setSubDeviceField("SwitchType");
+		
+		/*
+		 * Create the sub device types
+		 */
+		SubDeviceType onOff = new SubDeviceType();
+		onOff.setDeviceType(lighting);
+		onOff.setSubDeviceType("On/Off");
+		onOff.setIcon("fas fa-lightbulb");
+		onOff.setTemplatePage("switch");
+		
+		SubDeviceType dimmer = new SubDeviceType();
+		dimmer.setDeviceType(lighting);
+		dimmer.setSubDeviceType("Dimmer");
+		dimmer.setIcon("fas fa-lightbulb");
+		dimmer.setTemplatePage("dimmer");
+		
+		SubDeviceType contact = new SubDeviceType();
+		contact.setDeviceType(lighting);
+		contact.setSubDeviceType("Contact");
+		contact.setIcon("fab fa-nintendo-switch");
+		contact.setTemplatePage("contact");
+		contact.setStaticDevice(true);
+		
+		List<SubDeviceType> lightingSubDevices = new ArrayList<>();
+		lightingSubDevices.add(onOff);
+		lightingSubDevices.add(dimmer);
+		lightingSubDevices.add(contact);
+		
+		/*
+		 * Create the sub device configurations
+		 */
+		SubDeviceTypeConfig onOffConfig = new SubDeviceTypeConfig();
+		onOffConfig.setSubDeviceType(onOff);
+		onOffConfig.setIconStatusField("Status");
+		onOffConfig.setIconClickAction("Toggle");
+		
+		SubDeviceTypeConfig dimmerConfig = new SubDeviceTypeConfig();
+		dimmerConfig.setSubDeviceType(dimmer);
+		dimmerConfig.setIconStatusField("Status");
+		dimmerConfig.setIconClickAction("Toggle");
+		dimmerConfig.setSliderMinValue(0);
+		dimmerConfig.setSliderMaxValueField("MaxDimLevel");
+		dimmerConfig.setSliderStepValue(1);
+		dimmerConfig.setSliderCurrentValueField("LevelInt");
+		
+		SubDeviceTypeConfig contactConfig = new SubDeviceTypeConfig();
+		contactConfig.setSubDeviceType(contact);
+		contactConfig.setIconStatusField("Status");
+		
+		/*
+		 * Finally create the status fields for the sub devices
+		 */
+		SubDeviceTypeStatusField onOffStatusField1 = new SubDeviceTypeStatusField();
+		onOffStatusField1.setSubDeviceTypeConfig(onOffConfig);
+		onOffStatusField1.setStatusField("Status");
+		List<SubDeviceTypeStatusField> onOffStatusFields = new ArrayList<>();
+		onOffStatusFields.add(onOffStatusField1);
+		
+		SubDeviceTypeStatusField dimmerStatusField1 = new SubDeviceTypeStatusField();
+		dimmerStatusField1.setSubDeviceTypeConfig(dimmerConfig);
+		dimmerStatusField1.setStatusField("Status");
+		List<SubDeviceTypeStatusField> dimmerStatusFields = new ArrayList<>();
+		dimmerStatusFields.add(dimmerStatusField1);
+		
+		SubDeviceTypeStatusField contactStatusField1 = new SubDeviceTypeStatusField();
+		contactStatusField1.setSubDeviceTypeConfig(contactConfig);
+		contactStatusField1.setStatusField("Status");
+		List<SubDeviceTypeStatusField> contactStatusFields = new ArrayList<>();
+		contactStatusFields.add(contactStatusField1);
+		
+		/*
+		 * create the reversed relations
+		 */
+		// Config <- Fields
+		onOffConfig.setSubDeviceTypeStatusFields(onOffStatusFields);
+		dimmerConfig.setSubDeviceTypeStatusFields(dimmerStatusFields);
+		contactConfig.setSubDeviceTypeStatusFields(contactStatusFields);
+		
+		// SubDeviceType <- Config
+		onOff.setSubDeviceTypeConfig(onOffConfig);
+		dimmer.setSubDeviceTypeConfig(dimmerConfig);
+		contact.setSubDeviceTypeConfig(contactConfig);
+		
+		// DeviceType <- SubDeviceTypes
+		lighting.setSubDeviceTypes(lightingSubDevices);
+		
+		// save the device
+		saveDeviceType(lighting);
+		
+	}
+	
+	public void createGroup() {
+		// create the group type
+		DeviceType group = new DeviceType();
+		group.setDeviceType("Group");
+		group.setSubDeviceField("Type");
+		
+		// create the SINGLE sub device for group
+		SubDeviceType groupSubDevice = new SubDeviceType();
+		groupSubDevice.setDeviceType(group);
+		groupSubDevice.setSubDeviceType("Group");
+		groupSubDevice.setIcon("fas fa-object-group");
+		groupSubDevice.setTemplatePage("group");
+		
+		List<SubDeviceType> groupSubDevices = new ArrayList<>();
+		groupSubDevices.add(groupSubDevice);
+		
+		SubDeviceTypeConfig groupConfig = new SubDeviceTypeConfig();
+		groupConfig.setSubDeviceType(groupSubDevice);
+		groupConfig.setIconStatusField("Status");
+		groupConfig.setIconClickAction("Toggle");
+		
+		
+		SubDeviceTypeStatusField groupStatusField1 = new SubDeviceTypeStatusField();
+		groupStatusField1.setSubDeviceTypeConfig(groupConfig);
+		groupStatusField1.setStatusField("Status");
+		List<SubDeviceTypeStatusField> groupStatusFields = new ArrayList<>();
+		groupStatusFields.add(groupStatusField1);
+		
+		/*
+		 * Backwards relations
+		 */
+		groupConfig.setSubDeviceTypeStatusFields(groupStatusFields);
+		
+		// SubDeviceType <- Config
+		groupSubDevice.setSubDeviceTypeConfig(groupConfig);
+
+		
+		// DeviceType <- SubDeviceTypes
+		group.setSubDeviceTypes(groupSubDevices);
+		
+		// save the device
+		saveDeviceType(group);
+		
+
+	}
+	
+	public void createScene() {
+		// create the scene type
+		DeviceType scene = new DeviceType();
+		scene.setDeviceType("Scene");
+		scene.setSubDeviceField("Type");
+		
+		// create the SINGLE sub device for scene
+		SubDeviceType sceneSubDevice = new SubDeviceType();
+		sceneSubDevice.setDeviceType(scene);
+		sceneSubDevice.setSubDeviceType("Scene");
+		sceneSubDevice.setIcon("far fa-object-group");
+		sceneSubDevice.setTemplatePage("scene");
+		
+		
+		List<SubDeviceType> sceneSubDevices = new ArrayList<>();
+		sceneSubDevices.add(sceneSubDevice);
+		
+		SubDeviceTypeConfig sceneConfig = new SubDeviceTypeConfig();
+		sceneConfig.setSubDeviceType(sceneSubDevice);
+		sceneConfig.setIconStatusField("Status");
+		sceneConfig.setIconClickAction("On");
+		
+		
+		SubDeviceTypeStatusField sceneStatusField1 = new SubDeviceTypeStatusField();
+		sceneStatusField1.setSubDeviceTypeConfig(sceneConfig);
+		sceneStatusField1.setStatusField("Status");
+		List<SubDeviceTypeStatusField> sceneStatusFields = new ArrayList<>();
+		sceneStatusFields.add(sceneStatusField1);
+		
+		/*
+		 * Backwards relations
+		 */
+		sceneConfig.setSubDeviceTypeStatusFields(sceneStatusFields);
+		
+		// SubDeviceType <- Config
+		sceneSubDevice.setSubDeviceTypeConfig(sceneConfig);
+
+		
+		// DeviceType <- SubDeviceTypes
+		scene.setSubDeviceTypes(sceneSubDevices);
+		
+		// save the device
+		saveDeviceType(scene);
+		
+	}
+	
+	public void createSmartMeter() {
+		// create the p1 meter type
+		DeviceType p1meter = new DeviceType();
+		p1meter.setDeviceType("P1 Smart Meter");
+		p1meter.setSubDeviceField("Type");
+		
+		SubDeviceType p1SubDevice = new SubDeviceType();
+		p1SubDevice.setDeviceType(p1meter);
+		p1SubDevice.setSubDeviceType("P1 Smart Meter");
+		p1SubDevice.setIcon("fas fa-tachometer-alt");
+		p1SubDevice.setTemplatePage("p1");
+		p1SubDevice.setStaticDevice(true);
+		
+		
+		List<SubDeviceType> smartMeterSubDevices = new ArrayList<>();
+		smartMeterSubDevices.add(p1SubDevice);
+		
+		SubDeviceTypeConfig smartMeterConfig = new SubDeviceTypeConfig();
+		smartMeterConfig.setSubDeviceType(p1SubDevice);
+		
+		
+		SubDeviceTypeStatusField smartMeterStatusField1 = new SubDeviceTypeStatusField();
+		smartMeterStatusField1.setSubDeviceTypeConfig(smartMeterConfig);
+		smartMeterStatusField1.setStatusField("Usage");
+		SubDeviceTypeStatusField smartMeterStatusField2 = new SubDeviceTypeStatusField();
+		smartMeterStatusField2.setSubDeviceTypeConfig(smartMeterConfig);
+		smartMeterStatusField2.setStatusField("CounterToday");
+		List<SubDeviceTypeStatusField> sceneStatusFields = new ArrayList<>();
+		sceneStatusFields.add(smartMeterStatusField1);
+		sceneStatusFields.add(smartMeterStatusField2);
+		
+		/*
+		 * Backwards relations
+		 */
+		smartMeterConfig.setSubDeviceTypeStatusFields(sceneStatusFields);
+		
+		// SubDeviceType <- Config
+		p1SubDevice.setSubDeviceTypeConfig(smartMeterConfig);
+
+		
+		// DeviceType <- SubDeviceTypes
+		p1meter.setSubDeviceTypes(smartMeterSubDevices);
+		
+		// save the device
+		saveDeviceType(p1meter);
+		
+	}
+	
+	public void createTemp() {
+		// create the temperature type
+		DeviceType temp = new DeviceType();
+		temp.setDeviceType("Temp");
+		temp.setSubDeviceField("Type");
+
+		
+		SubDeviceType tempSubDevice = new SubDeviceType();
+		tempSubDevice.setDeviceType(temp);
+		tempSubDevice.setSubDeviceType("Temp");
+		tempSubDevice.setIcon("fas fa-thermometer-half");
+		tempSubDevice.setTemplatePage("temp");
+		tempSubDevice.setStaticDevice(true);
+
+		
+		
+		List<SubDeviceType> tempSubDevices = new ArrayList<>();
+		tempSubDevices.add(tempSubDevice);
+		
+		SubDeviceTypeConfig tempConfig = new SubDeviceTypeConfig();
+		tempConfig.setSubDeviceType(tempSubDevice);
+		
+		
+		SubDeviceTypeStatusField tempStatusField1 = new SubDeviceTypeStatusField();
+		tempStatusField1.setSubDeviceTypeConfig(tempConfig);
+		tempStatusField1.setStatusField("Temp");
+		List<SubDeviceTypeStatusField> tempStatusFields = new ArrayList<>();
+		tempStatusFields.add(tempStatusField1);
+		
+		/*
+		 * Backwards relations
+		 */
+		tempConfig.setSubDeviceTypeStatusFields(tempStatusFields);
+		
+		// SubDeviceType <- Config
+		tempSubDevice.setSubDeviceTypeConfig(tempConfig);
+
+		
+		// DeviceType <- SubDeviceTypes
+		temp.setSubDeviceTypes(tempSubDevices);
+		
+		// save the device
+		saveDeviceType(temp);
+		
+	}
+	
+	public void createTempHumidity() {
+		// create the temperature + humiditu type
+		DeviceType tempHumidity = new DeviceType();
+		tempHumidity.setDeviceType("Temp + Humidity");
+		tempHumidity.setSubDeviceField("Type");
+
+		
+		SubDeviceType tempHumiditySubDevice = new SubDeviceType();
+		tempHumiditySubDevice.setDeviceType(tempHumidity);
+		tempHumiditySubDevice.setSubDeviceType("Temp + Humidity");
+		tempHumiditySubDevice.setIcon("fas fa-thermometer-half");
+		tempHumiditySubDevice.setTemplatePage("tempHumidity");
+		tempHumiditySubDevice.setStaticDevice(true);
+
+		
+		
+		List<SubDeviceType> tempHumiditySubDevices = new ArrayList<>();
+		tempHumiditySubDevices.add(tempHumiditySubDevice);
+		
+		SubDeviceTypeConfig tempHumidityConfig = new SubDeviceTypeConfig();
+		tempHumidityConfig.setSubDeviceType(tempHumiditySubDevice);
+		
+		
+		SubDeviceTypeStatusField tempHumidityStatusField1 = new SubDeviceTypeStatusField();
+		tempHumidityStatusField1.setSubDeviceTypeConfig(tempHumidityConfig);
+		tempHumidityStatusField1.setStatusField("Temp");
+		SubDeviceTypeStatusField tempHumidityStatusField2 = new SubDeviceTypeStatusField();
+		tempHumidityStatusField2.setSubDeviceTypeConfig(tempHumidityConfig);
+		tempHumidityStatusField2.setStatusField("Humidity");
+		List<SubDeviceTypeStatusField> tempStatusFields = new ArrayList<>();
+		tempStatusFields.add(tempHumidityStatusField1);
+		tempStatusFields.add(tempHumidityStatusField2);
+		
+		/*
+		 * Backwards relations
+		 */
+		tempHumidityConfig.setSubDeviceTypeStatusFields(tempStatusFields);
+		
+		// SubDeviceType <- Config
+		tempHumiditySubDevice.setSubDeviceTypeConfig(tempHumidityConfig);
+
+		
+		// DeviceType <- SubDeviceTypes
+		tempHumidity.setSubDeviceTypes(tempHumiditySubDevices);
+		
+		// save the device
+		saveDeviceType(tempHumidity);
+		
+	}
+	
+	public void createGeneral() {
+		// create the temperature + humiditu type
+		DeviceType general = new DeviceType();
+		general.setDeviceType("General");
+		general.setSubDeviceField("Type");
+
+		
+		SubDeviceType generalSubDevice = new SubDeviceType();
+		generalSubDevice.setDeviceType(general);
+		generalSubDevice.setSubDeviceType("General");
+		generalSubDevice.setIcon("fas fa-info-circle");
+		generalSubDevice.setTemplatePage("general");
+		generalSubDevice.setStaticDevice(true);
+		
+		
+		List<SubDeviceType> generalSubDevices = new ArrayList<>();
+		generalSubDevices.add(generalSubDevice);
+		
+		SubDeviceTypeConfig generalConfig = new SubDeviceTypeConfig();
+		generalConfig.setSubDeviceType(generalSubDevice);
+		
+		
+		SubDeviceTypeStatusField generalStatusField1 = new SubDeviceTypeStatusField();
+		generalStatusField1.setSubDeviceTypeConfig(generalConfig);
+		generalStatusField1.setStatusField("Data");
+
+		List<SubDeviceTypeStatusField> generalStatusFields = new ArrayList<>();
+		generalStatusFields.add(generalStatusField1);
+
+		/*
+		 * Backwards relations
+		 */
+		generalConfig.setSubDeviceTypeStatusFields(generalStatusFields);
+		
+		// SubDeviceType <- Config
+		generalSubDevice.setSubDeviceTypeConfig(generalConfig);
+
+		
+		// DeviceType <- SubDeviceTypes
+		general.setSubDeviceTypes(generalSubDevices);
+		
+		// save the device
+		saveDeviceType(general);
+		
+	}
+	
+	public void saveDeviceType(DeviceType deviceType) {
+		if(deviceTypeService.findByDeviceType(deviceType.getDeviceType()) != null) {
+			// device type already exists
+			logLines.add(new InstallLogLine("Device Type", "Device Type already exists.", String.format("Device Type: '%s'", deviceType.getDeviceType())));
+			return;
+		}
+		
+		String logMessage = "";
+		logMessage += String.format("DeviceType: '%s'%n", deviceType.getDeviceType());
+		logMessage += String.format("SubDeviceType field: '%s'%n", deviceType.getSubDeviceField());
+		// loop through the SubDeviceTypes
+		for(SubDeviceType subDeviceTpe : deviceType.getSubDeviceTypes()) {
+			logMessage += String.format("  SubDeviceType:%n");
+			logMessage += String.format("    SubDeviceType: '%s'%n", subDeviceTpe.getSubDeviceType());
+			logMessage += String.format("    Icon: '%s'%n", subDeviceTpe.getIcon());
+			logMessage += String.format("    Template: '%s'%n", subDeviceTpe.getTemplatePage());
+			logMessage += String.format("    Static device: '%s'%n", subDeviceTpe.isStaticDevice());
+			logMessage += String.format("    Config:%n");
+			// config
+			logMessage += String.format("      Icon status field: '%s'%n", subDeviceTpe.getSubDeviceTypeConfig().getIconStatusField());
+			logMessage += String.format("      Icon click action: '%s'%n", subDeviceTpe.getSubDeviceTypeConfig().getIconClickAction());
+			logMessage += String.format("      Slider min value: '%d'%n", subDeviceTpe.getSubDeviceTypeConfig().getSliderMinValue());
+			logMessage += String.format("      Slider max value field: '%s'%n", subDeviceTpe.getSubDeviceTypeConfig().getSliderMaxValueField());
+			logMessage += String.format("      Slider value step: '%d'%n", subDeviceTpe.getSubDeviceTypeConfig().getSliderStepValue());
+			logMessage += String.format("      Slider current value field: '%s'%n", subDeviceTpe.getSubDeviceTypeConfig().getSliderCurrentValueField());
+			// config fields
+			for(SubDeviceTypeStatusField subDeviceTypeStatusField : subDeviceTpe.getSubDeviceTypeConfig().getSubDeviceTypeStatusFields()) {
+				logMessage += String.format("      Fields:%n");
+				logMessage += String.format("        Status field: '%s'%n", subDeviceTypeStatusField.getStatusField());
+			}
+			
+		}
+		
+		deviceTypeService.save(deviceType);
+		logLines.add(new InstallLogLine("Domoticz Configuration", String.format("saved device type '%s'", deviceType.getDeviceType()), logMessage));
+	}
+	
 	
 }
