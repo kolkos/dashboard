@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import nl.kolkos.dashboard.objects.Button;
 import nl.kolkos.dashboard.objects.Dashboard;
 import nl.kolkos.dashboard.objects.Panel;
 import nl.kolkos.dashboard.objects.Screen;
@@ -34,24 +35,37 @@ public class BackendLayoutController {
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String editLayoutPage(
-			@RequestParam(value = "screenId", required = false) String screenId,
-			@RequestParam(value = "dashboardId", required = false) String dashboardId,
+			@RequestParam(value = "screenId", required = false) Long screenId,
+			@RequestParam(value = "dashboardId", required = false) Long dashboardId,
 			Model model) {
 		
 		model.addAttribute("title", "Edit screen layout");
 		model.addAttribute("description", "Change the layout of a screen. After selecting a screen, the screen layout will be loaded.");
 		
+		// add a button
+		
 		// check if the dashboard id is empty
-		if(dashboardId != null && !dashboardId.equals("")) {
-			long dashboardIdLong = Long.parseLong(dashboardId);
-			model.addAttribute("dashboardId", dashboardIdLong);
+		if(dashboardId != null) {
+			model.addAttribute("dashboardId", dashboardId);
 		}
 		
 		// check if the screen id is empty
-		if(screenId != null && !screenId.equals("")) {
-			long screenIdLong = Long.parseLong(screenId);
-			model.addAttribute("screenId", screenIdLong);
+		if(screenId != null) {
+			model.addAttribute("screenId", screenId);
 		}
+		
+		// if both the screen and the dashboard ID are set, the button can use this values
+		List<Button> buttons = new ArrayList<>();
+		if(screenId != null && dashboardId != null) {
+			String buttonUrl = String.format("/config/panel/add?dashboardId=%d&screenId=%d", dashboardId, screenId);
+			Button newPanelButton = new Button("Create new panel", "btn-success", buttonUrl, "oi oi-plus");
+			buttons.add(newPanelButton);
+		}else {
+			// just add a clean add panel button
+			Button newPanelButton = new Button("Create new panel", "btn-success", "/config/panel/add", "oi oi-plus");
+			buttons.add(newPanelButton);
+		}
+		model.addAttribute("buttons", buttons);
 		
 		// get the dashboards
 		Iterable<Dashboard> dashboards = dashboardService.findAll();

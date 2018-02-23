@@ -21,39 +21,7 @@
         <p class="lead" th:text="${description}">Page description</p>
         <br/>
         
-        
-        <table class="table table-striped">
-		  <thead>
-		    <tr>
-		      <th scope="col">#</th>
-		      <th scope="col">Field name</th>
-		      <th scope="col">Use this field</th>
-		      
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr th:each="field : ${fields}">
-		    		<th scope="row" th:text="${field.id}">ID</th>
-		    		<td th:text="${field.field}">Field name</td>
-		    		
-		    		
-		    		
-		    		<td>
-		    			<!-- 'button' to use the field (if not active) -->
-		    			<a th:if="${field.useField}" href="#" style="color: black;" th:href="@{/config/device/types/fields/{subDeviceTypeId}(subDeviceTypeId=${subDeviceTypeId},fieldId=${field.id})}" >
-		    				<span class="oi oi-check" title="Use this field" aria-hidden="true"></span>
-		    			</a>
-		    			<a th:unless="${field.useField}" href="#" style="color: black;" th:href="@{/config/device/types/fields/{subDeviceTypeId}(subDeviceTypeId=${subDeviceTypeId},fieldId=${field.id})}" >
-		    				<span class="oi oi-x" title="Use this field" aria-hidden="true"></span>
-		    			</a>
-		    		
-		    		</td>
-		    		
-		    		
-		    		
-		    </tr>
-		  </tbody>
-		</table>
+        <div id="formHolder"></div> 
         
 	</div>
 	
@@ -69,7 +37,43 @@
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/js/loadMenu.js"></script>
     
-   
+    <script th:inline="javascript">
+    		/*<![CDATA[*/
+	    		$(function() {
+	    			loadForm();
+		    });
+
+			function loadForm(){
+				var subDeviceTypeId = [[${subDeviceTypeId}]];
+				var url = "/config/device/types/fields/form/" + subDeviceTypeId;
+				$.get( url, function( data ) {
+					$( "#formHolder" ).html( data );	  
+				});
+			}
+
+			function handleFields(fields, action){
+				var formData = {selectedFields: fields, action: action};
+				
+				var subDeviceTypeId = [[${subDeviceTypeId}]];
+				var url = "/config/device/types/fields/form/" + subDeviceTypeId;
+
+				console.log(url);
+				console.log(formData);
+
+				$.post(url, formData,
+				    function(data, status){
+				    		console.log(status);
+						$( "#formHolder" ).html( data );
+				    }
+				);
+			}
+
+			
+
+    		/*]]>*/
+    </script>
+    
+   	
  	
 </body>
 </html>

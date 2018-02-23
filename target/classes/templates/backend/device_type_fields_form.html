@@ -1,0 +1,52 @@
+<form action="post" xmlns:th="http://www.thymeleaf.org">
+	<div th:if="${message} != null" th:text="${message}" th:class="${messageClass}"></div>
+
+	<div class="form-row">
+
+		<div class="form-group col-md-5">
+			<select multiple name="unusedFields" id="unusedFields"
+				class="form-control" size="20">
+
+				<option th:each="unusedField : ${unusedFields}"
+					th:text="${unusedField.field}" th:value="${unusedField.id}">Unused
+					field(s)</option>
+			</select>
+		</div>
+
+		<div class="form-group col-md-2">
+			<button class="btn btn-primary btn-block" type="button" role="button"
+				id="addFieldsButton">
+				<span class="oi oi-caret-right"></span> Add field(s)
+			</button>
+
+			<button class="btn btn-primary btn-block" type="button" role="button"
+				id="removeFieldsButton">
+				Remove field(s) <span class="oi oi-caret-left"></span>
+			</button>
+		</div>
+
+		<div class="form-group col-md-5">
+			<select multiple name="usedFields" id="usedFields" class="form-control"
+				size="20">
+				<option th:each="usedField : ${usedFields}"
+					th:text="${usedField.field}" th:value="${usedField.id}">Used
+					field(s)</option>
+			</select>
+		</div>
+
+	</div>
+</form>
+
+<script type="text/javascript">
+	$("#addFieldsButton").click(function(){
+		var fields = $("#unusedFields").val();
+		var action = "add";
+		handleFields(fields, action);
+	});
+
+	$("#removeFieldsButton").click(function(){
+		var fields = $("#usedFields").val();
+		var action = "remove";
+		handleFields(fields, action);
+	});
+</script>

@@ -16,5 +16,7 @@ public interface SubDeviceTypeFieldRepository extends CrudRepository<SubDeviceTy
 	
 	List<SubDeviceTypeField> findBySubDeviceTypeAndUseFieldTrueOrderByFieldAsc(SubDeviceType subDeviceType);
 	
+	List<SubDeviceTypeField> findBySubDeviceTypeAndUseFieldFalseOrderByFieldAsc(SubDeviceType subDeviceType);
+	
 	SubDeviceTypeField findById(Long id);
 }

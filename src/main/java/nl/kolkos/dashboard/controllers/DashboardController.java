@@ -87,9 +87,7 @@ public class DashboardController {
 		
 		// get the screen
 		Screen screen = screenService.findBySafeName(safeNameScreen);
-		if(screen == null) {
-			System.out.println("Screen!?");
-		}
+		
 		
 		model.addAttribute("screen", screen);
 		

@@ -18,8 +18,15 @@
 	<div class="container-fluid" style="width: 90%;">
 	  	<h1 th:text="${title}">Title</h1>
         <p class="lead" th:text="${description}">Page description</p>
-        <br/>
         
+        
+        <p th:if="${buttons} != null">
+        		<a th:each="button : ${buttons}" th:href="${button.url}" th:class="${'btn ' + button.buttonClass}" role="button" aria-disabled="true">
+        			<span th:if="${button.icon} != null" th:class="${button.icon}"></span>
+        			<span th:text="${button.buttonText}">Text</span>
+        		</a>
+        </p>
+        <br/>
         
         <div id="configPageWrapper">
         		<div id="selectScreenFormDiv">
@@ -83,7 +90,6 @@
 	    		var screenId = $("#screen").val();
 	    		// only load if the screen is not empty
 	    		if(screenId.length > 0){
-				console.log("Screen ID has been set to " + screenId);
 				loadPreview(screenId);
 			}
 	    		loadPanelForm("NONE");
@@ -119,7 +125,6 @@
 		});
 
         function changeColorOfSelectedPanel(id){
-        		console.log(id);
             
 			// first change all to lime
 			$('.box').each(function(){

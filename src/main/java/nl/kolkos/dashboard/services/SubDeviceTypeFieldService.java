@@ -41,4 +41,9 @@ public class SubDeviceTypeFieldService {
 	public List<SubDeviceTypeField> findUsedFields(SubDeviceType subDeviceType){
 		return subDeviceFieldRepository.findBySubDeviceTypeAndUseFieldTrueOrderByFieldAsc(subDeviceType);
 	}
+	
+	public List<SubDeviceTypeField> findUnusedFields(SubDeviceType subDeviceType){
+		return subDeviceFieldRepository.findBySubDeviceTypeAndUseFieldFalseOrderByFieldAsc(subDeviceType);
+	}
+	
 }
