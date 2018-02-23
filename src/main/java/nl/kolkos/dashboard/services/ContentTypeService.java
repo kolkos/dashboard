@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import nl.kolkos.dashboard.objects.ContentType;
+import nl.kolkos.dashboard.entities.ContentType;
 import nl.kolkos.dashboard.repositories.ContentTypeRepository;
 
 @Service

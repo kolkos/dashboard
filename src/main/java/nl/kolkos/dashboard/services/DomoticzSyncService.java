@@ -11,9 +11,9 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import nl.kolkos.dashboard.objects.Device;
-import nl.kolkos.dashboard.objects.DeviceType;
-import nl.kolkos.dashboard.objects.SubDeviceType;
+import nl.kolkos.dashboard.entities.Device;
+import nl.kolkos.dashboard.entities.DeviceType;
+import nl.kolkos.dashboard.entities.SubDeviceType;
 
 
 @Service

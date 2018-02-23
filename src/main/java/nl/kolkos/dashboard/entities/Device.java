@@ -1,4 +1,4 @@
-package nl.kolkos.dashboard.objects;
+package nl.kolkos.dashboard.entities;
 
 
 import javax.persistence.Entity;

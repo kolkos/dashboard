@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import nl.kolkos.dashboard.objects.Device;
-import nl.kolkos.dashboard.objects.SubDeviceType;
+import nl.kolkos.dashboard.entities.Device;
+import nl.kolkos.dashboard.entities.SubDeviceType;
 
 @Repository
 public interface DeviceRepository extends CrudRepository<Device, Long> {

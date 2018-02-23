@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import nl.kolkos.dashboard.objects.Panel;
-import nl.kolkos.dashboard.objects.Screen;
+import nl.kolkos.dashboard.entities.Panel;
+import nl.kolkos.dashboard.entities.Screen;
 
 @Repository
 public interface PanelRepository extends CrudRepository<Panel, Long>{

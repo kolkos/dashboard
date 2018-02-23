@@ -3,8 +3,8 @@ package nl.kolkos.dashboard.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import nl.kolkos.dashboard.objects.ContentDevice;
-import nl.kolkos.dashboard.objects.Panel;
+import nl.kolkos.dashboard.entities.ContentDevice;
+import nl.kolkos.dashboard.entities.Panel;
 import nl.kolkos.dashboard.repositories.ContentDeviceRepository;
 
 @Service

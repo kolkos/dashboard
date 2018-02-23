@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import nl.kolkos.dashboard.objects.ContentDevice;
-import nl.kolkos.dashboard.objects.Device;
-import nl.kolkos.dashboard.objects.Panel;
+import nl.kolkos.dashboard.entities.ContentDevice;
+import nl.kolkos.dashboard.entities.Device;
+import nl.kolkos.dashboard.entities.Panel;
 import nl.kolkos.dashboard.services.ContentDeviceService;
 import nl.kolkos.dashboard.services.PanelService;
 

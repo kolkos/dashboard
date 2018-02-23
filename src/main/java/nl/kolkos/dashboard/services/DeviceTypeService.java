@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import nl.kolkos.dashboard.objects.DeviceType;
+import nl.kolkos.dashboard.entities.DeviceType;
 import nl.kolkos.dashboard.repositories.DeviceTypeRepository;
 
 @Service

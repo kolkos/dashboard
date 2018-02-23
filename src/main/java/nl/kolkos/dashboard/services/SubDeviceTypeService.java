@@ -5,7 +5,7 @@ package nl.kolkos.dashboard.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import nl.kolkos.dashboard.objects.SubDeviceType;
+import nl.kolkos.dashboard.entities.SubDeviceType;
 import nl.kolkos.dashboard.repositories.SubDeviceTypeRepository;
 
 

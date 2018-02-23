@@ -6,15 +6,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import nl.kolkos.dashboard.objects.ContentType;
-import nl.kolkos.dashboard.objects.Dashboard;
-import nl.kolkos.dashboard.objects.DeviceType;
+import nl.kolkos.dashboard.entities.ContentType;
+import nl.kolkos.dashboard.entities.Dashboard;
+import nl.kolkos.dashboard.entities.DeviceType;
+import nl.kolkos.dashboard.entities.Panel;
+import nl.kolkos.dashboard.entities.Screen;
+import nl.kolkos.dashboard.entities.SubDeviceType;
+import nl.kolkos.dashboard.entities.SubDeviceTypeConfig;
+import nl.kolkos.dashboard.entities.SubDeviceTypeStatusField;
 import nl.kolkos.dashboard.objects.InstallLogLine;
-import nl.kolkos.dashboard.objects.Panel;
-import nl.kolkos.dashboard.objects.Screen;
-import nl.kolkos.dashboard.objects.SubDeviceType;
-import nl.kolkos.dashboard.objects.SubDeviceTypeConfig;
-import nl.kolkos.dashboard.objects.SubDeviceTypeStatusField;
 
 /**
  * This service adds a set of default data

@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import nl.kolkos.dashboard.objects.Panel;
-import nl.kolkos.dashboard.objects.Screen;
+import nl.kolkos.dashboard.entities.Panel;
+import nl.kolkos.dashboard.entities.Screen;
 
 
 public class ProofOfConcept {

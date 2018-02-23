@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import nl.kolkos.dashboard.objects.Dashboard;
-import nl.kolkos.dashboard.objects.Panel;
+import nl.kolkos.dashboard.entities.Dashboard;
+import nl.kolkos.dashboard.entities.Panel;
 import nl.kolkos.dashboard.services.BackendService;
 import nl.kolkos.dashboard.services.DashboardService;
 

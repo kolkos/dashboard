@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import nl.kolkos.dashboard.objects.Dashboard;
-import nl.kolkos.dashboard.objects.Panel;
-import nl.kolkos.dashboard.objects.Screen;
+import nl.kolkos.dashboard.entities.Dashboard;
+import nl.kolkos.dashboard.entities.Panel;
+import nl.kolkos.dashboard.entities.Screen;
 import nl.kolkos.dashboard.services.DashboardService;
 import nl.kolkos.dashboard.services.DeviceService;
 import nl.kolkos.dashboard.services.PanelService;

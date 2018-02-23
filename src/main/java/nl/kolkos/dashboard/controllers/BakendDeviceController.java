@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
-import nl.kolkos.dashboard.objects.SubDeviceType;
+import nl.kolkos.dashboard.entities.SubDeviceType;
 import nl.kolkos.dashboard.services.SubDeviceTypeService;
 
 

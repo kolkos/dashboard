@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.kolkos.dashboard.configurations.DomoticzConfiguration;
-import nl.kolkos.dashboard.objects.Dashboard;
-import nl.kolkos.dashboard.objects.DeviceType;
-import nl.kolkos.dashboard.objects.Panel;
-import nl.kolkos.dashboard.objects.Screen;
-import nl.kolkos.dashboard.objects.SubDeviceType;
+import nl.kolkos.dashboard.entities.Dashboard;
+import nl.kolkos.dashboard.entities.DeviceType;
+import nl.kolkos.dashboard.entities.Panel;
+import nl.kolkos.dashboard.entities.Screen;
+import nl.kolkos.dashboard.entities.SubDeviceType;
 import nl.kolkos.dashboard.services.ContentTypeService;
 import nl.kolkos.dashboard.services.DashboardService;
 import nl.kolkos.dashboard.services.DeviceTypeService;

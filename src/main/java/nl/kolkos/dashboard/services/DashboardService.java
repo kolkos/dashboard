@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import nl.kolkos.dashboard.objects.Dashboard;
+import nl.kolkos.dashboard.entities.Dashboard;
 import nl.kolkos.dashboard.repositories.DashboardRepository;
 
 @Service
