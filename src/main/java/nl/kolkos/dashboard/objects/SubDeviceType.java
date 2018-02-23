@@ -1,5 +1,6 @@
 package nl.kolkos.dashboard.objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class SubDeviceType {
@@ -24,6 +26,9 @@ public class SubDeviceType {
 	private String icon;
 	private String templatePage;
 	
+	@OneToOne(mappedBy = "subDeviceType", cascade = CascadeType.ALL, 
+            fetch = FetchType.LAZY, optional = false)
+	private SubDeviceTypeConfig subDeviceTypeConfig;
 	
 	public Long getId() {
 		return id;
@@ -60,6 +65,12 @@ public class SubDeviceType {
 	}
 	public void setTemplatePage(String templatePage) {
 		this.templatePage = templatePage;
+	}
+	public SubDeviceTypeConfig getSubDeviceTypeConfig() {
+		return subDeviceTypeConfig;
+	}
+	public void setSubDeviceTypeConfig(SubDeviceTypeConfig subDeviceTypeConfig) {
+		this.subDeviceTypeConfig = subDeviceTypeConfig;
 	}
 		
 	
