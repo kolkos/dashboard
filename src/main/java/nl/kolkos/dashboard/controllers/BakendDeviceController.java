@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
 import nl.kolkos.dashboard.entities.SubDeviceType;
+import nl.kolkos.dashboard.entities.SubDeviceTypeStatusField;
 import nl.kolkos.dashboard.services.SubDeviceTypeService;
 
 
@@ -45,8 +46,6 @@ public class BakendDeviceController {
 			@PathVariable("subDeviceTypeId") long subDeviceTypeId,
 			Model model) {
 		
-		
-		
 		// get the sub device type
 		SubDeviceType subDeviceType = subDeviceTypeService.findById(subDeviceTypeId);
 		if(subDeviceType == null) {
@@ -54,13 +53,17 @@ public class BakendDeviceController {
 			return "backend/error";
 		}
 		
-		model.addAttribute("subDeviceTypeId", subDeviceTypeId);
-		
 		model.addAttribute("title", "Device type fields for " + subDeviceType.getSubDeviceType());
 		model.addAttribute("description", "Select the field you wish to get the value of.");
-				
-		return "backend/device_type_fields_result";
+		
+		// create a new SubDeviceTypeStatusField
+		SubDeviceTypeStatusField subDeviceStatusField = new SubDeviceTypeStatusField();
+		// link the sub device type
+		
+		
+		return "backend/device_type_fields_edit";
 	}
+	
 	
 
 	

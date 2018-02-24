@@ -1,17 +1,13 @@
 package nl.kolkos.dashboard.entities;
 
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 @Entity
 public class SubDeviceTypeConfig {
@@ -36,20 +32,10 @@ public class SubDeviceTypeConfig {
 	// field to determine the current value
 	private String sliderCurrentValueField;
 
-	
 	// relation with the SubDeviceType
 	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sub_device_type_id")
 	private SubDeviceType subDeviceType;
-	
-	
-	/*
-	 * Status fields
-	 * There could be multiple fields to display a status
-	 * Therefore I'll use separate entity
-	 */
-	@OneToMany(mappedBy = "subDeviceTypeConfig", cascade = CascadeType.ALL)
-	List<SubDeviceTypeStatusField> subDeviceTypeStatusFields;
 	
 	
 	public Long getId() {
@@ -100,12 +86,7 @@ public class SubDeviceTypeConfig {
 	public void setSubDeviceType(SubDeviceType subDeviceType) {
 		this.subDeviceType = subDeviceType;
 	}
-	public List<SubDeviceTypeStatusField> getSubDeviceTypeStatusFields() {
-		return subDeviceTypeStatusFields;
-	}
-	public void setSubDeviceTypeStatusFields(List<SubDeviceTypeStatusField> subDeviceTypeStatusFields) {
-		this.subDeviceTypeStatusFields = subDeviceTypeStatusFields;
-	}
+	
 	
 	
 	

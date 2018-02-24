@@ -21,8 +21,8 @@ public class SubDeviceTypeStatusField {
 	
 	// link with the SubDeviceTypeConfig
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "sub_device_type_config_id")
-	private SubDeviceTypeConfig subDeviceTypeConfig;
+	@JoinColumn(name = "sub_device_type_id")
+	private SubDeviceType subDeviceType;
 
 	public String getStatusField() {
 		return statusField;
@@ -30,14 +30,6 @@ public class SubDeviceTypeStatusField {
 
 	public void setStatusField(String statusField) {
 		this.statusField = statusField;
-	}
-
-	public SubDeviceTypeConfig getSubDeviceTypeConfig() {
-		return subDeviceTypeConfig;
-	}
-
-	public void setSubDeviceTypeConfig(SubDeviceTypeConfig subDeviceTypeConfig) {
-		this.subDeviceTypeConfig = subDeviceTypeConfig;
 	}
 
 	public Long getId() {
@@ -54,6 +46,14 @@ public class SubDeviceTypeStatusField {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	public SubDeviceType getSubDeviceType() {
+		return subDeviceType;
+	}
+
+	public void setSubDeviceType(SubDeviceType subDeviceType) {
+		this.subDeviceType = subDeviceType;
 	}
 	
 	

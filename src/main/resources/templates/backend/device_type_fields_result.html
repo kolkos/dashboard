@@ -21,7 +21,26 @@
         <p class="lead" th:text="${description}">Page description</p>
         <br/>
         
-        <div id="formHolder"></div> 
+        <form id="createNewSubDeviceTypeField" autocomplete="off" th:object="${panel}" action="#" method="post" th:action="@{/config/panel/add}">
+			
+			
+			<div class="form-group row">
+				<label for="name" class="col-sm-4 col-form-label">Panel name: </label>
+				<div class="col">
+					<input type="text" th:field="*{name}" required="required" class="form-control trigger-change" placeholder="Panel name" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="panelId" class="col-sm-4 col-form-label">Panel ID: </label>
+				<div class="col">
+					<input type="text" th:field="*{panelId}" required="required" class="form-control trigger-change" placeholder="Panel ID (generated automatically)" />
+				</div>
+			</div>
+			
+			<input type="submit" class="btn btn-primary btn-lg btn-block" value="Create panel" />
+			
+		</form>
         
 	</div>
 	
@@ -37,41 +56,6 @@
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/js/loadMenu.js"></script>
     
-    <script th:inline="javascript">
-    		/*<![CDATA[*/
-	    		$(function() {
-	    			loadForm();
-		    });
-
-			function loadForm(){
-				var subDeviceTypeId = [[${subDeviceTypeId}]];
-				var url = "/config/device/types/fields/form/" + subDeviceTypeId;
-				$.get( url, function( data ) {
-					$( "#formHolder" ).html( data );	  
-				});
-			}
-
-			function handleFields(fields, action){
-				var formData = {selectedFields: fields, action: action};
-				
-				var subDeviceTypeId = [[${subDeviceTypeId}]];
-				var url = "/config/device/types/fields/form/" + subDeviceTypeId;
-
-				console.log(url);
-				console.log(formData);
-
-				$.post(url, formData,
-				    function(data, status){
-				    		console.log(status);
-						$( "#formHolder" ).html( data );
-				    }
-				);
-			}
-
-			
-
-    		/*]]>*/
-    </script>
     
    	
  	

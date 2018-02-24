@@ -348,21 +348,21 @@ public class InstallerService {
 		 * Finally create the status fields for the sub devices
 		 */
 		SubDeviceTypeStatusField onOffStatusField1 = new SubDeviceTypeStatusField();
-		onOffStatusField1.setSubDeviceTypeConfig(onOffConfig);
+		onOffStatusField1.setSubDeviceType(onOff);
 		onOffStatusField1.setStatusField("Status");
 		onOffStatusField1.setLabel("Status");
 		List<SubDeviceTypeStatusField> onOffStatusFields = new ArrayList<>();
 		onOffStatusFields.add(onOffStatusField1);
 		
 		SubDeviceTypeStatusField dimmerStatusField1 = new SubDeviceTypeStatusField();
-		dimmerStatusField1.setSubDeviceTypeConfig(dimmerConfig);
+		dimmerStatusField1.setSubDeviceType(dimmer);
 		dimmerStatusField1.setStatusField("Status");
 		dimmerStatusField1.setLabel("Status");
 		List<SubDeviceTypeStatusField> dimmerStatusFields = new ArrayList<>();
 		dimmerStatusFields.add(dimmerStatusField1);
 		
 		SubDeviceTypeStatusField contactStatusField1 = new SubDeviceTypeStatusField();
-		contactStatusField1.setSubDeviceTypeConfig(contactConfig);
+		contactStatusField1.setSubDeviceType(contact);
 		contactStatusField1.setStatusField("Status");
 		contactStatusField1.setLabel("Status");
 		List<SubDeviceTypeStatusField> contactStatusFields = new ArrayList<>();
@@ -371,10 +371,10 @@ public class InstallerService {
 		/*
 		 * create the reversed relations
 		 */
-		// Config <- Fields
-		onOffConfig.setSubDeviceTypeStatusFields(onOffStatusFields);
-		dimmerConfig.setSubDeviceTypeStatusFields(dimmerStatusFields);
-		contactConfig.setSubDeviceTypeStatusFields(contactStatusFields);
+		// SubDeviceType <- Fields
+		onOff.setSubDeviceTypeStatusFields(onOffStatusFields);
+		dimmer.setSubDeviceTypeStatusFields(dimmerStatusFields);
+		contact.setSubDeviceTypeStatusFields(contactStatusFields);
 		
 		// SubDeviceType <- Config
 		onOff.setSubDeviceTypeConfig(onOffConfig);
@@ -412,7 +412,7 @@ public class InstallerService {
 		
 		
 		SubDeviceTypeStatusField groupStatusField1 = new SubDeviceTypeStatusField();
-		groupStatusField1.setSubDeviceTypeConfig(groupConfig);
+		groupStatusField1.setSubDeviceType(groupSubDevice);
 		groupStatusField1.setStatusField("Status");
 		groupStatusField1.setLabel("Status");
 		List<SubDeviceTypeStatusField> groupStatusFields = new ArrayList<>();
@@ -421,7 +421,7 @@ public class InstallerService {
 		/*
 		 * Backwards relations
 		 */
-		groupConfig.setSubDeviceTypeStatusFields(groupStatusFields);
+		groupSubDevice.setSubDeviceTypeStatusFields(groupStatusFields);
 		
 		// SubDeviceType <- Config
 		groupSubDevice.setSubDeviceTypeConfig(groupConfig);
@@ -460,7 +460,7 @@ public class InstallerService {
 		
 		
 		SubDeviceTypeStatusField sceneStatusField1 = new SubDeviceTypeStatusField();
-		sceneStatusField1.setSubDeviceTypeConfig(sceneConfig);
+		sceneStatusField1.setSubDeviceType(sceneSubDevice);
 		sceneStatusField1.setStatusField("Status");
 		sceneStatusField1.setLabel("Status");
 		List<SubDeviceTypeStatusField> sceneStatusFields = new ArrayList<>();
@@ -469,7 +469,7 @@ public class InstallerService {
 		/*
 		 * Backwards relations
 		 */
-		sceneConfig.setSubDeviceTypeStatusFields(sceneStatusFields);
+		sceneSubDevice.setSubDeviceTypeStatusFields(sceneStatusFields);
 		
 		// SubDeviceType <- Config
 		sceneSubDevice.setSubDeviceTypeConfig(sceneConfig);
@@ -505,11 +505,13 @@ public class InstallerService {
 		
 		
 		SubDeviceTypeStatusField smartMeterStatusField1 = new SubDeviceTypeStatusField();
-		smartMeterStatusField1.setSubDeviceTypeConfig(smartMeterConfig);
+		smartMeterStatusField1.setSubDeviceType(p1SubDevice);
 		smartMeterStatusField1.setStatusField("Usage");
+		smartMeterStatusField1.setLabel("Current usage");
 		SubDeviceTypeStatusField smartMeterStatusField2 = new SubDeviceTypeStatusField();
-		smartMeterStatusField2.setSubDeviceTypeConfig(smartMeterConfig);
+		smartMeterStatusField2.setSubDeviceType(p1SubDevice);
 		smartMeterStatusField2.setStatusField("CounterToday");
+		smartMeterStatusField2.setLabel("Usage today");
 		List<SubDeviceTypeStatusField> sceneStatusFields = new ArrayList<>();
 		sceneStatusFields.add(smartMeterStatusField1);
 		sceneStatusFields.add(smartMeterStatusField2);
@@ -517,7 +519,7 @@ public class InstallerService {
 		/*
 		 * Backwards relations
 		 */
-		smartMeterConfig.setSubDeviceTypeStatusFields(sceneStatusFields);
+		p1SubDevice.setSubDeviceTypeStatusFields(sceneStatusFields);
 		
 		// SubDeviceType <- Config
 		p1SubDevice.setSubDeviceTypeConfig(smartMeterConfig);
@@ -552,7 +554,7 @@ public class InstallerService {
 		
 		
 		SubDeviceTypeStatusField tempStatusField1 = new SubDeviceTypeStatusField();
-		tempStatusField1.setSubDeviceTypeConfig(tempConfig);
+		tempStatusField1.setSubDeviceType(tempSubDevice);
 		tempStatusField1.setStatusField("Temp");
 		tempStatusField1.setLabel("Temperature");
 		List<SubDeviceTypeStatusField> tempStatusFields = new ArrayList<>();
@@ -561,7 +563,7 @@ public class InstallerService {
 		/*
 		 * Backwards relations
 		 */
-		tempConfig.setSubDeviceTypeStatusFields(tempStatusFields);
+		tempSubDevice.setSubDeviceTypeStatusFields(tempStatusFields);
 		
 		// SubDeviceType <- Config
 		tempSubDevice.setSubDeviceTypeConfig(tempConfig);
@@ -599,11 +601,11 @@ public class InstallerService {
 		
 		
 		SubDeviceTypeStatusField tempHumidityStatusField1 = new SubDeviceTypeStatusField();
-		tempHumidityStatusField1.setSubDeviceTypeConfig(tempHumidityConfig);
+		tempHumidityStatusField1.setSubDeviceType(tempHumiditySubDevice);
 		tempHumidityStatusField1.setStatusField("Temp");
 		tempHumidityStatusField1.setLabel("Temperature");
 		SubDeviceTypeStatusField tempHumidityStatusField2 = new SubDeviceTypeStatusField();
-		tempHumidityStatusField2.setSubDeviceTypeConfig(tempHumidityConfig);
+		tempHumidityStatusField2.setSubDeviceType(tempHumiditySubDevice);
 		tempHumidityStatusField2.setStatusField("Humidity");
 		tempHumidityStatusField2.setLabel("Humidity");
 		List<SubDeviceTypeStatusField> tempStatusFields = new ArrayList<>();
@@ -613,7 +615,7 @@ public class InstallerService {
 		/*
 		 * Backwards relations
 		 */
-		tempHumidityConfig.setSubDeviceTypeStatusFields(tempStatusFields);
+		tempHumiditySubDevice.setSubDeviceTypeStatusFields(tempStatusFields);
 		
 		// SubDeviceType <- Config
 		tempHumiditySubDevice.setSubDeviceTypeConfig(tempHumidityConfig);
@@ -650,7 +652,7 @@ public class InstallerService {
 		
 		
 		SubDeviceTypeStatusField generalStatusField1 = new SubDeviceTypeStatusField();
-		generalStatusField1.setSubDeviceTypeConfig(generalConfig);
+		generalStatusField1.setSubDeviceType(generalSubDevice);
 		generalStatusField1.setStatusField("Data");
 		generalStatusField1.setLabel("Status");
 
@@ -660,7 +662,7 @@ public class InstallerService {
 		/*
 		 * Backwards relations
 		 */
-		generalConfig.setSubDeviceTypeStatusFields(generalStatusFields);
+		generalSubDevice.setSubDeviceTypeStatusFields(generalStatusFields);
 		
 		// SubDeviceType <- Config
 		generalSubDevice.setSubDeviceTypeConfig(generalConfig);
@@ -699,9 +701,10 @@ public class InstallerService {
 			logMessage += String.format("      Slider max value field: '%s'%n", subDeviceTpe.getSubDeviceTypeConfig().getSliderMaxValueField());
 			logMessage += String.format("      Slider value step: '%d'%n", subDeviceTpe.getSubDeviceTypeConfig().getSliderStepValue());
 			logMessage += String.format("      Slider current value field: '%s'%n", subDeviceTpe.getSubDeviceTypeConfig().getSliderCurrentValueField());
+			logMessage += String.format("    Fields:%n");
 			// config fields
-			for(SubDeviceTypeStatusField subDeviceTypeStatusField : subDeviceTpe.getSubDeviceTypeConfig().getSubDeviceTypeStatusFields()) {
-				logMessage += String.format("      Fields:%n");
+			for(SubDeviceTypeStatusField subDeviceTypeStatusField : subDeviceTpe.getSubDeviceTypeStatusFields()) {
+				logMessage += String.format("      Field:%n");
 				logMessage += String.format("        Domoticz Status field: '%s'%n", subDeviceTypeStatusField.getStatusField());
 				logMessage += String.format("        Label: '%s'%n", subDeviceTypeStatusField.getLabel());
 			}
