@@ -32,8 +32,8 @@
 		      <th scope="col">Template page</th>
 		      <th scope="col">Static device</th>
 		      		      
-		      <th scope="col">Edit fields</th>
-		      <th scope="col">Edit</th>
+		      <th scope="col">Configuration</th>
+		      <th scope="col">Status fields</th>
 		      
 		    </tr>
 		  </thead>
@@ -54,6 +54,12 @@
 		    		<td>
 		    			<span th:if="${subDeviceType.staticDevice}" class="oi oi-check" title="edit panel" aria-hidden="true"></span>
 		    			<span th:unless="${subDeviceType.staticDevice}" class="oi oi-x" title="edit panel" aria-hidden="true"></span>
+		    		</td>
+		    		
+		    		<td>
+		    			<a th:href="@{/config/device/types/config/{id}(id=${subDeviceType.id})}" style="color: black;">
+		    				<span class="oi oi-cog" title="Change fields for this type" aria-hidden="true"></span>
+		    			</a>
 		    		</td>
 		    		
 		    		<td>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+	<title th:text="${title}">Title</title>
+	
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="/css/open-iconic-bootstrap.css" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+	<link href="/css/config.css" rel="stylesheet">
+</head>
+<body>
+	<div id="menuHolder"></div>
+
+	<div class="container">
+	  	<h1 th:text="${title}">Title</h1>
+        <p class="lead" th:text="${description}">Page description</p>
+        <br/>
+        
+        <form id="createNewSubDeviceTypeField" autocomplete="off" th:object="${subDeviceTypeConfig}" action="#" method="post" th:action="@{/config/device/types/config/{id}(id=${subDeviceTypeConfig.subDeviceType.id})}">
+			<div class="form-group row">
+				<label for="iconStatusField" class="col-sm-4 col-form-label">Icon status field (JSON field): </label>
+				<div class="col">
+					<input type="text" th:field="*{iconStatusField}" required="required" class="form-control trigger-change" placeholder="Icon status field (JSON field)" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="iconClickAction" class="col-sm-4 col-form-label">Icon click action: </label>
+				<div class="col">
+					<input type="text" th:field="*{iconClickAction}" required="required" class="form-control trigger-change" placeholder="Icon click action" />
+				</div>
+			</div>
+			
+			<input type="hidden" th:field="*{subDeviceType}" required="required" />
+			<input type="hidden" th:field="*{id}" required="required" />
+			
+			
+			<th:block th:if="${subDeviceTypeConfig.subDeviceType.subDeviceType} == 'Dimmer'">
+				<!--Only show the fields if the type is Dimmer  -->
+				<div class="form-group row">
+					<label for="iconClickAction" class="col-sm-4 col-form-label">Slider minimum value: </label>
+					<div class="col">
+						<input type="number" th:field="*{sliderMinValue}" required="required" class="form-control trigger-change" placeholder="Minimum slider value" />
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="iconClickAction" class="col-sm-4 col-form-label">Slider maximum value field (JSON field): </label>
+					<div class="col">
+						<input type="text" th:field="*{sliderMaxValueField}" required="required" class="form-control trigger-change" placeholder="Slider maximum value field (JSON field)" />
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="iconClickAction" class="col-sm-4 col-form-label">Slider step size: </label>
+					<div class="col">
+						<input type="number" th:field="*{sliderStepValue}" required="required" class="form-control trigger-change" placeholder="Slider step size" />
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="iconClickAction" class="col-sm-4 col-form-label">Slider current value field (JSON field): </label>
+					<div class="col">
+						<input type="text" th:field="*{sliderCurrentValueField}" required="required" class="form-control trigger-change" placeholder="Current slider value field (JSON field)" />
+					</div>
+				</div>
+			</th:block>
+			
+			
+			
+			<input type="submit" class="btn btn-primary btn-lg btn-block" value="Update configuration" />
+			
+		</form>
+       
+        
+	</div>
+	
+	
+	
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+	
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/loadMenu.js"></script>
+    
+    
+   	
+ 	
+</body>
+</html>

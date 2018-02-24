@@ -39,9 +39,6 @@ public class InstallerService {
 	@Autowired
 	private DeviceTypeService deviceTypeService;
 	
-	@Autowired
-	private SubDeviceTypeService subDeviceTypeService;
-	
 	private List<InstallLogLine> logLines = new ArrayList<>();
 	
 	
@@ -493,7 +490,7 @@ public class InstallerService {
 		p1SubDevice.setDeviceType(p1meter);
 		p1SubDevice.setSubDeviceType("P1 Smart Meter");
 		p1SubDevice.setIcon("fas fa-tachometer-alt");
-		p1SubDevice.setTemplatePage("p1");
+		p1SubDevice.setTemplatePage("P1SmartMeter");
 		p1SubDevice.setStaticDevice(true);
 		
 		

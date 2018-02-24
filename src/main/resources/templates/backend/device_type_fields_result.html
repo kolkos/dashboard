@@ -21,26 +21,50 @@
         <p class="lead" th:text="${description}">Page description</p>
         <br/>
         
-        <form id="createNewSubDeviceTypeField" autocomplete="off" th:object="${panel}" action="#" method="post" th:action="@{/config/panel/add}">
-			
-			
+        <form id="createNewSubDeviceTypeField" autocomplete="off" th:object="${subDeviceStatusField}" action="#" method="post" th:action="@{/config/device/types/fields/{id}(id=${subDeviceStatusField.subDeviceType.id})}">
 			<div class="form-group row">
-				<label for="name" class="col-sm-4 col-form-label">Panel name: </label>
+				<label for="statusField" class="col-sm-4 col-form-label">JSON Field: </label>
 				<div class="col">
-					<input type="text" th:field="*{name}" required="required" class="form-control trigger-change" placeholder="Panel name" />
+					<input type="text" th:field="*{statusField}" required="required" class="form-control trigger-change" placeholder="JSON field" />
 				</div>
 			</div>
 			
 			<div class="form-group row">
-				<label for="panelId" class="col-sm-4 col-form-label">Panel ID: </label>
+				<label for="label" class="col-sm-4 col-form-label">Label: </label>
 				<div class="col">
-					<input type="text" th:field="*{panelId}" required="required" class="form-control trigger-change" placeholder="Panel ID (generated automatically)" />
+					<input type="text" th:field="*{label}" required="required" class="form-control trigger-change" placeholder="Label" />
 				</div>
 			</div>
 			
-			<input type="submit" class="btn btn-primary btn-lg btn-block" value="Create panel" />
+			<input type="hidden" th:field="*{subDeviceType}">
+			
+			<input type="submit" class="btn btn-primary btn-lg btn-block" value="Create field" />
 			
 		</form>
+        <br/>
+        
+        <!-- The results -->
+        <h4>Fields</h4>
+        <table class="table table-striped">
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">Label</th>
+		      <th scope="col">JSON Field</th>
+		      <th scope="col">Remove</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr th:each="subDeviceTypeStatusField : ${subDeviceTypeStatusFields}">
+		    		<th scope="row" th:text="${subDeviceTypeStatusField.id}">ID</th>
+		    		<td th:text="${subDeviceTypeStatusField.label}">Label</td>
+		    		<td th:text="${subDeviceTypeStatusField.statusField}">Screen</td>
+		    		
+		    		<td><span class="oi oi-trash" title="Change content"></span></td>
+		    		
+		    </tr>
+		  </tbody>
+		</table>
         
 	</div>
 	
