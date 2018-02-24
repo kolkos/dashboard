@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-public class ContentDevice {
+public class DevicePanel {
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;

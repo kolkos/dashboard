@@ -16,6 +16,7 @@ public class SubDeviceTypeStatusField {
     private Long id;
 	
 	private String statusField;
+	private String label;
 
 	
 	// link with the SubDeviceTypeConfig
@@ -37,6 +38,22 @@ public class SubDeviceTypeStatusField {
 
 	public void setSubDeviceTypeConfig(SubDeviceTypeConfig subDeviceTypeConfig) {
 		this.subDeviceTypeConfig = subDeviceTypeConfig;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	
 	

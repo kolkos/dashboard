@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import nl.kolkos.dashboard.entities.ContentDevice;
 import nl.kolkos.dashboard.entities.Dashboard;
 import nl.kolkos.dashboard.entities.Device;
+import nl.kolkos.dashboard.entities.DevicePanel;
 import nl.kolkos.dashboard.entities.Panel;
 import nl.kolkos.dashboard.entities.Screen;
 import nl.kolkos.dashboard.objects.Button;
-import nl.kolkos.dashboard.services.ContentDeviceService;
 import nl.kolkos.dashboard.services.ContentTypeService;
 import nl.kolkos.dashboard.services.DashboardService;
+import nl.kolkos.dashboard.services.DevicePanelService;
 import nl.kolkos.dashboard.services.DeviceService;
 import nl.kolkos.dashboard.services.DomoticzSyncService;
 import nl.kolkos.dashboard.services.PanelService;
@@ -49,7 +49,7 @@ public class BackendPanelController {
 	private DeviceService deviceService;
 	
 	@Autowired
-	private ContentDeviceService contentDeviceService;
+	private DevicePanelService devicePanelService;
 	
 	/*
 	 * =================================================
@@ -289,14 +289,14 @@ public class BackendPanelController {
 		
 		
 		// check if there is a ContentDevice for this panel
-		ContentDevice contentDevice = contentDeviceService.findByPanel(panel);
-		if(contentDevice == null) {
+		DevicePanel devicePanel = devicePanelService.findByPanel(panel);
+		if(devicePanel == null) {
 			// does not exist, create a new one
-			contentDevice = new ContentDevice();
+			devicePanel = new DevicePanel();
 		}
 		
 		// create the content device
-		model.addAttribute("contentDevice", contentDevice);
+		model.addAttribute("contentDevice", devicePanel);
 		
 		
 
@@ -305,7 +305,7 @@ public class BackendPanelController {
 	
 	@RequestMapping(value = "/content/Device/{panelId}", method = RequestMethod.POST)
 	public String selectDevice(
-			@ModelAttribute ContentDevice contentDevice,
+			@ModelAttribute DevicePanel devicePanel,
 			@PathVariable("panelId") long panelId,
 			Model model) {
 		
@@ -320,10 +320,10 @@ public class BackendPanelController {
 		}
 		
 		// link the panel to the content device
-		contentDevice.setPanel(panel);
+		devicePanel.setPanel(panel);
 		
 		// save it
-		contentDeviceService.save(contentDevice);
+		devicePanelService.save(devicePanel);
 		
 
 		return "redirect:/config/panel/results";

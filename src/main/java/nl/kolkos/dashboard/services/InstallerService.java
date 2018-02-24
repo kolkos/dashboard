@@ -350,18 +350,21 @@ public class InstallerService {
 		SubDeviceTypeStatusField onOffStatusField1 = new SubDeviceTypeStatusField();
 		onOffStatusField1.setSubDeviceTypeConfig(onOffConfig);
 		onOffStatusField1.setStatusField("Status");
+		onOffStatusField1.setLabel("Status");
 		List<SubDeviceTypeStatusField> onOffStatusFields = new ArrayList<>();
 		onOffStatusFields.add(onOffStatusField1);
 		
 		SubDeviceTypeStatusField dimmerStatusField1 = new SubDeviceTypeStatusField();
 		dimmerStatusField1.setSubDeviceTypeConfig(dimmerConfig);
 		dimmerStatusField1.setStatusField("Status");
+		dimmerStatusField1.setLabel("Status");
 		List<SubDeviceTypeStatusField> dimmerStatusFields = new ArrayList<>();
 		dimmerStatusFields.add(dimmerStatusField1);
 		
 		SubDeviceTypeStatusField contactStatusField1 = new SubDeviceTypeStatusField();
 		contactStatusField1.setSubDeviceTypeConfig(contactConfig);
 		contactStatusField1.setStatusField("Status");
+		contactStatusField1.setLabel("Status");
 		List<SubDeviceTypeStatusField> contactStatusFields = new ArrayList<>();
 		contactStatusFields.add(contactStatusField1);
 		
@@ -411,6 +414,7 @@ public class InstallerService {
 		SubDeviceTypeStatusField groupStatusField1 = new SubDeviceTypeStatusField();
 		groupStatusField1.setSubDeviceTypeConfig(groupConfig);
 		groupStatusField1.setStatusField("Status");
+		groupStatusField1.setLabel("Status");
 		List<SubDeviceTypeStatusField> groupStatusFields = new ArrayList<>();
 		groupStatusFields.add(groupStatusField1);
 		
@@ -458,6 +462,7 @@ public class InstallerService {
 		SubDeviceTypeStatusField sceneStatusField1 = new SubDeviceTypeStatusField();
 		sceneStatusField1.setSubDeviceTypeConfig(sceneConfig);
 		sceneStatusField1.setStatusField("Status");
+		sceneStatusField1.setLabel("Status");
 		List<SubDeviceTypeStatusField> sceneStatusFields = new ArrayList<>();
 		sceneStatusFields.add(sceneStatusField1);
 		
@@ -531,7 +536,6 @@ public class InstallerService {
 		DeviceType temp = new DeviceType();
 		temp.setDeviceType("Temp");
 		temp.setSubDeviceField("Type");
-
 		
 		SubDeviceType tempSubDevice = new SubDeviceType();
 		tempSubDevice.setDeviceType(temp);
@@ -539,8 +543,6 @@ public class InstallerService {
 		tempSubDevice.setIcon("fas fa-thermometer-half");
 		tempSubDevice.setTemplatePage("temp");
 		tempSubDevice.setStaticDevice(true);
-
-		
 		
 		List<SubDeviceType> tempSubDevices = new ArrayList<>();
 		tempSubDevices.add(tempSubDevice);
@@ -552,6 +554,7 @@ public class InstallerService {
 		SubDeviceTypeStatusField tempStatusField1 = new SubDeviceTypeStatusField();
 		tempStatusField1.setSubDeviceTypeConfig(tempConfig);
 		tempStatusField1.setStatusField("Temp");
+		tempStatusField1.setLabel("Temperature");
 		List<SubDeviceTypeStatusField> tempStatusFields = new ArrayList<>();
 		tempStatusFields.add(tempStatusField1);
 		
@@ -598,9 +601,11 @@ public class InstallerService {
 		SubDeviceTypeStatusField tempHumidityStatusField1 = new SubDeviceTypeStatusField();
 		tempHumidityStatusField1.setSubDeviceTypeConfig(tempHumidityConfig);
 		tempHumidityStatusField1.setStatusField("Temp");
+		tempHumidityStatusField1.setLabel("Temperature");
 		SubDeviceTypeStatusField tempHumidityStatusField2 = new SubDeviceTypeStatusField();
 		tempHumidityStatusField2.setSubDeviceTypeConfig(tempHumidityConfig);
 		tempHumidityStatusField2.setStatusField("Humidity");
+		tempHumidityStatusField2.setLabel("Humidity");
 		List<SubDeviceTypeStatusField> tempStatusFields = new ArrayList<>();
 		tempStatusFields.add(tempHumidityStatusField1);
 		tempStatusFields.add(tempHumidityStatusField2);
@@ -647,6 +652,7 @@ public class InstallerService {
 		SubDeviceTypeStatusField generalStatusField1 = new SubDeviceTypeStatusField();
 		generalStatusField1.setSubDeviceTypeConfig(generalConfig);
 		generalStatusField1.setStatusField("Data");
+		generalStatusField1.setLabel("Status");
 
 		List<SubDeviceTypeStatusField> generalStatusFields = new ArrayList<>();
 		generalStatusFields.add(generalStatusField1);
@@ -696,7 +702,8 @@ public class InstallerService {
 			// config fields
 			for(SubDeviceTypeStatusField subDeviceTypeStatusField : subDeviceTpe.getSubDeviceTypeConfig().getSubDeviceTypeStatusFields()) {
 				logMessage += String.format("      Fields:%n");
-				logMessage += String.format("        Status field: '%s'%n", subDeviceTypeStatusField.getStatusField());
+				logMessage += String.format("        Domoticz Status field: '%s'%n", subDeviceTypeStatusField.getStatusField());
+				logMessage += String.format("        Label: '%s'%n", subDeviceTypeStatusField.getLabel());
 			}
 			
 		}

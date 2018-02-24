@@ -35,7 +35,7 @@ public class Panel {
 	
 	@OneToOne(mappedBy = "panel", cascade = CascadeType.ALL, 
             fetch = FetchType.LAZY, optional = false)
-	private ContentDevice contentDevice;
+	private DevicePanel devicePanel;
 	
 	public Long getId() {
 		return id;
@@ -110,12 +110,14 @@ public class Panel {
 		this.contentType = contentType;
 	}
 
-	public ContentDevice getContentDevice() {
-		return contentDevice;
+	public DevicePanel getDevicePanel() {
+		return devicePanel;
 	}
 
-	public void setContentDevice(ContentDevice contentDevice) {
-		this.contentDevice = contentDevice;
+	public void setDevicePanel(DevicePanel devicePanel) {
+		this.devicePanel = devicePanel;
 	}
+
+
 	
 }
