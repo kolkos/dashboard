@@ -24,7 +24,6 @@ public class Device {
 	
 	private String name;
 	
-	
 	public SubDeviceType getSubDeviceType() {
 		return subDeviceType;
 	}
@@ -50,7 +49,6 @@ public class Device {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 	
 	
 }
