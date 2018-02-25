@@ -80,7 +80,7 @@
 		    		
 		    		
 		    		<td>
-		    			<a th:if="${panel.contentType.name} == 'Device'" th:href="@{/config/panel/content/{contentType}/{id}(id=${panel.id}, contentType=${panel.contentType.name})}" style="color: black;">
+		    			<a th:if="${panel.contentType.name} == 'Device'" th:href="@{/config/panel/content/{contentType}/select/{id}(id=${panel.id}, contentType=${panel.contentType.name})}" style="color: black;">
 		    				<span class="oi oi-paperclip" title="change device" aria-hidden="true"></span>
 		    			</a>
 		    			

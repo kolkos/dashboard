@@ -264,7 +264,7 @@ public class BackendPanelController {
 		return "redirect:/config/panel/results";
 	}
 	
-	@RequestMapping(value = "/content/Device/{panelId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/content/Device/select/{panelId}", method = RequestMethod.GET)
 	public String selectDeviceForm(
 			@PathVariable("panelId") long panelId,
 			Model model) {
@@ -294,6 +294,7 @@ public class BackendPanelController {
 			// does not exist, create a new one
 			devicePanel = new DevicePanel();
 		}
+		devicePanel.setPanel(panel);
 		
 		// create the content device
 		model.addAttribute("contentDevice", devicePanel);
@@ -303,25 +304,12 @@ public class BackendPanelController {
 		return "backend/panel_content_device_form";
 	}
 	
-	@RequestMapping(value = "/content/Device/{panelId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/content/Device/select", method = RequestMethod.POST)
 	public String selectDevice(
 			@ModelAttribute DevicePanel devicePanel,
-			@PathVariable("panelId") long panelId,
 			Model model) {
 		
-		model.addAttribute("title", "Edit panel content");
-		model.addAttribute("description", "This page let's you select a Domoticz Device to display.");
-				
-		// get the panel
-		Panel panel = panelService.findById(panelId);
-		if(panel == null) {
-			model.addAttribute("message", "The panel could not be found");
-			return "backend/error";
-		}
-		
-		// link the panel to the content device
-		devicePanel.setPanel(panel);
-		
+	
 		// save it
 		devicePanelService.save(devicePanel);
 		

@@ -1,5 +1,7 @@
 package nl.kolkos.dashboard.entities;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -36,6 +39,12 @@ public class Panel {
 	@OneToOne(mappedBy = "panel", cascade = CascadeType.ALL, 
             fetch = FetchType.LAZY, optional = false)
 	private DevicePanel devicePanel;
+	
+	private boolean showTitle = true;
+	
+	@OneToMany(mappedBy = "panel", cascade = CascadeType.ALL)
+	List<PanelStatusField> panelStatusFields;
+	
 	
 	public Long getId() {
 		return id;
@@ -116,6 +125,21 @@ public class Panel {
 
 	public void setDevicePanel(DevicePanel devicePanel) {
 		this.devicePanel = devicePanel;
+	}
+	public boolean isShowTitle() {
+		return showTitle;
+	}
+
+	public void setShowTitle(boolean showTitle) {
+		this.showTitle = showTitle;
+	}
+
+	public List<PanelStatusField> getPanelStatusFields() {
+		return panelStatusFields;
+	}
+
+	public void setPanelStatusFields(List<PanelStatusField> panelStatusFields) {
+		this.panelStatusFields = panelStatusFields;
 	}
 
 

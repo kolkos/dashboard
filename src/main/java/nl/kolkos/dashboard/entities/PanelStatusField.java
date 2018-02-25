@@ -9,28 +9,33 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+/**
+ * @author antonvanderkolk
+ *
+ */
 @Entity
 public class PanelStatusField {
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
-	
-	private String label;
 	private int size;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "panel_configuration_id")
-	private PanelConfiguration panelConfiguration;
+	@JoinColumn(name = "sub_device_type_status_field_id")
+	private SubDeviceTypeStatusField subDeviceTypeStatusField;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "panel_id")
+	private Panel panel;
+	
+	private int position;
+	
 	
 	@Transient
 	private String value;
 	
-	public String getLabel() {
-		return label;
-	}
-	public void setLabel(String label) {
-		this.label = label;
-	}
+	
+	
 	public String getValue() {
 		return value;
 	}
@@ -49,12 +54,25 @@ public class PanelStatusField {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public PanelConfiguration getPanelConfiguration() {
-		return panelConfiguration;
+	public Panel getPanel() {
+		return panel;
 	}
-	public void setPanelConfiguration(PanelConfiguration panelConfiguration) {
-		this.panelConfiguration = panelConfiguration;
+	public void setPanel(Panel panel) {
+		this.panel = panel;
 	}
+	public SubDeviceTypeStatusField getSubDeviceTypeStatusField() {
+		return subDeviceTypeStatusField;
+	}
+	public void setSubDeviceTypeStatusField(SubDeviceTypeStatusField subDeviceTypeStatusField) {
+		this.subDeviceTypeStatusField = subDeviceTypeStatusField;
+	}
+	public int getPosition() {
+		return position;
+	}
+	public void setPosition(int position) {
+		this.position = position;
+	}
+	
 	
 	
 	
