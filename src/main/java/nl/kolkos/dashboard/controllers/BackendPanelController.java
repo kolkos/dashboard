@@ -17,6 +17,7 @@ import nl.kolkos.dashboard.entities.Dashboard;
 import nl.kolkos.dashboard.entities.Device;
 import nl.kolkos.dashboard.entities.DevicePanel;
 import nl.kolkos.dashboard.entities.Panel;
+import nl.kolkos.dashboard.entities.PanelStatusField;
 import nl.kolkos.dashboard.entities.Screen;
 import nl.kolkos.dashboard.objects.Button;
 import nl.kolkos.dashboard.services.ContentTypeService;
@@ -25,6 +26,7 @@ import nl.kolkos.dashboard.services.DevicePanelService;
 import nl.kolkos.dashboard.services.DeviceService;
 import nl.kolkos.dashboard.services.DomoticzSyncService;
 import nl.kolkos.dashboard.services.PanelService;
+import nl.kolkos.dashboard.services.PanelStatusFieldService;
 import nl.kolkos.dashboard.services.ScreenService;
 
 @Controller
@@ -50,6 +52,9 @@ public class BackendPanelController {
 	
 	@Autowired
 	private DevicePanelService devicePanelService;
+	
+	@Autowired
+	private PanelStatusFieldService panelStatusFieldService;
 	
 	/*
 	 * =================================================
@@ -308,12 +313,123 @@ public class BackendPanelController {
 	public String selectDevice(
 			@ModelAttribute DevicePanel devicePanel,
 			Model model) {
-		
 	
 		// save it
 		devicePanelService.save(devicePanel);
-		
-
+	
 		return "redirect:/config/panel/results";
 	}
+	
+	@RequestMapping(value = "/content/Device/{panelId}", method = RequestMethod.GET)
+	public String changeDeviceContentForm(
+			@PathVariable("panelId") long panelId,
+			Model model) {
+		
+		// Get the panel and check if it exists
+		Panel panel = panelService.findById(panelId);
+		if(panel == null) {
+			model.addAttribute("message", "The panel could not be found");
+			return "backend/error";
+		}
+		
+		// title will be shown if the panel exists
+		model.addAttribute("title", "Edit panel content");
+		model.addAttribute("description", "This screen let's you change the fields to display on a panel.");
+		
+		// create the buttons list
+		List<Button> buttons = new ArrayList<>();
+		
+		// check if the panel is linked to a device, if not display a message and add a button to the link device screen
+		if(panel.getDevicePanel().getDevice() == null) {
+			model.addAttribute("message", "This panel is not linked to a device yet. Please link the panel to a device first.");
+			model.addAttribute("messageClass", "alert alert-warning");
+			
+			String url = String.format("/config/panel/content/Device/select/%d", panel.getId());
+			Button button = new Button("Link device to panel", url);
+			buttons.add(button);
+			
+			model.addAttribute("buttons", buttons);
+			
+			// stop the method and display the page
+			return "backend/panel_content_device_fields";
+		}
+		
+		// panel is linked to a device
+		
+		// create a tip
+		model.addAttribute("message", "By default all the fields for the DeviceType are added. If you wan't to add a new field, add it to the DeviceType. On this page you can choose if you wan't to display a field or not.");
+		model.addAttribute("messageClass", "alert alert-info");
+		
+		// to make it easier to add a field a button will be added
+		// the button contains the url to the device type fields
+		String url = String.format("/config/device/types/fields/%d", panel.getDevicePanel().getDevice().getSubDeviceType().getId());
+		Button button = new Button("Add fields to DeviceType", url);
+		buttons.add(button);
+		model.addAttribute("buttons", buttons);
+		
+		// now sync the fields
+		panelStatusFieldService.syncPanelFields(panel);
+		
+		// now get the fields
+		List<PanelStatusField> panelStatusFields = panelStatusFieldService.findStatusFieldsForPanel(panel);
+		model.addAttribute("panelStatusFields", panelStatusFields);
+
+		
+		return "backend/panel_content_device_fields";
+	}
+	
+	@RequestMapping(value = "/content/Device/fields/up/{panelStatusFieldId}", method = RequestMethod.GET)
+	public String moveFieldUp(
+			@PathVariable("panelStatusFieldId") long panelStatusFieldId,
+			Model model) {
+		
+		// check if the panelStatusField exist
+		PanelStatusField panelStatusField = panelStatusFieldService.findById(panelStatusFieldId);
+		if(panelStatusField == null) {
+			model.addAttribute("message", "The field could not be found");
+			return "backend/error";
+		}
+		
+		Panel panel = panelStatusField.getPanel();
+		
+		// get all the fields
+		List<PanelStatusField> panelStatusFields = panelStatusFieldService.findStatusFieldsForPanel(panel);
+		
+		// now move it
+		panelStatusFieldService.moveUp(panelStatusField, panelStatusFields);
+		
+		// save it
+		panelStatusFieldService.saveNewPositions(panelStatusFields);
+
+		
+		return "redirect:/config/panel/content/Device/" + panel.getId();
+	}
+	
+	@RequestMapping(value = "/content/Device/fields/down/{panelStatusFieldId}", method = RequestMethod.GET)
+	public String moveFieldDown(
+			@PathVariable("panelStatusFieldId") long panelStatusFieldId,
+			Model model) {
+		
+		// check if the panelStatusField exist
+		PanelStatusField panelStatusField = panelStatusFieldService.findById(panelStatusFieldId);
+		if(panelStatusField == null) {
+			model.addAttribute("message", "The field could not be found");
+			return "backend/error";
+		}
+		
+		Panel panel = panelStatusField.getPanel();
+		
+		// get all the fields
+		List<PanelStatusField> panelStatusFields = panelStatusFieldService.findStatusFieldsForPanel(panel);
+		
+		// now move it
+		panelStatusFieldService.moveDown(panelStatusField, panelStatusFields);
+		
+		// save it
+		panelStatusFieldService.saveNewPositions(panelStatusFields);
+
+		
+		return "redirect:/config/panel/content/Device/" + panel.getId();
+	}
+	
 }

@@ -29,51 +29,66 @@ public class PanelStatusField {
 	private Panel panel;
 	
 	private int position;
-	
+	private boolean displayed;
 	
 	@Transient
 	private String value;
-	
-	
-	
-	public String getValue() {
-		return value;
-	}
-	public void setValue(String value) {
-		this.value = value;
-	}
-	public int getSize() {
-		return size;
-	}
-	public void setSize(int size) {
-		this.size = size;
-	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Panel getPanel() {
-		return panel;
+
+	public int getSize() {
+		return size;
 	}
-	public void setPanel(Panel panel) {
-		this.panel = panel;
+
+	public void setSize(int size) {
+		this.size = size;
 	}
+
 	public SubDeviceTypeStatusField getSubDeviceTypeStatusField() {
 		return subDeviceTypeStatusField;
 	}
+
 	public void setSubDeviceTypeStatusField(SubDeviceTypeStatusField subDeviceTypeStatusField) {
 		this.subDeviceTypeStatusField = subDeviceTypeStatusField;
 	}
+
+	public Panel getPanel() {
+		return panel;
+	}
+
+	public void setPanel(Panel panel) {
+		this.panel = panel;
+	}
+
 	public int getPosition() {
 		return position;
 	}
+
 	public void setPosition(int position) {
 		this.position = position;
 	}
-	
-	
+
+	public boolean isDisplayed() {
+		return displayed;
+	}
+
+	public void setDisplayed(boolean displayed) {
+		this.displayed = displayed;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
 	
 	
 }
