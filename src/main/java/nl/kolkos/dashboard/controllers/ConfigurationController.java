@@ -24,12 +24,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.kolkos.dashboard.configurations.DomoticzConfiguration;
 import nl.kolkos.dashboard.entities.Dashboard;
+import nl.kolkos.dashboard.entities.Device;
+import nl.kolkos.dashboard.entities.DevicePanel;
 import nl.kolkos.dashboard.entities.DeviceType;
 import nl.kolkos.dashboard.entities.Panel;
+import nl.kolkos.dashboard.entities.PanelStatusField;
 import nl.kolkos.dashboard.entities.Screen;
 import nl.kolkos.dashboard.entities.SubDeviceType;
 import nl.kolkos.dashboard.services.ContentTypeService;
 import nl.kolkos.dashboard.services.DashboardService;
+import nl.kolkos.dashboard.services.DeviceService;
 import nl.kolkos.dashboard.services.DeviceTypeService;
 import nl.kolkos.dashboard.services.DomoticzCommunicator;
 import nl.kolkos.dashboard.services.DomoticzSyncService;
@@ -46,6 +50,9 @@ public class ConfigurationController {
 	
 	@Autowired
 	private DeviceTypeService deviceTypeService;
+	
+	@Autowired
+	private DeviceService deviceService;
 	
 	@Autowired
 	private SubDeviceTypeService subDeviceTypeService;
@@ -236,6 +243,43 @@ public class ConfigurationController {
 	public @ResponseBody String syncDomoticz() {
 		domoticzSyncService.syncDevices();
 		return "Synced";
+	}
+	
+	@RequestMapping(value = "/test3", method = RequestMethod.GET)
+	public @ResponseBody String testResults() {
+		List<DevicePanel> results = deviceService.getCurrentDeviceInfo();
+		String result = "";
+		
+		// loop through results
+		for(DevicePanel devicePanel : results) {
+			Panel panel = devicePanel.getPanel();
+			Device device = devicePanel.getDevice();
+			
+			
+			
+			
+			result += String.format("Panel:%n");
+			result += String.format("  Name: %s%n", panel.getName());
+			result += String.format("  Panel ID: %s%n", panel.getPanelId());
+			result += String.format("  Content Type: %s%n", panel.getContentType().getName());
+			result += String.format("  Device:%n");
+			result += String.format("    idx: %d%n", device.getIdx());
+			result += String.format("    Name: %s%n", device.getName());
+			result += String.format("    Sub Device Type: %s%n", device.getSubDeviceType().getSubDeviceType());
+			result += String.format("  Status Fields:%n");
+			
+			List<PanelStatusField> panelStatusFields = panel.getPanelStatusFields();
+			for(PanelStatusField panelStatusField : panelStatusFields) {
+				result += String.format("    Status Field:%n");
+				result += String.format("      JSON Field: %s%n", panelStatusField.getSubDeviceTypeStatusField().getStatusField());
+				result += String.format("      Label: %s%n", panelStatusField.getSubDeviceTypeStatusField().getLabel());
+				result += String.format("      Value: %s%n", panelStatusField.getValue());
+			}
+			
+		}
+		
+		result = "<pre>" + result + "</pre>";
+		return result;
 	}
 	
 }

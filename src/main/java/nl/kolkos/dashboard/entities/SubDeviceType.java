@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class SubDeviceType {
 	@Id
@@ -38,6 +40,7 @@ public class SubDeviceType {
 	 * There could be multiple fields to display a status
 	 * Therefore I'll use separate entity
 	 */
+	@JsonIgnore
 	@OneToMany(mappedBy = "subDeviceType", cascade = CascadeType.ALL)
 	List<SubDeviceTypeStatusField> subDeviceTypeStatusFields;
 	

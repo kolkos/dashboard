@@ -9,7 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Entity
+@JsonSerialize
 public class DevicePanel {
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)

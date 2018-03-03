@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 @Entity
 public class Panel {
 	@Id
@@ -36,12 +39,14 @@ public class Panel {
 	@JoinColumn(name = "content_type_id")
 	private ContentType contentType;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy = "panel", cascade = CascadeType.ALL, 
             fetch = FetchType.LAZY, optional = false)
 	private DevicePanel devicePanel;
 	
 	private boolean showTitle = true;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "panel", cascade = CascadeType.ALL)
 	List<PanelStatusField> panelStatusFields;
 	

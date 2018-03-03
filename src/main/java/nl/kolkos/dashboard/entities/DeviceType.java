@@ -9,6 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+
 @Entity
 public class DeviceType {
 	@Id
@@ -18,6 +22,7 @@ public class DeviceType {
 	private String deviceType;
 	private String subDeviceField;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "deviceType", cascade = CascadeType.ALL)
 	private List<SubDeviceType> subDeviceTypes;
 
