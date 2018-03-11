@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nl.kolkos.dashboard.entities.Dashboard;
+import nl.kolkos.dashboard.entities.DeviceTypeConfig;
+import nl.kolkos.dashboard.entities.DeviceTypeLookup;
 import nl.kolkos.dashboard.entities.Panel;
 import nl.kolkos.dashboard.entities.Screen;
 import nl.kolkos.dashboard.objects.InstallLogLine;
@@ -28,6 +30,12 @@ public class InstallerService {
 	@Autowired
 	private PanelService panelService;
 	
+	@Autowired
+	private DeviceTypeLookupService deviceTypeLookupService;
+	
+	@Autowired
+	private DeviceTypeConfigService deviceTypeConfigService;
+	
 	private List<InstallLogLine> logLines = new ArrayList<>();
 	
 	
@@ -39,6 +47,7 @@ public class InstallerService {
 		this.createDashboards();
 		this.createScreens();
 		this.createExamplePanels();
+		this.createLookupConfig();
 
 		
 		
@@ -210,6 +219,201 @@ public class InstallerService {
 		
 		logLines.add(new InstallLogLine("Panel", "All panels created", ""));
 		
+		
+	}
+	
+	private void createLookupConfig() {
+		
+		List<DeviceTypeConfig> deviceTypeConfigs = new ArrayList<>();
+		
+		
+		// create the DeviceTypeConfig elements
+		
+		
+		/*
+		 * Basic on and off switch
+		 */
+		DeviceTypeConfig onOff = new DeviceTypeConfig();
+		onOff.setDimmer(false);
+		onOff.setStaticDevice(false);
+		onOff.setName("Switch");
+		onOff.setGetStatusTemplateUrl("json.htm?type=devices&rid={idx}");
+		onOff.setSetStatusTemplateUrl("json.htm?type=command&param=switchlight&idx={idx}&switchcmd=Toggle");
+		onOff.setSetLevelTemplateUrl(null);
+		onOff.setIconStatusJsonField("Status");
+		onOff.setIcon("fas fa-lightbulb");
+		
+		deviceTypeConfigs.add(onOff);
+		
+		
+		/*
+		 * Dimmer, basically a switch with a level option
+		 */
+		DeviceTypeConfig dimmer = new DeviceTypeConfig();
+		dimmer.setDimmer(true);
+		dimmer.setStaticDevice(false);
+		dimmer.setName("Dimmer");
+		dimmer.setGetStatusTemplateUrl("json.htm?type=devices&rid={idx}");
+		dimmer.setSetStatusTemplateUrl("json.htm?type=command&param=switchlight&idx={idx}&switchcmd=Toggle");
+		dimmer.setSetLevelTemplateUrl("json.htm?type=command&param=switchlight&idx={idx}&switchcmd=Set%20Level&level={level}");
+		dimmer.setIconStatusJsonField("Status");
+		dimmer.setIcon("fas fa-lightbulb");
+		
+		deviceTypeConfigs.add(dimmer);
+		
+		
+		/*
+		 * Contact sensor
+		 */
+		DeviceTypeConfig contact = new DeviceTypeConfig();
+		contact.setDimmer(false);
+		contact.setStaticDevice(false);
+		contact.setName("Contact");
+		contact.setGetStatusTemplateUrl("json.htm?type=devices&rid={idx}");
+		contact.setSetStatusTemplateUrl(null);
+		contact.setSetLevelTemplateUrl(null);
+		contact.setIconStatusJsonField("Status");
+		contact.setIcon("fas fa-exchange-alt");
+		
+		deviceTypeConfigs.add(contact);
+		
+		/*
+		 * The following configuration is for all the Utility devices
+		 * These are all static devices
+		 * The data we wish to display can be configured on panel level
+		 */
+		DeviceTypeConfig utility = new DeviceTypeConfig();
+		utility.setDimmer(false);
+		utility.setStaticDevice(true);
+		utility.setName("Utility");
+		utility.setGetStatusTemplateUrl("json.htm?type=devices&rid={idx}");
+		utility.setSetStatusTemplateUrl(null);
+		utility.setSetLevelTemplateUrl(null);
+		utility.setIconStatusJsonField(null);
+		utility.setIcon("fas fa-tachometer-alt");
+		
+		deviceTypeConfigs.add(utility);
+		
+		
+		/*
+		 * The following configuration is for all the temperature devices
+		 * Again these are all static devices
+		 */
+		DeviceTypeConfig temperature = new DeviceTypeConfig();
+		temperature.setDimmer(false);
+		temperature.setStaticDevice(true);
+		temperature.setName("Temperature");
+		temperature.setGetStatusTemplateUrl("json.htm?type=devices&rid={idx}");
+		temperature.setSetStatusTemplateUrl(null);
+		temperature.setSetLevelTemplateUrl(null);
+		temperature.setIconStatusJsonField(null);
+		temperature.setIcon("fas fa-thermometer-half");
+		
+		deviceTypeConfigs.add(temperature);
+		
+		
+		
+		/*
+		 * Finally we add a Unknown type to use if no type has been found
+		 * This is a static device
+		 */
+		DeviceTypeConfig unknown = new DeviceTypeConfig();
+		unknown.setDimmer(false);
+		unknown.setStaticDevice(true);
+		unknown.setName("UNKNOWN");
+		unknown.setGetStatusTemplateUrl("json.htm?type=devices&rid={idx}");
+		unknown.setSetStatusTemplateUrl(null);
+		unknown.setSetLevelTemplateUrl(null);
+		unknown.setIconStatusJsonField(null);
+		unknown.setIcon("fas fa-question-circle");
+		
+		deviceTypeConfigs.add(unknown);
+		
+		
+		/*
+		 * Now create the lookup table
+		 * This table will be used to find the right config for a device
+		 */
+		List<DeviceTypeLookup> deviceTypeLookups = new ArrayList<>();
+		
+		DeviceTypeLookup onOffLookup = new DeviceTypeLookup("Lighting", "SwitchType", "On/Off", onOff);
+		DeviceTypeLookup dimmerLookup = new DeviceTypeLookup("Lighting", "SwitchType", "Dimmer", dimmer);
+		DeviceTypeLookup contactLookup = new DeviceTypeLookup("Lighting", "SwitchType", "Contact", contact);
+		DeviceTypeLookup smartMeterLookup = new DeviceTypeLookup("P1 Smart Meter", "SubType", "Energy", utility);
+		DeviceTypeLookup generalLookup = new DeviceTypeLookup("General", "Type", "General", utility);
+		DeviceTypeLookup tempLookup = new DeviceTypeLookup("Temp", "Type", "Temp", temperature);
+		DeviceTypeLookup tempHumidityLookup = new DeviceTypeLookup("Temp + Humidity", "Type", "Temp + Humidity", temperature);
+		DeviceTypeLookup unknownLookup = new DeviceTypeLookup("UNKNOWN", "Type", "UNKNOWN", unknown);
+		
+		
+		deviceTypeLookups.add(onOffLookup);
+		deviceTypeLookups.add(dimmerLookup);
+		deviceTypeLookups.add(contactLookup);
+		deviceTypeLookups.add(smartMeterLookup);
+		deviceTypeLookups.add(generalLookup);
+		deviceTypeLookups.add(tempLookup);
+		deviceTypeLookups.add(tempHumidityLookup);
+		deviceTypeLookups.add(unknownLookup);
+		
+		// now save the lookups
+		for(DeviceTypeLookup deviceTypeLookup : deviceTypeLookups) {
+			// check of the device type already exists
+			if(deviceTypeLookupService.checkIfDeviceTypeLookupExists(deviceTypeLookup)) {
+				logLines.add(new InstallLogLine("DeviceTypeLookup", "The DeviceTypeLookup already exists", String.format("%s: %s", deviceTypeLookup.getType(), deviceTypeLookup.getSubTypeValue())));
+				continue;
+			}
+			
+			/*
+			 * Apparently the lookup does not exist yet
+			 * Check if the underlying configuration exits
+			 */
+			DeviceTypeConfig deviceTypeConfig = deviceTypeLookup.getDeviceTypeConfig();
+			
+			if(! deviceTypeConfigService.checkIfDeviceTypeConfigExists(deviceTypeConfig)) {
+				// save the configuration
+				deviceTypeConfigService.save(deviceTypeConfig);
+				
+				String logLine = String.format("Name: '%s'.%n"
+						+ "Icon: '%s'.%n"
+						+ "Device is dimmer: %s.%n"
+						+ "Device is static: %s.%n"
+						+ "Get Status Template URL: '%s'.%n"
+						+ "Set Status Template URL: '%s'.%n"
+						+ "Set Level Template URL: '%s'.%n"
+						+ "JSON field for Icon Status: '%s'.%n", 
+						deviceTypeConfig.getName(),
+						deviceTypeConfig.getIcon(),
+						deviceTypeConfig.isDimmer(),
+						deviceTypeConfig.isStaticDevice(),
+						deviceTypeConfig.getGetStatusTemplateUrl(),
+						deviceTypeConfig.getSetStatusTemplateUrl(),
+						deviceTypeConfig.getSetLevelTemplateUrl(),
+						deviceTypeConfig.getIconStatusJsonField());
+				
+				logLines.add(new InstallLogLine("DeviceTypeConfig", "DeviceTypeConfig created", logLine));
+			}
+			
+			// finally save the lookup entry
+			deviceTypeLookupService.save(deviceTypeLookup);
+			
+			// create the log line
+			String logLine = String.format("Type: '%s'.%n"
+					+ "SubType field: '%s'.%n"
+					+ "SubType value: '%s'.%n"
+					+ "Configuration: '%s'.%n",
+					deviceTypeLookup.getType(),
+					deviceTypeLookup.getSubTypeField(),
+					deviceTypeLookup.getSubTypeValue(),
+					deviceTypeLookup.getDeviceTypeConfig().getName());
+			
+			
+			logLines.add(new InstallLogLine("DeviceTypeLookup", "DeviceTypeLookup created", logLine));
+			
+			
+			
+		}
+		
+		logLines.add(new InstallLogLine("DeviceTypeLookup", "All DeviceTypeLookups created", ""));
 		
 	}
 	

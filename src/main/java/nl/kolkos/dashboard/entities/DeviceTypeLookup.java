@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -19,9 +20,18 @@ public class DeviceTypeLookup {
 	private String subTypeValue;
 	
 	
-	@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "deivice_type_config_id")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "device_type_config_id")
 	private DeviceTypeConfig deviceTypeConfig;
+	
+	
+	public DeviceTypeLookup() {}
+	public DeviceTypeLookup(String type, String subTypeField, String subTypeValue, DeviceTypeConfig deviceTypeConfig) {
+		this.setType(type);
+		this.setSubTypeField(subTypeField);
+		this.setSubTypeValue(subTypeValue);
+		this.setDeviceTypeConfig(deviceTypeConfig);
+	}
 
 
 	public Long getId() {

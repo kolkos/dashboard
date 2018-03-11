@@ -1,4 +1,4 @@
-package nl.kolkos.dashboard.controllers;
+package nl.kolkos.dashboard.controllers.backend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import nl.kolkos.dashboard.services.ScreenService;
 
 @Controller
 @RequestMapping(path="/config/layout")
-public class BackendLayoutController {
+public class LayoutController {
 	@Autowired
 	private DashboardService dashboardService;
 	
@@ -128,7 +128,7 @@ public class BackendLayoutController {
 	
 	@RequestMapping(value = "/movePanel", method = RequestMethod.GET)
 	public String movePanel(
-			@RequestParam(value = "panelId", required = true) String panelId,
+			@RequestParam(value = "safeName", required = true) String panelId,
 			@RequestParam(value = "rowStart", required = true) int rowStart,
 			@RequestParam(value = "columnStart", required = true) int columnStart,
 			@RequestParam(value = "height", required = true) int height,

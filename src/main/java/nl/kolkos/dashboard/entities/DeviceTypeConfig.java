@@ -15,10 +15,14 @@ public class DeviceTypeConfig {
 	private boolean dimmer;
 	private boolean staticDevice;
 	
+	private String name;
+	
 	private String getStatusTemplateUrl;
 	private String setStatusTemplateUrl;
 	private String setLevelTemplateUrl;
 	private String iconStatusJsonField;
+	
+	private String icon;
 	
 	/*
 	 * ================================================================
@@ -81,6 +85,22 @@ public class DeviceTypeConfig {
 
 	public void setIconStatusJsonField(String iconStatusJsonField) {
 		this.iconStatusJsonField = iconStatusJsonField;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

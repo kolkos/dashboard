@@ -7,5 +7,5 @@ import nl.kolkos.dashboard.entities.DeviceTypeConfig;
 
 @Repository
 public interface DeviceTypeConfigRepository extends CrudRepository<DeviceTypeConfig, Long>{
-
+	DeviceTypeConfig findByName(String name);
 }

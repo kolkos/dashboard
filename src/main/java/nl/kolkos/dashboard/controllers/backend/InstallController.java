@@ -1,4 +1,4 @@
-package nl.kolkos.dashboard.controllers;
+package nl.kolkos.dashboard.controllers.backend;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import nl.kolkos.dashboard.services.InstallerService;
 
 @Controller
 @RequestMapping(path="/config/install")
-public class BackendInstallController {
+public class InstallController {
 	
 	@Autowired
 	private InstallerService installerService;

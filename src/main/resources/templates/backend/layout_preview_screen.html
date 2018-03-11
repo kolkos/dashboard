@@ -5,7 +5,7 @@
 	<div th:if="${message} != null" th:text="${message}" class="alert alert-warning" role="alert"></div>
        
   	<div id="demoWrapper">
-  		<div th:each="panel : ${panels}" th:style="${'grid-area: ' + panel.rowStart + ' / ' + panel.columnStart + ' / span ' + panel.height + ' / span ' + panel.width}" th:id="${panel.panelId}" class="box">
+  		<div th:each="panel : ${panels}" th:style="${'grid-area: ' + panel.rowStart + ' / ' + panel.columnStart + ' / span ' + panel.height + ' / span ' + panel.width}" th:id="${panel.safeName}" class="box">
   			<span th:text="${panel.name}">name</span>
   		</div>
   	</div>

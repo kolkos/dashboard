@@ -1,4 +1,4 @@
-package nl.kolkos.dashboard.controllers;
+package nl.kolkos.dashboard.controllers.frontend;
 
 import java.util.ArrayList;
 import java.util.List;

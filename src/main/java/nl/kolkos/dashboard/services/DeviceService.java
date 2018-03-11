@@ -23,4 +23,8 @@ public class DeviceService {
 		return deviceRepository.findAllByOrderByNameAsc();
 	}
 	
+	
+	
+	
+	
 }
