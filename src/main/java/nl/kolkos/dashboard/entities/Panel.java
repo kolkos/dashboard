@@ -1,7 +1,5 @@
 package nl.kolkos.dashboard.entities;
 
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,10 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -22,6 +18,7 @@ public class Panel {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 	private String name;
+	private String safeName;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "screen_id")
@@ -33,24 +30,33 @@ public class Panel {
 	private int height;   // the height (in rows) of this panel
 	private int width;    // the width (in columns) of this panel
 	
-	private String panelId; // the html id for this panel. needs to be unique
+	private String icon;
+	private boolean showTitle;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "content_type_id")
-	private ContentType contentType;
+	@Transient
+	private String title;
 	
-	@JsonIgnore
-	@OneToOne(mappedBy = "panel", cascade = CascadeType.ALL, 
-            fetch = FetchType.LAZY, optional = false)
+	/*
+	 * Links to the panel content
+	 * Use one or the other
+	 */
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "device_panel_id")
 	private DevicePanel devicePanel;
 	
-	private boolean showTitle = true;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "panel", cascade = CascadeType.ALL)
-	List<PanelStatusField> panelStatusFields;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "static_panel_id")
+	private StaticPanel staticPanel;
 	
 	
+	
+	/*
+	 * ================================================================
+	 * Getters & Setters
+	 * ================================================================
+	 */
+	
+
 	public Long getId() {
 		return id;
 	}
@@ -67,7 +73,22 @@ public class Panel {
 		this.name = name;
 	}
 
-	
+	public String getSafeName() {
+		return safeName;
+	}
+
+	public void setSafeName(String safeName) {
+		this.safeName = safeName;
+	}
+
+	public Screen getScreen() {
+		return screen;
+	}
+
+	public void setScreen(Screen screen) {
+		this.screen = screen;
+	}
+
 	public int getRowStart() {
 		return rowStart;
 	}
@@ -100,28 +121,28 @@ public class Panel {
 		this.width = width;
 	}
 
-	public String getPanelId() {
-		return panelId;
+	public String getIcon() {
+		return icon;
 	}
 
-	public void setPanelId(String panelId) {
-		this.panelId = panelId;
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
-	public Screen getScreen() {
-		return screen;
+	public boolean isShowTitle() {
+		return showTitle;
 	}
 
-	public void setScreen(Screen screen) {
-		this.screen = screen;
+	public void setShowTitle(boolean showTitle) {
+		this.showTitle = showTitle;
 	}
 
-	public ContentType getContentType() {
-		return contentType;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setContentType(ContentType contentType) {
-		this.contentType = contentType;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public DevicePanel getDevicePanel() {
@@ -131,21 +152,18 @@ public class Panel {
 	public void setDevicePanel(DevicePanel devicePanel) {
 		this.devicePanel = devicePanel;
 	}
-	public boolean isShowTitle() {
-		return showTitle;
+
+	public StaticPanel getStaticPanel() {
+		return staticPanel;
 	}
 
-	public void setShowTitle(boolean showTitle) {
-		this.showTitle = showTitle;
+	public void setStaticPanel(StaticPanel staticPanel) {
+		this.staticPanel = staticPanel;
 	}
-
-	public List<PanelStatusField> getPanelStatusFields() {
-		return panelStatusFields;
-	}
-
-	public void setPanelStatusFields(List<PanelStatusField> panelStatusFields) {
-		this.panelStatusFields = panelStatusFields;
-	}
+	
+	
+	
+	
 
 
 	

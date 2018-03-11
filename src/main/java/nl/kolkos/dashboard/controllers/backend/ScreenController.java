@@ -1,4 +1,4 @@
-package nl.kolkos.dashboard.controllers;
+package nl.kolkos.dashboard.controllers.backend;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import nl.kolkos.dashboard.services.ScreenService;
 
 @Controller
 @RequestMapping(path="/config/screen")
-public class BackendScreenController {
+public class ScreenController {
 	
 	@Autowired
 	private BackendService backendService;
@@ -96,20 +96,20 @@ public class BackendScreenController {
 		
 		// determine where to move the screen
 		if(direction.toUpperCase().equals("UP")) {
-			screenToMove.setLocation(screenToMove.getLocation() - 1);
+			screenToMove.setPosition(screenToMove.getPosition() - 1);
 						
 			// now do the actual moving
 			screenService.movePositionUp(screenToMove, screens);
 			
 		}else {
-			screenToMove.setLocation(screenToMove.getLocation() + 1);
+			screenToMove.setPosition(screenToMove.getPosition() + 1);
 			
 			// now do the actual moving
 			screenService.movePositionDown(screenToMove, screens);
 		}
 		
 		// save the new positions
-		screenService.saveNewLocations(screens);
+		screenService.saveNewPositions(screens);
 		
 		
 		

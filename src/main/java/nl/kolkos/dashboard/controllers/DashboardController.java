@@ -94,8 +94,7 @@ public class DashboardController {
 		// get the screens
 		List<Screen> screens = screenService.findScreensForDashboard(dashboard);
 		model.addAttribute("screens", screens);
-		
-		deviceService.getCurrentDeviceInfo();
+
 		
 		return "show_screen";
 	}

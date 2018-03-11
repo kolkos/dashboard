@@ -20,8 +20,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import nl.kolkos.dashboard.configurations.DomoticzConfiguration;
-import nl.kolkos.dashboard.entities.DeviceType;
-import nl.kolkos.dashboard.entities.SubDeviceType;
 
 /**
  * This class is used to talk to domoticz

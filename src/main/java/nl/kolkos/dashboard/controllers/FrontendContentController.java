@@ -28,7 +28,7 @@ public class FrontendContentController {
 			@PathVariable("panelId") String panelId) {
 		
 		// find the pnael
-		Panel panel = panelService.findByPanelId(panelId);
+		Panel panel = panelService.findBySafeName(panelId);
 		if(panel == null) {
 			return "Panel not found";
 		}
@@ -41,7 +41,7 @@ public class FrontendContentController {
 		
 		Device device = devicePanel.getDevice();
 		
-		String info = String.format("Template: %s", device.getSubDeviceType().getTemplatePage());
+		String info = String.format("Template: %s", "TODO!");
 		
 		
 		

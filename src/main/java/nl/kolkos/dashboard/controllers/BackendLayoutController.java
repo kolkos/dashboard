@@ -94,7 +94,7 @@ public class BackendLayoutController {
 		}
 		
 		
-		Panel panel = panelService.findByPanelId(panelId);
+		Panel panel = panelService.findBySafeName(panelId);
 		if(panel == null) {
 			model.addAttribute("message", "Panel could not be found.");
 			model.addAttribute("alertClass", "alert alert-danger");
@@ -135,7 +135,7 @@ public class BackendLayoutController {
 			@RequestParam(value = "width", required = true) int width,
 			Model model) {
 		
-		Panel panel = panelService.findByPanelId(panelId);
+		Panel panel = panelService.findBySafeName(panelId);
 		if(panel == null) {
 			model.addAttribute("message", "Panel could not be found.");
 			model.addAttribute("alertClass", "alert alert-danger");

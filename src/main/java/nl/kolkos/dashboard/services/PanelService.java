@@ -55,15 +55,15 @@ public class PanelService {
 	 * @param name
 	 * @return
 	 */
-	public String createPanelId(String name) {
-		String panelId = name;
+	public String createSafeName(String name) {
+		String safeName = name;
 		
-		panelId = panelId.replaceAll("\\s+", "_");
-		panelId = panelId.replaceAll("[^A-Za-z0-9_]", "");
+		safeName = safeName.replaceAll("\\s+", "_");
+		safeName = safeName.replaceAll("[^A-Za-z0-9_]", "");
 		
-		panelId = this.generateUniquePanelId(panelId);
+		safeName = this.generateUniqueSafeName(safeName);
 		
-		return panelId;
+		return safeName;
 	}
 	
 	/**
@@ -71,9 +71,9 @@ public class PanelService {
 	 * @param panelId
 	 * @return
 	 */
-	public String generateUniquePanelId(String panelId) {
+	private String generateUniqueSafeName(String panelId) {
 		// check if the name is already used
-		if(panelRepository.findByPanelId(panelId) == null) {
+		if(panelRepository.findBySafeName(panelId) == null) {
 			return panelId;
 		} else {
 			
@@ -96,13 +96,12 @@ public class PanelService {
 				panelId = match.group(1);
 			}
 			
-			return generateUniquePanelId(panelId + "_" + nr);
-			
+			return generateUniqueSafeName(panelId + "_" + nr);
 		}
 	}
 	
-	public Panel findByPanelId(String panelId) {
-		return panelRepository.findByPanelId(panelId);
+	public Panel findBySafeName(String panelId) {
+		return panelRepository.findBySafeName(panelId);
 	}
 	
 	
@@ -111,7 +110,7 @@ public class PanelService {
 	}
 	
 	public Panel findPanelByPanelIdAndScreen(String panelId, Screen screen) {
-		return panelRepository.findByPanelIdAndScreen(panelId, screen);
+		return panelRepository.findBySafeNameAndScreen(panelId, screen);
 	}
 	
 	public boolean checkNewPanelPositionIsAllowed(Panel panel) {

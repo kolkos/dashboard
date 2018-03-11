@@ -21,7 +21,7 @@ public class Screen {
 	private Dashboard dashboard;
 	
 	private String name;
-	private int location;
+	private int position;
 	private String backgroundImage; // overwrite the dashboard background image
 	private String icon;
 	private String safeName;
@@ -29,6 +29,11 @@ public class Screen {
 	@Transient
 	private boolean lastScreen = false;
 		
+	/*
+	 * ================================================================
+	 * Getters & Setters
+	 * ================================================================
+	 */
 	
 	public Long getId() {
 		return id;
@@ -48,6 +53,12 @@ public class Screen {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public int getPosition() {
+		return position;
+	}
+	public void setPosition(int position) {
+		this.position = position;
+	}
 	public String getBackgroundImage() {
 		return backgroundImage;
 	}
@@ -60,12 +71,7 @@ public class Screen {
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
-	public int getLocation() {
-		return location;
-	}
-	public void setLocation(int location) {
-		this.location = location;
-	}
+	
 	public String getSafeName() {
 		return safeName;
 	}

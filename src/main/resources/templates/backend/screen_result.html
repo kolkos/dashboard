@@ -60,11 +60,11 @@
 		    			<span th:unless="${screen.backgroundImage} != null" class="oi oi-x" title="edit panel" aria-hidden="true"></span>
 		    		</td>
 		    		
-		    		<td th:text="${screen.location}">Location</td>
+		    		<td th:text="${screen.position}">Location</td>
 		    		
 		    		<td>
 		    			<!-- Move screen up -->
-		    			<a href="#" style="color: black;" th:if="${screen.location} > 0" th:href="@{/config/screen/position/up/{id}(id=${screen.id})}">
+		    			<a href="#" style="color: black;" th:if="${screen.position} > 0" th:href="@{/config/screen/position/up/{id}(id=${screen.id})}">
 		    				<span class="oi oi-arrow-thick-top" title="move up" aria-hidden="true"></span>
 		    			</a>
 		    		</td>

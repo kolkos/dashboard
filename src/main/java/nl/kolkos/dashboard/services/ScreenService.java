@@ -73,11 +73,11 @@ public class ScreenService {
 	}
 	
 	public Screen findDefaultScreenForDashboard(Dashboard dashboard) {
-		return screenRepository.findFirstByDashboardOrderByLocationAsc(dashboard);
+		return screenRepository.findFirstByDashboardOrderByPositionAsc(dashboard);
 	}
 	
 	public List<Screen> findScreensForDashboard(Dashboard dashboard){
-		return screenRepository.findByDashboardOrderByLocationAsc(dashboard);
+		return screenRepository.findByDashboardOrderByPositionAsc(dashboard);
 	}
 	
 	public Screen getScreen(String safeName, Dashboard dashboard) {
@@ -93,12 +93,12 @@ public class ScreenService {
 	}
 	
 	public List<Screen> findScreens(){
-		List<Screen> screens = screenRepository.findAllByOrderByDashboardAscLocationAsc();
+		List<Screen> screens = screenRepository.findAllByOrderByDashboardAscPositionAsc();
 		
 		// loop through screens
 		for(Screen screen : screens) {
 			// get the last screen for the dashboard
-			if(screenRepository.findFirstByDashboardOrderByLocationDesc(screen.getDashboard()).getId() == screen.getId()) {
+			if(screenRepository.findFirstByDashboardOrderByPositionDesc(screen.getDashboard()).getId() == screen.getId()) {
 				screen.setLastScreen(true);
 			}
 		}
@@ -108,16 +108,16 @@ public class ScreenService {
 	
 	public void saveNewScreen(Screen screen) {
 		// get the last position for this dashboard
-		int lastLocation;
+		int lastPosition;
 		try {
-			lastLocation = screenRepository.findFirstByDashboardOrderByLocationDesc(screen.getDashboard()).getLocation();
-			lastLocation = lastLocation + 1;
+			lastPosition = screenRepository.findFirstByDashboardOrderByPositionDesc(screen.getDashboard()).getPosition();
+			lastPosition = lastPosition + 1;
 		} catch(NullPointerException e) {
-			lastLocation = 0;
+			lastPosition = 0;
 		}
 		
 		
-		screen.setLocation(lastLocation);
+		screen.setPosition(lastPosition);
 		
 		if(screen.getBackgroundImage() != null && screen.getBackgroundImage().length() < 1) {
 			screen.setBackgroundImage(null);
@@ -131,7 +131,7 @@ public class ScreenService {
 	}
 	
 	public void movePositionUp(Screen screenToMove, List<Screen> screens) {
-		int newPosition = screenToMove.getLocation();
+		int newPosition = screenToMove.getPosition();
 		
 		// loop through the screens
 		for(Screen screen : screens) {
@@ -139,22 +139,22 @@ public class ScreenService {
 			if(screen.getId() == screenToMove.getId()) {
 				// set this screen to the new position
 				// skip the other tasks
-				screen.setLocation(newPosition);
+				screen.setPosition(newPosition);
 				continue;
 			}
 			
-			int thisScreenPosition = screen.getLocation();
+			int thisScreenPosition = screen.getPosition();
 			
 			// now check the position of the screen and compare it to the screen to move
 			if(thisScreenPosition == newPosition) {
-				// location is equal to the new location, move one up
-				screen.setLocation(screen.getLocation() + 1);
+				// Position is equal to the new Position, move one up
+				screen.setPosition(screen.getPosition() + 1);
 			} else if (thisScreenPosition > newPosition) {
 				// position is greater than the new position
 				// we will fix any gaps later
-				screen.setLocation(screen.getLocation() + 1);
+				screen.setPosition(screen.getPosition() + 1);
 			} else {
-				// location is smaller than the new position, don't move
+				// Position is smaller than the new position, don't move
 				continue;
 			}
 		}
@@ -163,7 +163,7 @@ public class ScreenService {
 	
 	
 	public void movePositionDown(Screen screenToMove, List<Screen> screens) {
-		int newPosition = screenToMove.getLocation();
+		int newPosition = screenToMove.getPosition();
 		
 		// loop through the screens
 		for(Screen screen : screens) {
@@ -172,36 +172,36 @@ public class ScreenService {
 			// check if the screen is the same as the screen we wish to move
 			if(screen.getId() == screenToMove.getId()) {
 				// set this screen to the new position
-				screen.setLocation(newPosition);
+				screen.setPosition(newPosition);
 				continue;
 			}
 			
-			int thisScreenPosition = screen.getLocation();
+			int thisScreenPosition = screen.getPosition();
 			// change the order
 			if(thisScreenPosition == newPosition) {
 				// move one position down
-				screen.setLocation(screen.getLocation() - 1);
+				screen.setPosition(screen.getPosition() - 1);
 			} else if (thisScreenPosition > newPosition) {
-				screen.setLocation(screen.getLocation() + 1);
+				screen.setPosition(screen.getPosition() + 1);
 			}else {
-				screen.setLocation(screen.getLocation() - 1);
+				screen.setPosition(screen.getPosition() - 1);
 			}
 		}
 		
 	}
 	
 	public void fixPositions(List<Screen> screens) {
-		// first sort on Location
-		screens = screens.stream().sorted(Comparator.comparing(Screen::getLocation)).collect(Collectors.toList());
+		// first sort on Position
+		screens = screens.stream().sorted(Comparator.comparing(Screen::getPosition)).collect(Collectors.toList());
 		// now reset the positions
 		int position = 0;
 		for(Screen screen : screens) {
-			screen.setLocation(position);
+			screen.setPosition(position);
 			position++;
 		}
 	}
 	
-	public void saveNewLocations(List<Screen> screens) {
+	public void saveNewPositions(List<Screen> screens) {
 		this.fixPositions(screens);
 		for(Screen screen : screens) {
 			screenRepository.save(screen);

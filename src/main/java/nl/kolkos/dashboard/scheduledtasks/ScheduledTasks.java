@@ -15,9 +15,9 @@ public class ScheduledTasks {
 	
 	
 	@Scheduled(fixedRate = 60_000, initialDelay = 60_000)
-    public void reportCurrentTime() {
+    public void syncDevices() {
         // use the service
-		domoticzSyncService.syncDevices();
+		
 	
     }
 	

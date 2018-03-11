@@ -10,9 +10,9 @@ import nl.kolkos.dashboard.entities.Screen;
 
 @Repository
 public interface PanelRepository extends CrudRepository<Panel, Long>{
-	Panel findByPanelIdAndScreen(String panelId, Screen screen);
+	Panel findBySafeNameAndScreen(String safeName, Screen screen);
 	
-	Panel findByPanelId(String panelId);
+	Panel findBySafeName(String safeName);
 	
 	Panel findById(Long id);
 	

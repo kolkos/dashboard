@@ -48,19 +48,16 @@
 		</form>
         <br/>
         
-        <table class="table table-striped">
+        <table class="table table-striped ">
 		  <thead>
 		    <tr>
 		      <th scope="col">#</th>
 		      <th scope="col">Dashboard</th>
 		      <th scope="col">Screen</th>
 		      <th scope="col">Name</th>
-		      <th scope="col">Panel ID</th>
-		      <th scope="col">Content type</th>
-		      <th scope="col">Edit panel</th>
-		      <th scope="col">Select device</th>
-		      <th scope="col">Change content</th>
-		      <th scope="col">Screen layout</th>
+		      <th scope="col">Safe name</th>
+		      <th scope="col" colspan="5" width="1%">Edit properties</th>
+		      
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -69,28 +66,40 @@
 		    		<td th:text="${panel.screen.dashboard.name}">Dashboard</td>
 		    		<td th:text="${panel.screen.name}">Screen</td>
 		    		<td th:text="${panel.name}">Name</td>
-		    		<td th:text="${panel.panelId}">Panel ID</td>
-		    		<td th:text="${panel.contentType.name}">Content Type</td>
+		    		<td th:text="${panel.safeName}">Panel ID</td>
+		    		
 		    		<td>
-		    			<a th:href="@{/config/panel/edit/{id}(id=${panel.id})}" style="color: black;">
+		    			<a th:href="@{/config/panel/edit/{id}(id=${panel.id})}" role="button" class="btn btn-warning btn-sm" data-toggle="tooltip" title="" data-original-title="Edit this panel">
 		    				<span class="oi oi-pencil" title="edit screen" aria-hidden="true"></span>
 		    			</a>
 		    		</td>
 		    		
 		    		<td>
-		    			<a th:if="${panel.contentType.name} == 'Device'" th:href="@{/config/panel/content/{contentType}/select/{id}(id=${panel.id}, contentType=${panel.contentType.name})}" style="color: black;">
-		    				<span class="oi oi-paperclip" title="change device" aria-hidden="true"></span>
+		    			<a th:if="${panel.devicePanel} == null" href="#" role="button" class="btn btn-success btn-sm" data-toggle="tooltip" title="" data-original-title="Link a device to this panel">
+		    				<span class="oi oi-power-standby"></span>
+		    			</a>
+		    			<a th:unless="${panel.devicePanel} == null" href="#" role="button" class="btn btn-warning btn-sm" data-toggle="tooltip" title="" data-original-title="Edit the linked device">
+		    				<span class="oi oi-power-standby"></span>
 		    			</a>
 		    		</td>
 		    		
 		    		<td>
-		    			<a th:href="@{/config/panel/content/{contentType}/{id}(id=${panel.id}, contentType=${panel.contentType.name})}" style="color: black;">
-		    				<span class="oi oi-folder" title="Change content"></span>
+		    			<a th:if="${panel.staticPanel} == null" href="#" role="button" class="btn btn-success btn-sm" data-toggle="tooltip" title="" data-original-title="Make this a static panel">
+		    				<span class="oi oi-text"></span>
+		    			</a>
+		    			<a th:unless="${panel.staticPanel} == null" href="#" role="button" class="btn btn-warning btn-sm" data-toggle="tooltip" title="" data-original-title="Edit this static panel">
+		    				<span class="oi oi-text"></span>
 		    			</a>
 		    		</td>
 		    		
 		    		<td>
-		    			<a th:href="@{/config/layout/edit(dashboardId=${panel.screen.dashboard.id},screenId=${panel.screen.id})}" style="color: black;">
+		    			<a href="#" role="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="" data-original-title="Clear all content from this panel">
+		    				<span class="oi oi-warning"></span>
+		    			</a>
+		    		</td>
+		    		
+		    		<td>
+		    			<a th:href="@{/config/layout/edit(dashboardId=${panel.screen.dashboard.id},screenId=${panel.screen.id})}" role="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="" data-original-title="Edit the position of this panel">
 		    				<span class="oi oi-grid-four-up" title="edit screen layout" aria-hidden="true"></span>
 		    			</a>
 		    			
@@ -106,11 +115,12 @@
 	<!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	
 	
-    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    
     <script type="text/javascript" src="/js/loadMenu.js"></script>
     
     <script type="text/javascript">
@@ -128,6 +138,10 @@
 			window.location.href = "/config/panel/results?dashboardId=" + dashboardId + "&screenId=" + screenId;
 	
 		});
+
+	    $(function () {
+	    	  $('[data-toggle="tooltip"]').tooltip()
+	    	})
     </script>
    
  	

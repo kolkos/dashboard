@@ -44,17 +44,6 @@
 			</div>
 			
 			<div class="form-group row">
-				<!-- This field is just used to filter the screens -->
-				<label for="dashboard" class="col-sm-4 col-form-label">Content Type: </label>
-				<div class="col">
-					<select th:field="*{contentType}" class="form-control">
-						<option value="">- Select the content type -</option>
-						<option th:each="contentType : ${contentTypes}" th:text="${contentType.name}" th:value="${contentType.id}">Content Type</option> 
-					</select>
-				</div>
-			</div>
-			
-			<div class="form-group row">
 				<label for="name" class="col-sm-4 col-form-label">Panel name: </label>
 				<div class="col">
 					<input type="text" th:field="*{name}" required="required" class="form-control trigger-change" placeholder="Panel name" />
@@ -62,9 +51,9 @@
 			</div>
 			
 			<div class="form-group row">
-				<label for="panelId" class="col-sm-4 col-form-label">Panel ID: </label>
+				<label for="panelId" class="col-sm-4 col-form-label">Safe name: </label>
 				<div class="col">
-					<input type="text" th:field="*{panelId}" required="required" class="form-control trigger-change" placeholder="Panel ID (generated automatically)" />
+					<input type="text" th:field="*{safeName}" required="required" class="form-control trigger-change" placeholder="Safe name (generated automatically)" />
 				</div>
 			</div>
 			
@@ -143,7 +132,7 @@
 			var formData = {name: name};
 			$.get(url, formData,
 				    function(data){
-				        $('#panelId').val(data);
+				        $('#safeName').val(data);
 				        
 				    });
 		});

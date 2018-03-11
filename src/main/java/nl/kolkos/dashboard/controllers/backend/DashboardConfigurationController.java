@@ -1,6 +1,5 @@
-package nl.kolkos.dashboard.controllers;
+package nl.kolkos.dashboard.controllers.backend;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.kolkos.dashboard.entities.Dashboard;
-import nl.kolkos.dashboard.entities.Panel;
 import nl.kolkos.dashboard.services.BackendService;
 import nl.kolkos.dashboard.services.DashboardService;
 
 @Controller
 @RequestMapping(path="/config/dashboard")
-public class BackendDashboardController {
+public class DashboardConfigurationController {
 	
 	@Autowired
 	private DashboardService dashboardService;

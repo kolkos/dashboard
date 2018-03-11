@@ -10,9 +10,9 @@ import nl.kolkos.dashboard.entities.Screen;
 
 @Repository
 public interface ScreenRepository extends CrudRepository<Screen, Long>{
-	Screen findFirstByDashboardOrderByLocationAsc(Dashboard dashboard);
+	Screen findFirstByDashboardOrderByPositionAsc(Dashboard dashboard);
 	
-	List<Screen> findByDashboardOrderByLocationAsc(Dashboard dashboard);
+	List<Screen> findByDashboardOrderByPositionAsc(Dashboard dashboard);
 	
 	Screen findBySafeNameAndDashboard(String safeName, Dashboard dashboard);
 	
@@ -20,9 +20,9 @@ public interface ScreenRepository extends CrudRepository<Screen, Long>{
 	
 	List<Screen> findAllByOrderByNameAsc();
 	
-	Screen findFirstByDashboardOrderByLocationDesc(Dashboard dashboard);
+	Screen findFirstByDashboardOrderByPositionDesc(Dashboard dashboard);
 	
-	List<Screen> findAllByOrderByDashboardAscLocationAsc();
+	List<Screen> findAllByOrderByDashboardAscPositionAsc();
 	
 	Screen findById(Long id);
 }

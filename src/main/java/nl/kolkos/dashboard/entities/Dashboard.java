@@ -15,6 +15,11 @@ public class Dashboard {
 	private String backgroundImage;
 	private boolean defaultDashboard = false;
 	
+	/*
+	 * ================================================================
+	 * Getters & Setters
+	 * ================================================================
+	 */
 	
 	public Long getId() {
 		return id;
