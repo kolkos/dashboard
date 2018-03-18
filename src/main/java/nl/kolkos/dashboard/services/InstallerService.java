@@ -312,6 +312,30 @@ public class InstallerService {
 		deviceTypeConfigs.add(temperature);
 		
 		
+		DeviceTypeConfig scene = new DeviceTypeConfig();
+		scene.setDimmer(false);
+		scene.setStaticDevice(false);
+		scene.setName("Scene");
+		scene.setGetStatusTemplateUrl("json.htm?type=scenes&rid={idx}");
+		scene.setSetStatusTemplateUrl("json.htm?type=command&param=switchscene&idx={idx}&switchcmd=On");
+		scene.setSetLevelTemplateUrl(null);
+		scene.setIconStatusJsonField("Status");
+		scene.setIcon("fas fa-object-group");
+		
+		deviceTypeConfigs.add(scene);
+		
+		DeviceTypeConfig group = new DeviceTypeConfig();
+		group.setDimmer(false);
+		group.setStaticDevice(false);
+		group.setName("Group");
+		group.setGetStatusTemplateUrl("json.htm?type=scenes&rid={idx}");
+		group.setSetStatusTemplateUrl("json.htm?type=command&param=switchscene&idx={idx}&switchcmd=Toggle");
+		group.setSetLevelTemplateUrl(null);
+		group.setIconStatusJsonField("Status");
+		group.setIcon("fas fa-object-group");
+		
+		deviceTypeConfigs.add(group);
+		
 		
 		/*
 		 * Finally we add a Unknown type to use if no type has been found
@@ -338,13 +362,15 @@ public class InstallerService {
 		
 		DeviceTypeLookup onOffLookup = new DeviceTypeLookup("Lighting", "SwitchType", "On/Off", onOff);
 		DeviceTypeLookup dimmerLookup = new DeviceTypeLookup("Lighting", "SwitchType", "Dimmer", dimmer);
-		DeviceTypeLookup contactLookup = new DeviceTypeLookup("Lighting", "SwitchType", "Contact", contact);
+		DeviceTypeLookup contactLookup = new DeviceTypeLookup("Lighting", "SwitchType", "Door Contact", contact);
 		DeviceTypeLookup smartMeterLookup = new DeviceTypeLookup("P1 Smart Meter", "SubType", "Energy", utility);
 		DeviceTypeLookup generalLookup = new DeviceTypeLookup("General", "Type", "General", utility);
 		DeviceTypeLookup tempLookup = new DeviceTypeLookup("Temp", "Type", "Temp", temperature);
 		DeviceTypeLookup tempHumidityLookup = new DeviceTypeLookup("Temp + Humidity", "Type", "Temp + Humidity", temperature);
-		DeviceTypeLookup unknownLookup = new DeviceTypeLookup("UNKNOWN", "Type", "UNKNOWN", unknown);
+		DeviceTypeLookup sceneLookup = new DeviceTypeLookup("Scene", "Type", "Scene", scene);
+		DeviceTypeLookup groupLookup = new DeviceTypeLookup("Group", "Type", "Group", group);
 		
+		DeviceTypeLookup unknownLookup = new DeviceTypeLookup("UNKNOWN", "Type", "UNKNOWN", unknown);
 		
 		deviceTypeLookups.add(onOffLookup);
 		deviceTypeLookups.add(dimmerLookup);
@@ -354,6 +380,8 @@ public class InstallerService {
 		deviceTypeLookups.add(tempLookup);
 		deviceTypeLookups.add(tempHumidityLookup);
 		deviceTypeLookups.add(unknownLookup);
+		deviceTypeLookups.add(sceneLookup);
+		deviceTypeLookups.add(groupLookup);
 		
 		// now save the lookups
 		for(DeviceTypeLookup deviceTypeLookup : deviceTypeLookups) {

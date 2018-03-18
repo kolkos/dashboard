@@ -15,6 +15,10 @@ public class DeviceTypeConfigService {
 		return deviceTypeConfigRepository.findByName(name);
 	}
 	
+	public DeviceTypeConfig findById(long id) {
+		return deviceTypeConfigRepository.findById(id);
+	}
+	
 	public boolean checkIfDeviceTypeConfigExists(DeviceTypeConfig deviceTypeConfig) {
 		boolean exists = true;
 		
@@ -28,4 +32,6 @@ public class DeviceTypeConfigService {
 	public void save(DeviceTypeConfig deviceTypeConfig) {
 		deviceTypeConfigRepository.save(deviceTypeConfig);
 	}
+	
+	
 }

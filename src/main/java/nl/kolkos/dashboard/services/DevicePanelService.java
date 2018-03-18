@@ -15,8 +15,8 @@ public class DevicePanelService {
 	@Autowired
 	private DevicePanelRepository devicePanelRepository;
 	
-	public void save(DevicePanel contentDevice) {
-		devicePanelRepository.save(contentDevice);
+	public void save(DevicePanel devicePanel) {
+		devicePanelRepository.save(devicePanel);
 	}
 	
 	public DevicePanel findByPanel(Panel panel) {
@@ -29,5 +29,9 @@ public class DevicePanelService {
 	
 	public List<DevicePanel> findByDevice(Device device){
 		return devicePanelRepository.findByDevice(device);
+	}
+	
+	public void delete(DevicePanel devicePanel) {
+		devicePanelRepository.delete(devicePanel);
 	}
 }

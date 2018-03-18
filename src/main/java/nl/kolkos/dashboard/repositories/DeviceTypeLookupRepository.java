@@ -10,4 +10,8 @@ public interface DeviceTypeLookupRepository extends CrudRepository<DeviceTypeLoo
 
 	DeviceTypeLookup findByTypeAndSubTypeFieldAndSubTypeValue(String type, String subTypeField, String subTypeValue);
 	
+	
+	DeviceTypeLookup findFirstByType(String type);
+	
+	
 }

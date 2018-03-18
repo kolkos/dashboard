@@ -1,4 +1,4 @@
-package nl.kolkos.dashboard.controllers;
+package nl.kolkos.dashboard.controllers.frontend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import nl.kolkos.dashboard.services.PanelService;
 
 @Controller
 @RequestMapping(path="/frontend/content")
-public class FrontendContentController {
+public class ContentController {
 	
 	@Autowired
 	private PanelService panelService;

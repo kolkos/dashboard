@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+	<title th:text="${title}">Title</title>
+	
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="/css/open-iconic-bootstrap.css" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+
+    
+    <link href="/css/config.css" rel="stylesheet">
+	
+</head>
+<body>
+	<div id="menuHolder"></div>
+
+	<div class="container">
+	  	<h1 th:text="${title}">Title</h1>
+        <p class="lead" th:text="${description}">Page description</p>
+        <br/>
+        
+        
+        <table class="table table-striped">
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+			  <th scope="col">IDX</th>
+			  <th scope="col">Name</th>
+			  <th scope="col" colspan="2" width="1%">Device Type</th>
+			  <th scope="col" width="1%">Device registered?</th>
+			  
+			  <th scope="col" colspan="2" width="1%">Actions</th>
+		      
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr th:each="device : ${devices}">
+		    		<th scope="row" th:text="${device.id}">ID</th>
+		    		<td th:text="${device.idx}">IDX</td>
+		    		<td th:text="${device.name}">Name</td>
+		    		
+		    		<td>
+		    			<span th:class="${device.deviceTypeConfig.icon}"></span>
+		    		</td>
+		    		
+		    		<td th:text="${device.deviceTypeConfig.name}">Type</td>
+		    		
+		    		<td>
+		    			<span th:if="${device.deviceRegistered}" class="oi oi-check"></span>
+		    			<span th:unless="${device.deviceRegistered}" class="oi oi-x"></span>
+		    		</td>
+		    		
+		    		
+		    		<td>
+		    			<a th:unless="${device.deviceRegistered}" href="#" role="button" class="btn btn-success btn-sm" data-toggle="tooltip" title="" data-original-title="Register this device" th:href="@{/config/device/addDevice(idx=${device.idx},name=${device.name},configId=${device.deviceTypeConfig.id})}">
+		    				<span class="oi oi-arrow-circle-right"></span>
+		    			</a>
+		    		</td>
+		    		
+		    		<td>
+		    			<a th:if="${device.deviceRegistered}" href="#" role="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="" data-original-title="Delete this device" th:href="@{/config/device/removeDevice(id=${device.id})}">
+		    				<span class="oi oi-trash"></span>
+		    			</a>
+		    		</td>
+		    		
+		    </tr>
+		  </tbody>
+		</table>
+        
+	</div>
+	
+	
+	
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+    <script type="text/javascript" src="/js/loadMenu.js"></script>
+    
+   	<script type="text/javascript">
+	    $(function () {
+	    	  $('[data-toggle="tooltip"]').tooltip()
+	    	})
+    </script>
+ 	
+</body>
+</html>

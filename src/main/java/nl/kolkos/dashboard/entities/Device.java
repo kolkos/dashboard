@@ -19,9 +19,15 @@ public class Device {
 	private int idx;
 	private String name;
 	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "device_type_config_id")
+	private DeviceTypeConfig deviceTypeConfig;
+	
 	@Transient
 	private int iconStatus;
 	
+	@Transient
+	private boolean deviceRegistered = false;
 	
 	/*
 	 * ================================================================
@@ -60,6 +66,22 @@ public class Device {
 
 	public void setIconStatus(int iconStatus) {
 		this.iconStatus = iconStatus;
+	}
+
+	public DeviceTypeConfig getDeviceTypeConfig() {
+		return deviceTypeConfig;
+	}
+
+	public void setDeviceTypeConfig(DeviceTypeConfig deviceTypeConfig) {
+		this.deviceTypeConfig = deviceTypeConfig;
+	}
+
+	public boolean isDeviceRegistered() {
+		return deviceRegistered;
+	}
+
+	public void setDeviceRegistered(boolean deviceRegistered) {
+		this.deviceRegistered = deviceRegistered;
 	}
 	
 	
